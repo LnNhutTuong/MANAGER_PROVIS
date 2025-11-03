@@ -1,0 +1,138 @@
+--------- CHÚ Ý ---------
+
+- Đừng để ý mấy file index trong từ folder 
+do làm theo mô hình module nên việc mỗi folder
+bắt buộc phải có file index để tránh việc xâm nhập
+bất hợp pháp. *HIỂU ĐƠN GIẢN LÀ VẬY*.
+
+=======================================
+==========INCLUDES=====================
+=======================================
+--------- CONNECT ---------
+
+address: ./includes/connect.php
+
+--------- DATA BASE ---------
+
+address: ./includes/database.php
+
+- Trong đấy có các FUNCTION phục vụ cho các
+hành động liên quan đến DATABASE.
+
+Users:
+- ID int primary key
+- fullname varchar 200
+- email varchar 100
+- phone varchar 11
+- address
+- forget_token varchar 500
+- active_token varchar 500
+- group_id int ============>Group
+- created_at datetime
+- update_at datetime
+
+Token_login:
+- ID int primary key
+- user_id int =============>Users
+- token varchar 200
+- created_at datetime
+- update_at datetime
+
+Products:
+- ID int primary key
+- name varchar 200
+- brand_id int ===============>Brand
+- descreption text
+- price int
+- thumb vachar 200
+- created_at datetime
+- update_at datetime
+
+Brand:
+- ID int primary key
+- name varchar 200
+- created_at datetime
+- update_at datetime
+
+Groups:
+- ID int primary key
+- name varchar 200
+- created_at datetime
+- update_at datetime
+
+
+--------- FUNCTION ---------
+
+address: ./includes/function.php
+
+--------- SESSION ---------
+
+address: ./includes/session.php
+
+=======================================
+==========MODULES======================
+=======================================
+--------- auth --------- (folder)
+
+- Nơi thực hiện các hành động liên quan 
+tới bảo mật
+
+--------- brand --------- (folder)
+
+- Nơi thực hiện các hành động liên quan 
+tới brand.
+
+--------- customer --------- (folder)
+
+- chỉ có quyền xem và mua sản phẩm.
+
+--------- dasboard --------- (folder)
+
+- Trang chủ
+
+--------- error --------- (folder)
+
+- Nơi thực hiện các hành động liên quan 
+tới lỗi.
+
+--------- group --------- (folder)
+
+- Nơi thực hiện các hành động dùng để gộp
+nhóm giữa người dùng và admin.
+
+--------- products --------- (folder)
+
+- Nơi thực hiện các hành động liên quan 
+tới sản phẩm.
+
+--------- users --------- (folder)
+
+- Nơi thực hiện các hành động liên quan 
+tới user.
+
+=======================================
+==========TEMPLATE=====================
+=======================================
+--------- assets --------- (folder)
+
+- Nơi lưu trữ các hình ảnh, video, audio.
+
+--------- playouts --------- (folder)
+
+- nơi để định các thành phần header, body, footer.
+
+--------- style --------- (folder)
+
+- nơi để chứa các file: css,js.
+
+--------- uploads --------- (folder)
+
+- nơi để chứa các file dùng cho việc upload.
+
+=======================================
+==========Tính năng====================
+=======================================
+--------- Đăng ký --------------
+- Kiểm tra dữ liệu đầu vào từ form đăng ký
+- Insert vào database
+- Gửi mail xác nhận
