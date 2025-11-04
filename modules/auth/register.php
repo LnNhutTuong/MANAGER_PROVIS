@@ -100,7 +100,7 @@ if (isPost()) {
                     </p>
                 </div>
 
-                <div class="col-lg-6 mb-5 mb-lg-0 ">
+                <div class="col-lg-6 mb-5 mb-lg-2 mt-2 ml-2" style="width: 478px;">
                     <div class="card">
                         <div class="card-body py-4 px-md-3" style="background-color:black; color:white;">
                             <h1 class="text-center">Đăng ký</h1>
