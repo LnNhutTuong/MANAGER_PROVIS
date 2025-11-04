@@ -57,7 +57,7 @@ if (!defined('_ximen')) {
 <!--end::Head-->
 
 <body>
-    <div class="header-container container pt-3 mt-8">
+    <div class="header-container pt-3 mt-8">
         <div class="header-name text-center"
             style="border-top: 1px solid white;
                     border-bottom: 1px solid white;
