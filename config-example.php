@@ -13,8 +13,8 @@ const _ACTION = 'index';
 
 const _host = 'localhost';
 const _db = 'quanlyprovis';
-const _user = 'root';
-const _passowrd = '';
+const _user = 'tai_khoan';
+const _passowrd = 'dien_mat_khau';
 const _driver = 'mysql';
 
 //debug error
