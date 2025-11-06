@@ -18,73 +18,76 @@ layout('header-auth');
 $msg = '';
 $msg_type = '';
 
-if (isPost()) {
-    $filter = filterData();
+//==============Kiem tra===============
+// if (isPost()) {
+//     $filter = filterData();
 
-    $errors = [];
+//     $errors = [];
 
-    //username
-    if (empty(trim($filter['username']))) {
-        $errors['username']['required'] = 'Họ tên không được để trống';
-    } else {
-        if (strlen(trim(($filter['username']))) <= 5) {
-            $errors['username']['required'] = 'Họ tên phải dài hơn 6 ký tự';
-        }
-    }
+//     //username
+//     if (empty(trim($filter['username']))) {
+//         $errors['username']['required'] = 'Họ tên không được để trống';
+//     } else {
+//         if (strlen(trim(($filter['username']))) < 5) {
+//             $errors['username']['required'] = 'Họ tên phải dài hơn 6 ký tự';
+//         }
+//     }
 
-    //email
-    if (empty(trim($filter['email']))) {
-        $errors['email']['required'] = 'Email không được để trống';
-    } else {
-        if (!validateEmail(trim($filter['email']))) {
-            $errors['email']['required'] = 'Email không đúng định dạng';
-        } else {
-            $email = $filter['email'];
+//     //email
+//     if (empty(trim($filter['email']))) {
+//         $errors['email']['required'] = 'Email không được để trống';
+//     } else {
+//         if (!validateEmail(trim($filter['email']))) {
+//             $errors['email']['required'] = 'Email không đúng định dạng';
+//         } else {
+//             $email = $filter['email'];
 
-            $check = getRows("SELECT * FROM user WHERE email = '$email'");
+//             $check = getRows("SELECT * FROM user WHERE email = '$email'");
 
-            var_dump($check);
-        }
-    }
+//             var_dump($check);
+//         }
+//     }
 
-    //password
-    if (empty(trim($filter['password']))) {
-        $errors['password']['required'] = 'Mật khẩu không được để trống';
-    } else {
-        if (strlen(trim($filter['password'])) <= 6) {
-            $errors['password']['required'] = 'Mật khẩu phải dài hơn 6 ký tự';
+//     //password
+//     if (empty(trim($filter['password']))) {
+//         $errors['password']['required'] = 'Mật khẩu không được để trống';
+//     } else {
+//         if (strlen(trim($filter['password'])) < 6) {
+//             $errors['password']['required'] = 'Mật khẩu phải dài hơn 6 ký tự';
 
-            if (trim($filter['password']) !== trim(($filter['confirm-password']))) {
-                $errors['password']['required'] = 'Mật khẩu nhập lại không đúng ';
-            }
-        }
-    }
+//             if (trim($filter['password']) !== trim(($filter['confirm-password']))) {
+//                 $errors['password']['required'] = 'Mật khẩu nhập lại không đúng ';
+//             }
+//         }
+//     }
 
 
-    // if (empty($errors)) {
-    //     $msg = 'Đăng ký thành công';
-    //     $msg_type = 'green';
-    // } else {
-    //     $eUser = $errors['username']['required'];
-    //     if ($eUser) {
-    //         $msg = 'Không được bỏ trống, từ 5 ký tự.';
-    //     }
+//     if (empty($errors)) {
+//         $msg = 'Đăng ký thành công';
+//         $msg_type = 'green';
+//     } else {
+//         $eUser = $errors['username']['required'];
+//         if ($eUser) {
+//             $msg = 'Không được bỏ trống, từ 5 ký tự.';
+//         }
 
-    //     $eUser = $errors['email']['required'];
-    //     if ($eUser) {
-    //         $msg = 'Không được bỏ trống, chú ý cấu trúc Email.';
-    //     }
-    //     $msg_type = 'red';
-    // }
-}
+//         $eUser = $errors['email']['required'];
+//         if ($eUser) {
+//             $msg = 'Không được bỏ trống, chú ý cấu trúc Email.';
+//         }
 
+//         $msg_type = 'red';
+//     }
+// }
+
+// 
+//===================================
 ?>
-
 
 <!-- Section: Design Block -->
 <section class="">
     <!-- Jumbotron -->
-    <div class="px-3 py-4 px-md-5 text-center text-lg-start" style="background-color: hsla(0, 0%, 0%, 1.00)">
+    <div class="px-3 py-4 px-md-5 text-center text-lg-start " style="background-color: hsla(0, 0%, 0%, 1.00); margin-left: 160px">
         <div class="container">
             <div class="row gx-lg-5 align-items-center">
                 <div class="col-lg-6 mb-5 mb-lg-0">
@@ -100,9 +103,9 @@ if (isPost()) {
                     </p>
                 </div>
 
-                <div class="col-lg-6 mb-5 mb-lg-2 mt-2 ml-2" style="width: 478px;">
-                    <div class="card">
-                        <div class="card-body py-4 px-md-3" style="background-color:black; color:white;">
+                <div class="col-lg-6 mb-5 mb-lg-0 " style="width: 480px;">
+                    <div class="card" style="box-shadow: rgba(255, 255, 255, 0.31) 0px 5px 15px !important;">
+                        <div class=" card-body py-4 px-md-3" style="background-color:hsla(0, 2%, 12%, 1.00); color:white;">
                             <h1 class="text-center">Đăng ký</h1>
                             <form method="POST">
 
@@ -126,14 +129,14 @@ if (isPost()) {
                                 <div data-mdb-input-init class="form-outline mb-3">
                                     <label class="form-label" for="password">Mật khẩu</label>
                                     <input name="password" type="password" id="password" class="form-control" />
-                                    <?php getMsg('Không được bỏ trống, phải có từ 6 ý tự.', $msg_type) ?>
+                                    <?php getMsg($msg, $msg_type) ?>
                                 </div>
 
                                 <!-- Password input -->
                                 <div data-mdb-input-init class="form-outline mb-3">
                                     <label class="form-label" for="confirm-password">Xác nhận mật khẩu</label>
                                     <input name="confirm-password" type="password" id="confirm-password" class="form-control" />
-                                    <?php getMsg('Không được bỏ trống, phải trùng với mật khẩu ở trên', $msg_type) ?>
+                                    <?php getMsg($msg, $msg_type) ?>
 
                                 </div>
 
@@ -144,6 +147,10 @@ if (isPost()) {
                                     </button>
                                 </div>
 
+                                <div class="login-container mt-3 text-center">
+                                    <p class="mb-0">Bạn đã có tài khoản? <a href="<?php echo _HOST_URL; ?>?module=auth&action=login" class="text-light-50 fw-bold">Đăng nhập </a>
+                                    </p>
+                                </div>
                             </form>
                         </div>
                     </div>

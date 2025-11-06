@@ -14,7 +14,7 @@ if (!defined('_ximen')) {
         All rights reserved.
     </div>
 
-    <div class=" text-end d-none d-sm-inline">PROVIS</div>
+    <div class=" text-end d-none d-sm-inline">SKIBIDI</div>
 </footer>
 
 </div>

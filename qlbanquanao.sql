@@ -11,7 +11,8 @@ CREATE TABLE Groups (
 
 CREATE TABLE Users (
     ID INT AUTO_INCREMENT PRIMARY KEY ,
-    fullname VARCHAR(200),
+    username VARCHAR(200),
+    password VARCHAR(200),
     email VARCHAR(100) UNIQUE NOT NULL,
     phone VARCHAR(11),
     address TEXT,
