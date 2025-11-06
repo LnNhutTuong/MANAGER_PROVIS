@@ -48,6 +48,8 @@ CREATE TABLE Products (
     ID INT AUTO_INCREMENT PRIMARY KEY ,
     name VARCHAR(200) NOT NULL,
     brand_id INT,
+    size VARCHAR(10),
+    color VARCHAR(100),
     descreption TEXT,
     price INT,
     thumb VARCHAR(200),

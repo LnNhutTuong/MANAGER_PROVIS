@@ -1,5 +1,6 @@
 .body-container {
-  /* height: 100vh; */
+  /* height: 1294.4px; */
+  /* width: 1332.66px; */
   border: 1px solid black;
 }
 
@@ -10,11 +11,10 @@
 }
 
 .product-container {
-  z-index: auto;
-  height: 50%;
-  border: 1px solid red;
+  border: 1px solid rgb(100, 255, 10);
 }
 
-.product {
-  border: 1px solid red;
+.row-product {
+  /* max-width: 100%;
+  max-height: 100%; */
 }
