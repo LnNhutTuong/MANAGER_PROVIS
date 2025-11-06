@@ -1,0 +1,20 @@
+.body-container {
+  /* height: 100vh; */
+  border: 1px solid black;
+}
+
+.thumb-container {
+  width: 100%;
+  max-height: 50%;
+  border: 1px solid red;
+}
+
+.product-container {
+  z-index: auto;
+  height: 50%;
+  border: 1px solid red;
+}
+
+.product {
+  border: 1px solid red;
+}
