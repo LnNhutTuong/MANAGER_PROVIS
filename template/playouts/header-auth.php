@@ -58,6 +58,7 @@ if (!defined('_ximen')) {
 <!--end::Head-->
 
 <body>
+
     <div class="header-container container pt-3" style="margin: 0;min-width: 100%">
         <div class="header-name text-center"
             style="border-top: 1px solid white;

@@ -6,30 +6,17 @@ if (!defined('_ximen')) {
 
 ?>
 
-<div class="footer-container">
-    <footer class=" w-100  d-flex justify-content-between" style="border-top: 1px solid black;">
-        <div>
-            Copyright &copy; 2025&nbsp;
-            <a href="https://adminlte.io" class="text-decoration-none">SKIBIDI</a>.
-            All rights reserved.
-        </div>
 
-<<<<<<< HEAD
-        <div class=" text-end d-none d-sm-inline">SKIBIDI</div>
-    </footer>
-=======
-<footer class="app-footer w-100  d-flex justify-content-between">
+<footer class=" w-100  d-flex justify-content-between" style="border-top: 1px solid black;">
     <div>
         Copyright &copy; 2025&nbsp;
         <a href="https://adminlte.io" class="text-decoration-none">SKIBIDI</a>.
         All rights reserved.
     </div>
-
     <div class=" text-end d-none d-sm-inline">SKIBIDI</div>
 </footer>
 
->>>>>>> 59bd93d1d1914835dff96babe3a4b828c8438eef
-</div>
+
 
 
 
