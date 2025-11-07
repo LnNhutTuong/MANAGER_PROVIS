@@ -24,8 +24,8 @@ if (!defined('_ximen')) {
 </head>
 
 <body>
-    <div class="header-container container">
-        <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="header-container">
+        <nav class="navbar navbar-expand-lg">
             <div class="container-fluid">
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -60,7 +60,7 @@ if (!defined('_ximen')) {
                     </a>
 
                     <form class=" d-flex ms-5" role="search">
-                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" style="width: 411px;" />
+                        <input class="form-control ms-5 me-2" type="search" placeholder="Search" aria-label="Search" style="width: 447px;" />
                         <button class="btn btn-outline-success" type="submit">Search</button>
                     </form>
                 </div>

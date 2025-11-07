@@ -1,13 +1,24 @@
 body {
+<<<<<<< HEAD
   /* height: 100vh; */
   background-color: rgb(255, 255, 255) !important;
   color: rgb(0, 0, 0) !important;
+=======
+  height: 100vh;
+  background-color: rgb(0, 0, 0) !important;
+  color: rgb(255, 255, 255) !important;
+>>>>>>> 59bd93d1d1914835dff96babe3a4b828c8438eef
 }
 
 footer {
   /* position: fixed; */
   bottom: 0;
   left: 0;
+<<<<<<< HEAD
   background-color: rgb(255, 254, 254) !important;
   color: rgb(0, 0, 0) !important;
+=======
+  background-color: rgb(0, 0, 0) !important;
+  color: rgb(255, 255, 255) !important;
+>>>>>>> 59bd93d1d1914835dff96babe3a4b828c8438eef
 }
