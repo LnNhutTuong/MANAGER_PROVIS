@@ -24,7 +24,7 @@ if (!defined('_ximen')) {
 </head>
 
 <body>
-    <div class="header-container">
+    <div class="header-container" style="border-bottom:1px solid black">
         <nav class="navbar navbar-expand-lg">
             <div class="container-fluid">
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -33,13 +33,13 @@ if (!defined('_ximen')) {
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#">Trang chủ</a>
+                            <a class="nav-link active" aria-current="page" href="<?php echo _HOST_URL; ?>">Trang chủ</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Giới thiệu</a>
+                            <a class="nav-link" href="<?php echo _HOST_URL; ?>?module=home&action=about">Giới thiệu</a>
                         </li>
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <a class="nav-link dropdown-toggle" href="<?php echo _HOST_URL; ?>?module=home&action=product" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Sản phẩm
                             </a>
                             <ul class="dropdown-menu">
@@ -48,19 +48,19 @@ if (!defined('_ximen')) {
                                 <li>
                                     <hr class="dropdown-divider">
                                 </li>
-                                <li><a class="dropdown-item" href="#">More</a></li>
+                                <li><a class="dropdown-item" href="<?php echo _HOST_URL; ?>?module=home&action=product">More</a></li>
                             </ul>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Đăng nhập</a>
+                            <a class="nav-link" href="<?php echo _HOST_URL; ?>?module=auth&action=login">Đăng nhập</a>
                         </li>
                     </ul>
-                    <a class="navbar-brand me-5" href="#">
-                        <h1>SKIBIDI</h1>
+                    <a class="navbar-brand me-5" href="<?php echo _HOST_URL; ?>">
+                        <h1>PROVIS</h1>
                     </a>
 
                     <form class=" d-flex ms-5" role="search">
-                        <input class="form-control ms-5 me-2" type="search" placeholder="Search" aria-label="Search" style="width: 447px;" />
+                        <input class="form-control ms-5 me-2" type="search" placeholder="Search" aria-label="Search" style="width: 470px;" />
                         <button class="btn btn-outline-success" type="submit">Search</button>
                     </form>
                 </div>
