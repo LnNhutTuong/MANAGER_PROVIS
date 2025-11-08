@@ -248,6 +248,7 @@ layout('header-home');
             <h2>Sản phẩm mới</h2>
         </div>
 
+        <hr class="w-50  my-4">
 
         <div id="productCarousel" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-inner">
