@@ -7,6 +7,13 @@ if (!defined('_ximen')) {
 $data = selectAll("SELECT * FROM products");
 $products = $data;
 
+$sologans = [
+    "Made to Break the Rules.",
+    "Past Threads, Future Energy.",
+    "Not Classic. Iconic.",
+    "Wear What Speaks Loud."
+];
+
 $chunk = array_chunk($products, 3);
 layout('header-home');
 ?>
@@ -15,24 +22,43 @@ layout('header-home');
 <link rel="stylesheet" href="<?php echo _HOST_URL_TEMPLATE; ?>/style/css/home/index.css">
 
 <div class="body-container">
-    <div id="thumbCarousel"
-        class="carousel slide hero-section mt-4"
-        data-bs-ride="carousel"
-        data-bs-interval="4000"
-        data-bs-pause="false">
 
-        <div class="carousel-inner">
-            <div class="carousel-item active">
-                <img src="<?php echo _HOST_URL_TEMPLATE; ?>/assets/image/thumb/thumb1s.svg" class="img-thumbnail d-block w-100" alt="...">
-            </div>
-            <div class="carousel-item">
-                <img src="<?php echo _HOST_URL_TEMPLATE; ?>/assets/image/thumb/thumb2.svg" class="img-thumbnail d-block w-100" alt="...">
-            </div>
-            <div class="carousel-item">
-                <img src="<?php echo _HOST_URL_TEMPLATE; ?>/assets/image/thumb/thumb3.svg" class="img-thumbnail d-block w-100" alt="...">
-            </div>
-            <div class="carousel-item">
-                <img src="<?php echo _HOST_URL_TEMPLATE; ?>/assets/image/thumb/thumb4.svg" class="img-thumbnail d-block w-100" alt="...">
+    <div class="thumb-container border-top ">
+        <div id="thumbCarousel"
+            class="carousel slide hero-section text-center p-0"
+            data-bs-ride="carousel"
+            data-bs-interval="3000"
+            data-bs-pause="false">
+
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="<?php echo _HOST_URL_TEMPLATE; ?>/assets/image/thumb/1.svg" class="img-thumbnail">
+                    <div class="caption">
+                        <h1> Not Classic, Iconic.</h1>
+                    </div>
+                </div>
+
+                <div class="carousel-item">
+                    <img src="<?php echo _HOST_URL_TEMPLATE; ?>/assets/image/thumb/2.svg" class="img-thumbnail">
+                    <div class="caption">
+                        <h1> Wear What Speaks Loud.</h1>
+                    </div>
+                </div>
+
+                <div class="carousel-item">
+                    <img src="<?php echo _HOST_URL_TEMPLATE; ?>/assets/image/thumb/3.svg" class="img-thumbnail ">
+                    <div class="caption">
+                        <h1>Made to Break the Rules.</h1>
+                    </div>
+                </div>
+
+                <div class="carousel-item">
+                    <img src="<?php echo _HOST_URL_TEMPLATE; ?>/assets/image/thumb/4.svg" class="img-thumbnail">
+                    <div class="caption">
+                        <h1>Past Threads, Future Energy.</h1>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
@@ -103,7 +129,6 @@ layout('header-home');
                 <span class="visually-hidden">Sau</span>
             </button>
         </div>
-
     </div>
 </div>
 

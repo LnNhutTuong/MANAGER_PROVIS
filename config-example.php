@@ -35,6 +35,7 @@ define('_PATH_URL_TEMPLATE', _PATH_URL . '/template');
 
 
 
+
 // echo _HOST_URL;
 // echo '<br/>';
 // echo _HOST_URL_TEMPLATE;

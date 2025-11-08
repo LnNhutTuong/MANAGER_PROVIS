@@ -8,6 +8,7 @@ if (!defined('_ximen')) {
 
 //xài GET vì nó hiện URL, dễ hơn cho ng dùng
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+
 if ($page < 1) {
     $page = 1;
 }
@@ -24,14 +25,17 @@ $total_products = getRows("SELECT * FROM products");
 // -> tính được số trang (ceil làm tròn ko phẩy)
 $total_pages = ceil($total_products / $products_per_page);
 
+//
 $products = selectAll("SELECT * FROM products LIMIT $products_per_page OFFSET $nonePage");
 $brands = selectAll("SELECT * FROM brand");
 
-echo '<pre>';
-print_r($brands);
-echo '</pre>';
+// echo '<pre>';
+// print_r($total_pages);
+// echo '</pre>';
 
-//Thnag ngu m dang lam mang sao ma lam kieu nay dc
+
+
+//Này làm bằng mảng vì nhiều hãng vl
 foreach ($brands as $brand) {
     $nameBrand = selectOne("SELECT name FROM brand WHERE  id= '" . $brand['ID'] . "'");
 }
@@ -44,7 +48,7 @@ layout('header-home');
 <link rel="stylesheet" href="<?php echo _HOST_URL_TEMPLATE; ?>/style/css/home/product.css">
 
 <div class="body-container container mt-4 mb-4">
-    <div class="row">
+    <div class="row selling-product">
 
         <div class="category-container col-lg-2">
             <div class="card">
@@ -154,11 +158,52 @@ layout('header-home');
                     </div>
 
                 <?php endforeach; ?>
-
             </div>
+
+            <div class="pageination d-flex justify-content-center mt-4">
+                <nav>
+                    <ul class="pagination">
+
+                        <!--không phải vì hàm for dễ hơn mà phải là bắt buộc dùng hàm for -->
+
+                        <li class="page-item"
+                            <?php
+                            if ($page <= 1) {
+                                echo 'disabled';
+                            }
+                            ?>>
+                            <a class=" page-link" href="<?php echo _HOST_URL; ?>?module=home&action=product&page=<?php echo $page--; ?>">Previous</a>
+                        </li>
+
+                        <?php for ($i = 0; $i < $total_pages; $i++): ?>
+                            <li class="page-item">
+                                <a class="page-link"
+                                    href="<?php echo _HOST_URL; ?>?module=home&action=product&page=<?php echo $page + $i; ?>">
+                                    <?php echo $i + 1; ?>
+                                </a>
+                            </li>
+                        <?php endfor; ?>
+
+                        <li class="page-item 
+                            <?php
+                            if ($page > $total_pages - 1) {
+                                echo 'disabled';
+                            }
+                            ?>">
+                            <a class="page-link" href="<?php echo _HOST_URL; ?>?module=home&action=product&page=<?php echo $page++; ?>">Next</a>
+                        </li>
+
+                    </ul>
+                </nav>
+            </div>
+
         </div>
 
+
     </div>
+
+
+
 </div>
 
 </div>
@@ -167,6 +212,7 @@ layout('header-home');
 <script>
 
 </script>
+
 <?php
 layout('footer');
 ?>
