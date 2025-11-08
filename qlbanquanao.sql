@@ -44,6 +44,20 @@ CREATE TABLE Brand (
     update_at DATETIME
 );
 
+CREATE TABLE Category (
+    ID INT AUTO_INCREMENT PRIMARY KEY ,
+    name VARCHAR(200) UNIQUE NOT NULL,
+    created_at DATETIME,
+    update_at DATETIME
+);
+
+CREATE TABLE Style (
+    ID INT AUTO_INCREMENT PRIMARY KEY ,
+    name VARCHAR(200) UNIQUE NOT NULL,
+    created_at DATETIME,
+    update_at DATETIME
+);
+
 CREATE TABLE Products (
     ID INT AUTO_INCREMENT PRIMARY KEY ,
     name VARCHAR(200) NOT NULL,
@@ -58,4 +72,5 @@ CREATE TABLE Products (
     FOREIGN KEY (brand_id) REFERENCES Brand(ID)
         ON DELETE SET NULL 
         ON UPDATE CASCADE
+    
 );

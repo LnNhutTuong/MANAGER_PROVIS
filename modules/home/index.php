@@ -37,7 +37,7 @@ layout('header-home');
         </div>
     </div>
 
-
+    <hr style="margin-top: 40px;">
 
     <div class="newProduct-container text-center mb-5 section">
         <div class="title mb-2">
@@ -105,12 +105,13 @@ layout('header-home');
         </div>
 
     </div>
+</div>
 
 
-    <script>
+<script>
 
-    </script>
+</script>
 
-    <?php
-    layout('footer');
-    ?>
+<?php
+layout('footer');
+?>

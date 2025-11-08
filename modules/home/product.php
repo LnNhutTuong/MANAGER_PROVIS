@@ -4,10 +4,38 @@ if (!defined('_ximen')) {
     die('---TRUY CAP KHONG HOP LE---');
 }
 
-$data = selectAll("SELECT * FROM products");
-$products = $data;
+// Phân trang san pham (rất khó tốn rất nhiều ngày chứ ko phải giờ nữa :")
 
-// $chunk = array_chunk($products, 3);
+//xài GET vì nó hiện URL, dễ hơn cho ng dùng
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+if ($page < 1) {
+    $page = 1;
+}
+
+$products_per_page = 9;
+
+//Vì cái trang đầu tiên là 0, nên phải trừ 
+//1 để nó biến thành trang 0 xong rồi skip trang đó
+$nonePage = ($page - 1) * $products_per_page;
+
+// Lấy tất cả product
+$total_products = getRows("SELECT * FROM products");
+
+// -> tính được số trang (ceil làm tròn ko phẩy)
+$total_pages = ceil($total_products / $products_per_page);
+
+$products = selectAll("SELECT * FROM products LIMIT $products_per_page OFFSET $nonePage");
+$brands = selectAll("SELECT * FROM brand");
+
+echo '<pre>';
+print_r($brands);
+echo '</pre>';
+
+//Thnag ngu m dang lam mang sao ma lam kieu nay dc
+foreach ($brands as $brand) {
+    $nameBrand = selectOne("SELECT name FROM brand WHERE  id= '" . $brand['ID'] . "'");
+}
+
 
 layout('header-home');
 ?>
@@ -21,56 +49,74 @@ layout('header-home');
         <div class="category-container col-lg-2">
             <div class="card">
                 <div class="card-body mb-4 ">
-                    <div>
-                        <h6 class="fw-bold mb-2">Danh mục</h6>
+
+                    <div class="brand">
+                        <h6 class="fw-bold mb-2">Thương hiệu</h6>
+                        <?php
+                        foreach ($brands as $brand):
+                        ?>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="price" id="<?php echo htmlspecialchars($brand['ID']); ?>">
+                                <label class="form-check-label" for="<?php echo htmlspecialchars($brand['ID']); ?>">
+                                    <?php echo htmlspecialchars($brand['name']); ?>
+                                </label>
+                            </div>
+                        <?php
+                        endforeach;
+                        ?>
+                    </div>
+
+                    <div class="brand">
+                        <h6 class="fw-bold mb-2">Thương hiệu</h6>
+                        <?php
+                        foreach ($brands as $brand):
+                        ?>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="price" id="<?php echo htmlspecialchars($brand['ID']); ?>">
+                                <label class="form-check-label" for="<?php echo htmlspecialchars($brand['ID']); ?>">
+                                    <?php echo htmlspecialchars($brand['name']); ?>
+                                </label>
+                            </div>
+                        <?php
+                        endforeach;
+                        ?>
+                    </div>
+
+                    <div class="brand">
+                        <h6 class="fw-bold mb-2">Thương hiệu</h6>
+                        <?php
+                        foreach ($brands as $brand):
+                        ?>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="price" id="<?php echo htmlspecialchars($brand['ID']); ?>">
+                                <label class="form-check-label" for="<?php echo htmlspecialchars($brand['ID']); ?>">
+                                    <?php echo htmlspecialchars($brand['name']); ?>
+                                </label>
+                            </div>
+                        <?php
+                        endforeach;
+                        ?>
+                    </div>
+
+                    <div class="price">
+                        <h6 class="fw-bold mb-2">Giá</h6>
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="aoThun">
-                            <label class="category-name" for="aoThun">Achive</label>
+                            <input class="form-check-input" type="radio" name="price" id="duoi200">
+                            <label class="form-check-label" for="duoi200">Dưới 200k</label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="aoThun">
-                            <label class="category-name" for="aoThun">Denim</label>
+                            <input class="form-check-input" type="radio" name="price" id="200to500">
+                            <label class="form-check-label" for="200to500">200k - 500k</label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="quanJean">
-                            <label class="category-name" for="quanJean">Y2K</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="aoKhoac">
-                            <label class="category-name" for="aoKhoac">Military</label>
+                            <input class="form-check-input" type="radio" name="price" id="tren500">
+                            <label class="form-check-label" for="tren500">Trên 500k</label>
                         </div>
                     </div>
 
-                    <div>
-                        <h6 class="fw-bold mb-2">Giá</h6>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="price" id="duoi200">
-                            <label class="form-check-label" for="duoi200">Dưới 200k</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="price" id="200to500">
-                            <label class="form-check-label" for="200to500">200k - 500k</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="price" id="tren500">
-                            <label class="form-check-label" for="tren500">Trên 500k</label>
-                        </div>
-                    </div>
-                    <div>
-                        <h6 class="fw-bold mb-2">Giá</h6>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="price" id="duoi200">
-                            <label class="form-check-label" for="duoi200">Dưới 200k</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="price" id="200to500">
-                            <label class="form-check-label" for="200to500">200k - 500k</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="price" id="tren500">
-                            <label class="form-check-label" for="tren500">Trên 500k</label>
-                        </div>
-                    </div>
+
+
+
                 </div>
             </div>
 

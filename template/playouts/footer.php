@@ -6,15 +6,15 @@ if (!defined('_ximen')) {
 
 ?>
 
-
-<footer class=" w-100  d-flex justify-content-between" style="border-top: 1px solid black;">
-    <div>
+<div class="footer-container w-100 d-flex justify-content-between" style="border-top: 1px solid black;">
+    <footer>
         Copyright &copy; 2025&nbsp;
-        <a href="https://adminlte.io" class="text-decoration-none">SKIBIDI</a>.
+        <a href=" https://adminlte.io" class="text-decoration-none">SKIBIDI</a>.
         All rights reserved.
-    </div>
-    <div class=" text-end d-none d-sm-inline">SKIBIDI</div>
-</footer>
+        <div class=" text-end d-none d-sm-inline">SKIBIDI</div>
+    </footer>
+</div>
+
 
 
 
