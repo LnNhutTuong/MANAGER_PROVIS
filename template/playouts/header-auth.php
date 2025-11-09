@@ -13,18 +13,19 @@ if (!defined('_ximen')) {
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     </title>
+
     <!--begin::Accessibility Meta Tags-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <meta name="color-scheme" content="light dark" />
     <meta name="theme-color" content="#007bff" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#1a1a1a" media="(prefers-color-scheme: dark)" />
     <!--end::Accessibility Meta Tags-->
+
     <!--begin::Primary Meta Tags-->
     <meta name="title" content="AdminLTE v4 | Dashboard" />
     <meta name="author" content="ColorlibHQ" />
-
     <!--end::Primary Meta Tags-->
-    <!--begin::Accessibility Features-->
+
     <!-- Skip links will be dynamically added by accessibility.js -->
     <meta name="supported-color-schemes" content="light dark" />
     <link rel="preload" href="<?php echo _HOST_URL_TEMPLATE; ?>/style/css/adminlte.css" as="style" />
@@ -57,11 +58,12 @@ if (!defined('_ximen')) {
 <!--end::Head-->
 
 <body>
-    <div class="header-container pt-3 mt-8">
+
+    <div class="header-container container pt-3" style="margin: 0;min-width: 100%">
         <div class="header-name text-center"
             style="border-top: 1px solid white;
                     border-bottom: 1px solid white;
                     ">
-            <h1 class="m-0">PROVIS</h1>
+            <h1 class="m-0">SKIBIDI</h1>
         </div>
     </div>

@@ -6,18 +6,20 @@ if (!defined('_ximen')) {
 
 ?>
 
-
-<footer class="app-footer w-100  d-flex justify-content-between">
-    <div>
+<div class="footer-container w-100 d-flex justify-content-between" style="border-top: 1px solid black;">
+    <footer>
         Copyright &copy; 2025&nbsp;
-        <a href="https://adminlte.io" class="text-decoration-none">SKIBIDI</a>.
+        <a href=" https://adminlte.io" class="text-decoration-none">SKIBIDI</a>.
         All rights reserved.
-    </div>
-
-    <div class=" text-end d-none d-sm-inline">PROVIS</div>
-</footer>
-
+        <div class=" text-end d-none d-sm-inline">SKIBIDI</div>
+    </footer>
 </div>
+
+
+
+
+
+
 <script
     src="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.11.0/browser/overlayscrollbars.browser.es6.min.js"
     crossorigin="anonymous"></script>
