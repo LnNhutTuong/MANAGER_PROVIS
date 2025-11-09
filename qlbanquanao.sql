@@ -3,57 +3,75 @@ CREATE DATABASE MANAGER_PROVIS CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 USE MANAGER_PROVIS;
 
 CREATE TABLE Groups (
-    ID INT AUTO_INCREMENT PRIMARY KEY ,
-    name VARCHAR(200) NOT NULL,
+    id INT AUTO_INCREMENT PRIMARY KEY ,
+    name_ VARCHAR(200) NOT NULL,
     created_at DATETIME,
     update_at DATETIME
 );
 
 CREATE TABLE Users (
-    ID INT AUTO_INCREMENT PRIMARY KEY ,
-    username VARCHAR(200),
-    password VARCHAR(200),
-    email VARCHAR(100) UNIQUE NOT NULL,
-    phone VARCHAR(11),
-    address TEXT,
+    id INT AUTO_INCREMENT PRIMARY KEY ,
+    username VARCHAR(200) NOT NULL,
+    password_ VARCHAR(200) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    phone VARCHAR(20),
+    address_ TEXT,
     forget_token VARCHAR(500),
     active_token VARCHAR(500),
+    status_ TINYINT DEFAULT 0,
     group_id INT,
     created_at DATETIME,
     update_at DATETIME,
-    FOREIGN KEY (group_id) REFERENCES Groups(ID)
+    FOREIGN KEY (group_id) REFERENCES Groups(id)
         ON DELETE SET NULL
-        ON UPDATE CASCADE
 );
 
 CREATE TABLE Token_login (
-    ID INT AUTO_INCREMENT PRIMARY KEY ,
+    id INT AUTO_INCREMENT PRIMARY KEY ,
     user_id INT NOT NULL,
     token VARCHAR(200) NOT NULL,
     created_at DATETIME,
     update_at DATETIME,
-    FOREIGN KEY (user_id) REFERENCES Users(ID)
-        ON DELETE CASCADE
+    FOREIGN KEY (user_id) REFERENCES Users(id)
         ON UPDATE CASCADE
 );
 
 CREATE TABLE Brand (
-    ID INT AUTO_INCREMENT PRIMARY KEY ,
+    id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(200) UNIQUE NOT NULL,
     created_at DATETIME,
     update_at DATETIME
 );
 
 CREATE TABLE Products (
-    ID INT AUTO_INCREMENT PRIMARY KEY ,
+    id INT AUTO_INCREMENT PRIMARY KEY ,
     name VARCHAR(200) NOT NULL,
-    brand_id INT,
     descreption TEXT,
     price INT,
     thumb VARCHAR(200),
+    category_id INT,
+    brand_id INT,
+    style_id INT,
     created_at DATETIME,
     update_at DATETIME,
-    FOREIGN KEY (brand_id) REFERENCES Brand(ID)
-        ON DELETE SET NULL 
-        ON UPDATE CASCADE
+    FOREIGN KEY (category_id) REFERENCES Category(id)
+        ON DELETE RESTRICT,
+    FOREIGN KEY (brand_id) REFERENCES Brand(id)
+        ON DELETE RESTRICT,
+    FOREIGN KEY (style_id) REFERENCES style(id)
+        ON DELETE SET NULL,
+);
+
+CREATE TABLE Categroy (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(200) NOT NULL,
+    created_at DATETIME,
+    update_at DATETIME
+);
+
+CREATE TABLE Style (
+    id INT AUTO_INCREMENT PRIMARY KEY ,
+    name VARCHAR(200) NOT NULL,
+    created_at DATETIME,
+    update_at DATETIME
 );

@@ -19,44 +19,59 @@ address: ./includes/database.php
 - Trong đấy có các FUNCTION phục vụ cho các
 hành động liên quan đến DATABASE.
 
-Users:
-- ID int primary key
+User:
+- id int primary key
 - fullname varchar 200
-- email varchar 100
+- email varchar 250
 - phone varchar 11
-- address
-- forget_token varchar 500
-- active_token varchar 500
-- group_id int ============>Group
-- created_at datetime
-- update_at datetime
+- forget_token varchar 500 / quên mk
+- active_token varchar 500 / kích hoạt
+- status int (1: đã có, 0: chưa có) 
+- group_id int ============>Group (người dùng/main  )
+- created_at datetime / thời gian tạo
+- update_at datetime / thời gian cập nhật
 
-Token_login:
-- ID int primary key
-- user_id int =============>Users
+Token_login: / xác định việc đăng nhập của các tài khoảng
+- id int primary key
+- user_id int =============>users / tk đang đăng nhập
 - token varchar 200
 - created_at datetime
 - update_at datetime
 
-Products:
-- ID int primary key
-- name varchar 200
-- brand_id int ===============>Brand
-- descreption text
-- price int
-- thumb vachar 200
-- created_at datetime
-- update_at datetime
-
-Brand:
-- ID int primary key
-- name varchar 200
-- created_at datetime
-- update_at datetime
-
 Groups:
-- ID int primary key
+- id int primary key
 - name varchar 200
+- created_at datetime
+- update_at datetime
+
+
+Brand: / thương hiệu
+- id int primary key 
+- name varchar 200 
+- created_at datetime
+- update_at datetime
+
+Products: / sản phẩm
+- id int primary key 
+- name varchar 200 
+- descreption text 
+- price int 
+- thumb varchar (200)
+- Categroy_id int =============>Categroy 1 sản phẩm chỉ có thể có 1 doanh mục
+- brand_id int ===============>Brand 1 sản phẩm chỉ có 1 thương hiệu 
+- style_id int ===============>style 1 sản phẩm chỉ có 1 phong cách
+- created_at datetime
+- update_at datetime
+
+Categroy: / Phân loại, danh mục
+- id int primary key 
+- name varchar(200)
+- created_at datetime
+- update_at datetime
+
+style: / kiểu dáng, phong cách
+- id int primary key 
+- name varchar(200)
 - created_at datetime
 - update_at datetime
 
