@@ -3,6 +3,8 @@ CREATE DATABASE MANAGER_PROVIS CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 USE MANAGER_PROVIS;
 
 CREATE TABLE UserGroups (
+
+CREATE TABLE Groups (
     ID INT AUTO_INCREMENT PRIMARY KEY ,
     name VARCHAR(200) NOT NULL,
     created_at DATETIME,
@@ -57,7 +59,6 @@ CREATE TABLE Style (
     created_at DATETIME,
     update_at DATETIME
 );
-
 CREATE TABLE Products (
     ID INT AUTO_INCREMENT PRIMARY KEY ,
     name VARCHAR(200) NOT NULL,
@@ -72,5 +73,4 @@ CREATE TABLE Products (
     FOREIGN KEY (brand_id) REFERENCES Brand(ID)
         ON DELETE SET NULL 
         ON UPDATE CASCADE
-    
-);
+    );
