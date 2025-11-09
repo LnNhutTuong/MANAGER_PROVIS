@@ -4,7 +4,7 @@ if (!defined('_ximen')) {
     die('---TRUY CAP KHONG HOP LE---');
 }
 
-$conn = new mysqli(_host, _user, _passowrd, _db,);
+$conn = new mysqli(_host, _user, _password, _db,);
 
 // Check connection
 if ($conn->connect_error) {

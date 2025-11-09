@@ -1,0 +1,29 @@
+/* ===== Hiệu ứng cuộn mượt ===== */
+html {
+  scroll-behavior: smooth;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  scroll-behavior: smooth;
+  scroll-snap-type: y mandatory;
+  overflow-y: scroll;
+  -ms-overflow-style: none; /* IE và Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+body::-webkit-scrollbar {
+  display: none;
+}
+
+/* ====== Chung ======== */
+
+h6.fw-bold.mb-2 {
+  text-align: center;
+}
+
+.form-check {
+  padding-left: 45px;
+}
