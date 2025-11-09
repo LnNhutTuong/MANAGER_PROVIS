@@ -20,17 +20,19 @@ $products_per_page = 9;
 $nonePage = ($page - 1) * $products_per_page;
 
 // Lấy tất cả product
-$total_products = getRows("SELECT * FROM products");
+$total_products = getRows("SELECT COUNT(ID) FROM products");
 
 // -> tính được số trang (ceil làm tròn ko phẩy)
 $total_pages = ceil($total_products / $products_per_page);
 
 //
 $products = selectAll("SELECT * FROM products LIMIT $products_per_page OFFSET $nonePage");
+$categories = selectAll("SELECT * FROM category");
 $brands = selectAll("SELECT * FROM brand");
+$styles = selectAll("SELECT * FROM style");
 
 // echo '<pre>';
-// print_r($total_pages);
+// print_r($styles);
 // echo '</pre>';
 
 
@@ -50,19 +52,19 @@ layout('header-home');
 <div class="body-container container mt-4 mb-4">
     <div class="row selling-product">
 
-        <div class="category-container col-lg-2">
+        <div class="category-container col-lg-3">
             <div class="card">
                 <div class="card-body mb-4 ">
 
-                    <div class="brand">
-                        <h6 class="fw-bold mb-2">Thương hiệu</h6>
+                    <div class="category">
+                        <h6 class="fw-bold mb-2">Phân loại</h6>
                         <?php
-                        foreach ($brands as $brand):
+                        foreach ($categories as $category):
                         ?>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="price" id="<?php echo htmlspecialchars($brand['ID']); ?>">
-                                <label class="form-check-label" for="<?php echo htmlspecialchars($brand['ID']); ?>">
-                                    <?php echo htmlspecialchars($brand['name']); ?>
+                                <input class="form-check-input" type="checkbox" name="category" id="<?php echo htmlspecialchars($category['ID']); ?>">
+                                <label class="form-check-label" for="<?php echo htmlspecialchars($category['ID']); ?>">
+                                    <?php echo htmlspecialchars($category['name']); ?>
                                 </label>
                             </div>
                         <?php
@@ -76,7 +78,7 @@ layout('header-home');
                         foreach ($brands as $brand):
                         ?>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="price" id="<?php echo htmlspecialchars($brand['ID']); ?>">
+                                <input class="form-check-input" type="radio" name="brand" id="<?php echo htmlspecialchars($brand['ID']); ?>">
                                 <label class="form-check-label" for="<?php echo htmlspecialchars($brand['ID']); ?>">
                                     <?php echo htmlspecialchars($brand['name']); ?>
                                 </label>
@@ -86,15 +88,15 @@ layout('header-home');
                         ?>
                     </div>
 
-                    <div class="brand">
-                        <h6 class="fw-bold mb-2">Thương hiệu</h6>
+                    <div class="style">
+                        <h6 class="fw-bold mb-2">Phong cách</h6>
                         <?php
-                        foreach ($brands as $brand):
+                        foreach ($styles as $style):
                         ?>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="price" id="<?php echo htmlspecialchars($brand['ID']); ?>">
-                                <label class="form-check-label" for="<?php echo htmlspecialchars($brand['ID']); ?>">
-                                    <?php echo htmlspecialchars($brand['name']); ?>
+                                <input class="form-check-input" type="checkbox" name="style" id="<?php echo htmlspecialchars($style['ID']); ?>">
+                                <label class="form-check-label" for="<?php echo htmlspecialchars($style['ID']); ?>">
+                                    <?php echo htmlspecialchars($style['name']); ?>
                                 </label>
                             </div>
                         <?php
@@ -118,20 +120,18 @@ layout('header-home');
                         </div>
                     </div>
 
-
-
-
                 </div>
             </div>
 
 
         </div>
 
-        <div class="product-container col-lg-10">
+        <div class="product-container col-lg-9">
             <div class="row justify-content-center g-4">
                 <?php foreach ($products as $product): ?>
                     <div class="col-6 col-md-4 col-lg-4">
                         <div class="card h-100 shadow-sm text-center">
+
                             <div class="img-product">
                                 <a href="#">
                                     <img src="<?php echo htmlspecialchars($product['thumb']); ?>"
@@ -160,6 +160,12 @@ layout('header-home');
                 <?php endforeach; ?>
             </div>
 
+
+            <?php
+            $prevPage = $page - 1;
+            $nextPage = $page + 1;
+            ?>
+
             <div class="pageination d-flex justify-content-center mt-4">
                 <nav>
                     <ul class="pagination">
@@ -172,25 +178,30 @@ layout('header-home');
                                 echo 'disabled';
                             }
                             ?>>
-                            <a class=" page-link" href="<?php echo _HOST_URL; ?>?module=home&action=product&page=<?php echo $page--; ?>">Previous</a>
+                            <a class=" page-link" href="<?php echo _HOST_URL; ?>?module=home&action=product&page=<?php echo $prevPage; ?>">Previous</a>
                         </li>
 
-                        <?php for ($i = 0; $i < $total_pages; $i++): ?>
+                        <?php for ($i = 0; $i < $total_pages; $i++):
+                            $pageNumber = $i + 1;
+                            if ($page == $pageNumber) {
+                                continue;
+                            }
+                        ?>
                             <li class="page-item">
                                 <a class="page-link"
-                                    href="<?php echo _HOST_URL; ?>?module=home&action=product&page=<?php echo $page + $i; ?>">
-                                    <?php echo $i + 1; ?>
+                                    href="<?php echo _HOST_URL; ?>?module=home&action=product&page=<?php echo $pageNumber; ?>">
+                                    <?php echo $pageNumber; ?>
                                 </a>
                             </li>
                         <?php endfor; ?>
 
                         <li class="page-item 
                             <?php
-                            if ($page > $total_pages - 1) {
+                            if ($page >= $total_pages) {
                                 echo 'disabled';
                             }
                             ?>">
-                            <a class="page-link" href="<?php echo _HOST_URL; ?>?module=home&action=product&page=<?php echo $page++; ?>">Next</a>
+                            <a class="page-link" href="<?php echo _HOST_URL; ?>?module=home&action=product&page=<?php echo $nextPage; ?>">Next</a>
                         </li>
 
                     </ul>

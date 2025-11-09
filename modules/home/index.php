@@ -7,12 +7,7 @@ if (!defined('_ximen')) {
 $data = selectAll("SELECT * FROM products");
 $products = $data;
 
-$sologans = [
-    "Made to Break the Rules.",
-    "Past Threads, Future Energy.",
-    "Not Classic. Iconic.",
-    "Wear What Speaks Loud."
-];
+
 
 $chunk = array_chunk($products, 3);
 layout('header-home');
@@ -27,7 +22,7 @@ layout('header-home');
         <div id="thumbCarousel"
             class="carousel slide hero-section text-center p-0"
             data-bs-ride="carousel"
-            data-bs-interval="3000"
+            data-bs-interval="4000"
             data-bs-pause="false">
 
             <div class="carousel-inner">
@@ -88,6 +83,14 @@ layout('header-home');
 
                                 <div class="product-card card-body d-flex flex-column">
 
+
+                                    <?php
+                                    // echo "<pre>";
+                                    // print_r($product);
+                                    // echo "</pre>";
+                                    $brandName = selectOne("SELECT name FROM brand WHERE ID ='" . $product["brand_id"] . "'");
+                                    ?>
+
                                     <div class="img-product">
                                         <a href="">
                                             <img src="<?php echo htmlspecialchars($product['thumb']) ?>" class="card-img-top mb-2" alt="<?php echo htmlspecialchars($product['name']); ?>">
@@ -97,15 +100,22 @@ layout('header-home');
                                     <div class="infor-product flex-grow-1">
                                         <h3 class="product-name card-title"><?php echo htmlspecialchars($product['name']) ?></h3>
                                     </div>
+
                                     <div class="priceAsize-product mt-auto">
-                                        <div class="product-name card-text">Color: <?php echo htmlspecialchars($product['color']) ?></div>
+                                        <div class="product-name card-text">
+                                            Brand: <?php
+                                                    echo "<span class='brandName' style='font-weight: bold;'>"
+                                                        . $brandName['name'] .
+                                                        "</span class='brandName'>"
+                                                    ?>
+                                        </div>
                                         <div class="product-description card-text mb-1">
-                                            Size: <?php echo htmlspecialchars($product['size']) ?>
+                                            <?php echo htmlspecialchars($product['size']) ?>
                                         </div>
                                         <div class="product-price fw-bold text-danger">
-                                            <?php echo htmlspecialchars($product['price']) ?> VNĐ
-                                        </div>
+                                            <?php echo number_format($product['price'], 0, ',', '.'); ?> VNĐ </div>
                                     </div>
+
                                 </div>
                             </div>
 
