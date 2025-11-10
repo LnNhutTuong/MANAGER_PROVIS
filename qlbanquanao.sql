@@ -16,6 +16,7 @@ CREATE TABLE Users (
     update_at DATETIME,
 );
 
+
 CREATE TABLE Token_login (
     id INT AUTO_INCREMENT PRIMARY KEY ,
     user_id INT NOT NULL,

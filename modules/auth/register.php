@@ -19,66 +19,75 @@ $msg = '';
 $msg_type = '';
 
 //==============Kiem tra===============
-// if (isPost()) {
-//     $filter = filterData();
+ if (isPost()) {
+     $filter = filterData();
 
-//     $errors = [];
+     $errors = [];
 
-//     //username
-//     if (empty(trim($filter['username']))) {
-//         $errors['username']['required'] = 'Họ tên không được để trống';
-//     } else {
-//         if (strlen(trim(($filter['username']))) < 5) {
-//             $errors['username']['required'] = 'Họ tên phải dài hơn 6 ký tự';
-//         }
-//     }
+    //username
+    if (empty(trim($filter['username']))) {
+        $errors['username'] = 'Họ tên không được để trống';
+    } else {
+        if (strlen(trim(($filter['username']))) < 5) {
+            $errors['username'] = 'Họ tên phải dài hơn 6 ký tự';
+        }
+    }
 
-//     //email
-//     if (empty(trim($filter['email']))) {
-//         $errors['email']['required'] = 'Email không được để trống';
-//     } else {
-//         if (!validateEmail(trim($filter['email']))) {
-//             $errors['email']['required'] = 'Email không đúng định dạng';
-//         } else {
-//             $email = $filter['email'];
+    //email
+    if (empty(trim($filter['email']))) {
+        $errors['email'] = 'Email không được để trống';
+    } else {
+        if (!validateEmail(trim($filter['email']))) {
+            $errors['email'] = 'Email không đúng định dạng';
+        } else {
+            $email = $filter['email'];
 
-//             $check = getRows("SELECT * FROM user WHERE email = '$email'");
+            $check = getRows("SELECT * FROM user WHERE email = '$email'");
 
-//             var_dump($check);
-//         }
-//     }
+            var_dump($check);
+        }
+    }
 
-//     //password
-//     if (empty(trim($filter['password']))) {
-//         $errors['password']['required'] = 'Mật khẩu không được để trống';
-//     } else {
-//         if (strlen(trim($filter['password'])) < 6) {
-//             $errors['password']['required'] = 'Mật khẩu phải dài hơn 6 ký tự';
+if (empty(trim($filter['phone']))) {
+    $errors['phone'] = 'Số điện thoại không được để trống.';
+} else {
+    // Tùy chọn: Thêm kiểm tra định dạng/số lượng ký tự
+    if (!preg_match('/^0[0-9]{9}$/', trim($filter['phone']))) {
+        $errors['phone'] = 'Số điện thoại không hợp lệ (ví dụ: 0xxxxxxxx).';
+    }
+}
 
-//             if (trim($filter['password']) !== trim(($filter['confirm-password']))) {
-//                 $errors['password']['required'] = 'Mật khẩu nhập lại không đúng ';
-//             }
-//         }
-//     }
+    //password
+    if (empty(trim($filter['password']))) {
+        $errors['password'] = 'Mật khẩu không được để trống';
+    } else {
+        if (strlen(trim($filter['password'])) < 6) {
+            $errors['password'] = 'Mật khẩu phải dài hơn 6 ký tự';
+
+            if (trim($filter['password']) !== trim(($filter['confirm-password']))) {
+                $errors['password'] = 'Mật khẩu nhập lại không đúng ';
+            }
+        }
+    }
 
 
-//     if (empty($errors)) {
-//         $msg = 'Đăng ký thành công';
-//         $msg_type = 'green';
-//     } else {
-//         $eUser = $errors['username']['required'];
-//         if ($eUser) {
-//             $msg = 'Không được bỏ trống, từ 5 ký tự.';
-//         }
+    if (empty($errors)) {
+        $msg = 'Đăng ký thành công';
+        $msg_type = 'green';
+    } else {
+        $eUser = $errors['username']['required'];
+        if ($eUser) {
+            $msg = 'Không được bỏ trống, từ 5 ký tự.';
+        }
 
-//         $eUser = $errors['email']['required'];
-//         if ($eUser) {
-//             $msg = 'Không được bỏ trống, chú ý cấu trúc Email.';
-//         }
+        $eUser = $errors['email']['required'];
+        if ($eUser) {
+            $msg = 'Không được bỏ trống, chú ý cấu trúc Email.';
+        }
 
-//         $msg_type = 'red';
-//     }
-// }
+        $msg_type = 'red';
+     }
+}
 
 // 
 //===================================
@@ -87,7 +96,8 @@ $msg_type = '';
 <!-- Section: Design Block -->
 <section class="">
     <!-- Jumbotron -->
-    <div class="px-3 py-4 px-md-5 text-center text-lg-start " style="background-color: hsla(0, 0%, 0%, 1.00); margin-left: 160px">
+    <div class="px-3 py-4 px-md-5 text-center text-lg-start "
+        style="background-color: hsla(0, 0%, 0%, 1.00); margin-left: 160px">
         <div class="container">
             <div class="row gx-lg-5 align-items-center">
                 <div class="col-lg-6 mb-5 mb-lg-0">
@@ -105,15 +115,22 @@ $msg_type = '';
 
                 <div class="col-lg-6 mb-5 mb-lg-0 " style="width: 480px;">
                     <div class="card" style="box-shadow: rgba(255, 255, 255, 0.31) 0px 5px 15px !important;">
-                        <div class=" card-body py-4 px-md-3" style="background-color:hsla(0, 2%, 12%, 1.00); color:white;">
+                        <div class=" card-body py-4 px-md-3"
+                            style="background-color:hsla(0, 2%, 12%, 1.00); color:white;">
                             <h1 class="text-center">Đăng ký</h1>
                             <form method="POST">
-
+                                <!-- Tên đăng nhập, email, phone, active-tocken, status-->
                                 <div data-mdb-input-init class="form-outline mb-3">
                                     <div data-mdb-input-init class="form-outline">
                                         <label class="form-label" for="username">Tên đăng nhập</label>
-                                        <input name='username' type="text" id="username" class="form-control" />
-                                        <?php getMsg($msg, $msg_type) ?>
+                                        <input name='username' type="text" id="username" class="form-control"
+                                            value="<?php echo (!empty($filter['username'])) ? $filter['username'] : ''; ?>" />
+                                        <?php 
+                                            // Hiển thị lỗi tên (nếu có)
+                                            if (!empty($errors['username'])) {
+                                            getMsg($errors['username'], 'red'); 
+                                            }
+                                         ?>
                                     </div>
                                 </div>
 
@@ -121,21 +138,47 @@ $msg_type = '';
                                 <!-- Email input -->
                                 <div data-mdb-input-init class="form-outline mb-3">
                                     <label class="form-label" for="email">Email</label>
-                                    <input type="text" id="email" name="email" class="form-control" />
-                                    <?php getMsg($msg, $msg_type) ?>
+                                    <input type="text" id="email" name="email" class="form-control"
+                                        value="<?php echo (!empty($filter['email'])) ? $filter['email'] : ''; ?>" />
+                                    <?php 
+                                            // Hiển thị lỗi email(nếu có)
+                                            if (!empty($errors['email'])) {
+                                            getMsg($errors['email'], 'red'); 
+                                            }
+                                         ?>
+                                </div>
+
+                                <!-- phone input -->
+                                <div data-mdb-input-init class="form-outline mb-3">
+                                    <label class="form-label" for="phone">Số điện thoại</label>
+                                    <input name="phone" type="text" id="phone" class="form-control"
+                                        value="<?php echo (!empty($filter['phone'])) ? $filter['phone'] : ''; ?>" />
+                                    <?php 
+                                            // Hiển thị lỗi Số điện thoại (nếu có)
+                                            if (!empty($errors['phone'])) {
+                                            getMsg($errors['phone'], 'red'); 
+                                        }
+                                    ?>
                                 </div>
 
                                 <!-- Password input -->
                                 <div data-mdb-input-init class="form-outline mb-3">
                                     <label class="form-label" for="password">Mật khẩu</label>
-                                    <input name="password" type="password" id="password" class="form-control" />
-                                    <?php getMsg($msg, $msg_type) ?>
+                                    <input name="password" type="password" id="password" class="form-control"
+                                        value="<?php echo (!empty($filter['password'])) ? $filter['password'] : ''; ?>" />
+                                    <?php 
+                                            // Hiển thị lỗi Số điện thoại (nếu có)
+                                            if (!empty($errors['password'])) {
+                                            getMsg($errors['password'], 'red'); 
+                                        }
+                                    ?>
                                 </div>
 
                                 <!-- Password input -->
                                 <div data-mdb-input-init class="form-outline mb-3">
                                     <label class="form-label" for="confirm-password">Xác nhận mật khẩu</label>
-                                    <input name="confirm-password" type="password" id="confirm-password" class="form-control" />
+                                    <input name="confirm-password" type="password" id="confirm-password"
+                                        class="form-control" />
                                     <?php getMsg($msg, $msg_type) ?>
 
                                 </div>
@@ -148,7 +191,9 @@ $msg_type = '';
                                 </div>
 
                                 <div class="login-container mt-3 text-center">
-                                    <p class="mb-0">Bạn đã có tài khoản? <a href="<?php echo _HOST_URL; ?>?module=auth&action=login" class="text-light-50 fw-bold">Đăng nhập </a>
+                                    <p class="mb-0">Bạn đã có tài khoản? <a
+                                            href="<?php echo _HOST_URL; ?>?module=auth&action=login"
+                                            class="text-light-50 fw-bold">Đăng nhập </a>
                                     </p>
                                 </div>
                             </form>

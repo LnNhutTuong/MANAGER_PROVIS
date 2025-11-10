@@ -61,12 +61,13 @@ layout('header-home');
                         <?php
                         foreach ($categories as $category):
                         ?>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="category" id="<?php echo htmlspecialchars($category['ID']); ?>">
-                                <label class="form-check-label" for="<?php echo htmlspecialchars($category['ID']); ?>">
-                                    <?php echo htmlspecialchars($category['name']); ?>
-                                </label>
-                            </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="category"
+                                id="<?php echo htmlspecialchars($category['ID']); ?>">
+                            <label class="form-check-label" for="<?php echo htmlspecialchars($category['ID']); ?>">
+                                <?php echo htmlspecialchars($category['name']); ?>
+                            </label>
+                        </div>
                         <?php
                         endforeach;
                         ?>
@@ -77,12 +78,13 @@ layout('header-home');
                         <?php
                         foreach ($brands as $brand):
                         ?>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="brand" id="<?php echo htmlspecialchars($brand['ID']); ?>">
-                                <label class="form-check-label" for="<?php echo htmlspecialchars($brand['ID']); ?>">
-                                    <?php echo htmlspecialchars($brand['name']); ?>
-                                </label>
-                            </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="brand"
+                                id="<?php echo htmlspecialchars($brand['ID']); ?>">
+                            <label class="form-check-label" for="<?php echo htmlspecialchars($brand['ID']); ?>">
+                                <?php echo htmlspecialchars($brand['name']); ?>
+                            </label>
+                        </div>
                         <?php
                         endforeach;
                         ?>
@@ -93,12 +95,13 @@ layout('header-home');
                         <?php
                         foreach ($styles as $style):
                         ?>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="style" id="<?php echo htmlspecialchars($style['ID']); ?>">
-                                <label class="form-check-label" for="<?php echo htmlspecialchars($style['ID']); ?>">
-                                    <?php echo htmlspecialchars($style['name']); ?>
-                                </label>
-                            </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="style"
+                                id="<?php echo htmlspecialchars($style['ID']); ?>">
+                            <label class="form-check-label" for="<?php echo htmlspecialchars($style['ID']); ?>">
+                                <?php echo htmlspecialchars($style['name']); ?>
+                            </label>
+                        </div>
                         <?php
                         endforeach;
                         ?>
@@ -129,33 +132,34 @@ layout('header-home');
         <div class="product-container col-lg-9">
             <div class="row justify-content-center g-4">
                 <?php foreach ($products as $product): ?>
-                    <div class="col-6 col-md-4 col-lg-4">
-                        <div class="card h-100 shadow-sm text-center">
+                <div class="col-6 col-md-4 col-lg-4">
+                    <div class="card h-100 shadow-sm text-center">
 
-                            <div class="img-product">
-                                <a href="#">
-                                    <img src="<?php echo htmlspecialchars($product['thumb']); ?>"
-                                        class="card-img-top mb-2"
-                                        alt="<?php echo htmlspecialchars($product['name']); ?>">
-                                </a>
+                        <div class="img-product">
+                            <a href="#">
+                                <img src="<?php echo htmlspecialchars($product['thumb']); ?>" class="card-img-top mb-2"
+                                    alt="<?php echo htmlspecialchars($product['name']); ?>">
+                            </a>
+                        </div>
+
+                        <div class="card-body d-flex flex-column">
+                            <h3 class="product-name card-title mb-2">
+                                <?php echo htmlspecialchars($product['name']); ?>
+                            </h3>
+
+                            <div class="flex-grow-1">
+                                <div class="card-text mb-1">Color: <?php echo htmlspecialchars($product['color']); ?>
+                                </div>
+                                <div class="card-text mb-1">Size: <?php echo htmlspecialchars($product['size']); ?>
+                                </div>
                             </div>
 
-                            <div class="card-body d-flex flex-column">
-                                <h3 class="product-name card-title mb-2">
-                                    <?php echo htmlspecialchars($product['name']); ?>
-                                </h3>
-
-                                <div class="flex-grow-1">
-                                    <div class="card-text mb-1">Color: <?php echo htmlspecialchars($product['color']); ?></div>
-                                    <div class="card-text mb-1">Size: <?php echo htmlspecialchars($product['size']); ?></div>
-                                </div>
-
-                                <div class="mt-auto fw-bold text-danger">
-                                    <?php echo number_format($product['price'], 0, ',', '.'); ?> VNĐ
-                                </div>
+                            <div class="mt-auto fw-bold text-danger">
+                                <?php echo number_format($product['price'], 0, ',', '.'); ?> VNĐ
                             </div>
                         </div>
                     </div>
+                </div>
 
                 <?php endforeach; ?>
             </div>
@@ -172,13 +176,13 @@ layout('header-home');
 
                         <!--không phải vì hàm for dễ hơn mà phải là bắt buộc dùng hàm for -->
 
-                        <li class="page-item"
-                            <?php
+                        <li class="page-item" <?php
                             if ($page <= 1) {
                                 echo 'disabled';
                             }
                             ?>>
-                            <a class=" page-link" href="<?php echo _HOST_URL; ?>?module=home&action=product&page=<?php echo $prevPage; ?>">Previous</a>
+                            <a class=" page-link"
+                                href="<?php echo _HOST_URL; ?>?module=home&action=product&page=<?php echo $prevPage; ?>">Previous</a>
                         </li>
 
                         <?php for ($i = 0; $i < $total_pages; $i++):
@@ -187,12 +191,12 @@ layout('header-home');
                                 continue;
                             }
                         ?>
-                            <li class="page-item">
-                                <a class="page-link"
-                                    href="<?php echo _HOST_URL; ?>?module=home&action=product&page=<?php echo $pageNumber; ?>">
-                                    <?php echo $pageNumber; ?>
-                                </a>
-                            </li>
+                        <li class="page-item">
+                            <a class="page-link"
+                                href="<?php echo _HOST_URL; ?>?module=home&action=product&page=<?php echo $pageNumber; ?>">
+                                <?php echo $pageNumber; ?>
+                            </a>
+                        </li>
                         <?php endfor; ?>
 
                         <li class="page-item 
@@ -201,7 +205,8 @@ layout('header-home');
                                 echo 'disabled';
                             }
                             ?>">
-                            <a class="page-link" href="<?php echo _HOST_URL; ?>?module=home&action=product&page=<?php echo $nextPage; ?>">Next</a>
+                            <a class="page-link"
+                                href="<?php echo _HOST_URL; ?>?module=home&action=product&page=<?php echo $nextPage; ?>">Next</a>
                         </li>
 
                     </ul>

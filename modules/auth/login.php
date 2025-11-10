@@ -20,47 +20,24 @@ $msg = '';
 $msg_type = '';
 
 //==============Kiem tra===============
-// if (isPost()) {
-//     $filter = filterData();
+    if (isPost()) {
+       $filter = filterData();
 
-//     $errors = [];
-
+       $errors=[];
+       
 //     //username
-//     if (empty(trim($filter['username']))) {
-//         $errors['username']['required'] = 'Họ tên không được để trống';
-//     } else {
-//         if (strlen(trim(($filter['username']))) < 5) {
-//             $errors['username']['required'] = 'Họ tên phải dài hơn 6 ký tự';
-//         }
-//     }
-
-//     //email
-//     if (empty(trim($filter['email']))) {
-//         $errors['email']['required'] = 'Email không được để trống';
-//     } else {
-//         if (!validateEmail(trim($filter['email']))) {
-//             $errors['email']['required'] = 'Email không đúng định dạng';
-//         } else {
-//             $email = $filter['email'];
-
-//             $check = getRows("SELECT * FROM user WHERE email = '$email'");
-
-//             var_dump($check);
-//         }
-//     }
-
-//     //password
-//     if (empty(trim($filter['password']))) {
-//         $errors['password']['required'] = 'Mật khẩu không được để trống';
-//     } else {
-//         if (strlen(trim($filter['password'])) < 6) {
-//             $errors['password']['required'] = 'Mật khẩu phải dài hơn 6 ký tự';
-
-//             if (trim($filter['password']) !== trim(($filter['confirm-password']))) {
-//                 $errors['password']['required'] = 'Mật khẩu nhập lại không đúng ';
-//             }
-//         }
-//     }
+       if (empty(trim($filter['username']))) {
+           $errors['username']   = 'Họ tên không được để trống';
+       } else {
+           if (strlen(trim($filter['username'])) < 5) {
+               $errors['username'] = 'Họ tên phải dài hơn 6 ký tự';
+           }
+       }
+      
+     //password
+     if (empty(trim($filter['password']))) {
+         $errors['password'] = 'Mật khẩu không đúng';
+     }
 
 
 //     if (empty($errors)) {
@@ -79,7 +56,7 @@ $msg_type = '';
 
 //         $msg_type = 'red';
 //     }
-// }
+ }
 
 // 
 //===================================
@@ -89,7 +66,8 @@ $msg_type = '';
 <!-- Section: Design Block -->
 <section class="">
     <!-- Jumbotron -->
-    <div class="px-3 py-4 px-md-5 text-center text-lg-start" style="background-color: hsla(0, 0%, 0%, 1.00); margin-left: 160px">
+    <div class="px-3 py-4 px-md-5 text-center text-lg-start"
+        style="background-color: hsla(0, 0%, 0%, 1.00); margin-left: 160px">
         <div class="container">
             <div class="row gx-lg-5 align-items-center">
                 <div class="col-lg-6 mb-5 mb-lg-0">
@@ -107,8 +85,7 @@ $msg_type = '';
 
                 <div class="col-lg-6 mb-5 mb-lg-0" style="width: 480px;">
                     <div class="card" style="box-shadow: rgba(255, 255, 255, 0.31) 0px 5px 15px !important;">
-                        <div class=" card-body py-4 px-md-3 pt-5"
-                            style="background-color:hsla(0, 2%, 12%, 1.00); 
+                        <div class=" card-body py-4 px-md-3 pt-5" style="background-color:hsla(0, 2%, 12%, 1.00); 
                                         color:white;  height: 563px !important;
                                         padding-top: 5rem !important ;
                                         ">
@@ -118,32 +95,48 @@ $msg_type = '';
                                 <div data-mdb-input-init class="form-outline mb-3">
                                     <div data-mdb-input-init class="form-outline">
                                         <label class="form-label" for="username">Tên đăng nhập</label>
-                                        <input name='username' type="text" id="username" class="form-control" />
-                                        <?php getMsg($msg, $msg_type) ?>
+                                        <input name='username' type="text" id="username" class="form-control"
+                                            value="<?php echo (!empty($filter['username'])) ? $filter['username'] : ''; ?>" />
+                                        <?php 
+                                                // Hiển thị lỗi tên đăng nhập (nếu có)
+                                            if (!empty($errors['username'])) {
+                                                getMsg($errors['username'], 'red'); 
+                                            }
+                                        ?>
                                     </div>
                                 </div>
 
                                 <!-- Password input -->
                                 <div data-mdb-input-init class="form-outline mb-3">
                                     <label class="form-label" for="password">Mật khẩu</label>
-                                    <input name="password" type="password" id="password" class="form-control" />
-                                    <?php getMsg($msg, $msg_type) ?>
+                                    <input name="password" type="password" id="password" class="form-control"
+                                        value="<?php echo (!empty($filter['password'])) ? $filter['password'] : ''; ?>" />
+                                    <?php 
+                                                // Hiển thị lỗi mật khẩu (nếu có)
+                                            if (!empty($errors['password'])) {
+                                                getMsg($errors['password'], 'red'); 
+                                            }
+                                        ?>
                                 </div>
 
                                 <!-- Forgot password -->
                                 <div class="forgot-container mt-3">
-                                    <p class="mb-0">Bạn quên mật khẩu? <a href="<?php echo _HOST_URL; ?>?module=auth&action=forgot" class="text-light-50 fw-bold">Lấy lại mật khẩu</a>
+                                    <p class="mb-0">Bạn quên mật khẩu? <a
+                                            href="<?php echo _HOST_URL; ?>?module=auth&action=forgot"
+                                            class="text-light-50 fw-bold">Lấy lại mật khẩu</a>
                                     </p>
                                 </div>
                                 <!-- Submit button -->
                                 <div class="text-center ">
                                     <button type="submit" class="btn btn-dark mt-3" style="width: 120px; height: 43px;">
-                                        Đăng ký
+                                        Đăng nhập
                                     </button>
                                 </div>
 
                                 <div class="register-container mt-3 text-center">
-                                    <p class="mb-0">Bạn chưa có tài khoản? <a href="<?php echo _HOST_URL; ?>?module=auth&action=register" class="text-light-50 fw-bold">Đăng ký </a>
+                                    <p class="mb-0">Bạn chưa có tài khoản? <a
+                                            href="<?php echo _HOST_URL; ?>?module=auth&action=register"
+                                            class="text-light-50 fw-bold">Đăng ký </a>
                                     </p>
                                 </div>
 
