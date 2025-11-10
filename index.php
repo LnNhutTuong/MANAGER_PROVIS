@@ -6,8 +6,6 @@ ob_start(); //tranh loi vat cua header, cookies,...
 //----------NHUNG-----------
 require_once 'config.php';
 
-
-
 //------includes
 // database
 require_once './includes/connect.php';

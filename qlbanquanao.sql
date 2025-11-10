@@ -2,28 +2,18 @@ DROP DATABASE IF EXISTS MANAGER_PROVIS;
 CREATE DATABASE MANAGER_PROVIS CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 USE MANAGER_PROVIS;
 
-CREATE TABLE Groups (
-    id INT AUTO_INCREMENT PRIMARY KEY ,
-    name_ VARCHAR(200) NOT NULL,
-    created_at DATETIME,
-    update_at DATETIME
-);
-
 CREATE TABLE Users (
     id INT AUTO_INCREMENT PRIMARY KEY ,
     username VARCHAR(200) NOT NULL,
-    password_ VARCHAR(200) NOT NULL,
+    password VARCHAR(200) NOT NULL,
     email VARCHAR(100) NOT NULL UNIQUE,
     phone VARCHAR(20),
-    address_ TEXT,
+    address TEXT,
     forget_token VARCHAR(500),
     active_token VARCHAR(500),
-    status_ TINYINT DEFAULT 0,
-    group_id INT,
+    status TINYINT DEFAULT 0,
     created_at DATETIME,
     update_at DATETIME,
-    FOREIGN KEY (group_id) REFERENCES Groups(id)
-        ON DELETE SET NULL
 );
 
 CREATE TABLE Token_login (
@@ -54,12 +44,12 @@ CREATE TABLE Products (
     style_id INT,
     created_at DATETIME,
     update_at DATETIME,
-    FOREIGN KEY (category_id) REFERENCES Category(id)
+    FOREIGN KEY (category_id) REFERENCES Categroy(id)
         ON DELETE RESTRICT,
     FOREIGN KEY (brand_id) REFERENCES Brand(id)
         ON DELETE RESTRICT,
-    FOREIGN KEY (style_id) REFERENCES style(id)
-        ON DELETE SET NULL,
+    FOREIGN KEY (style_id) REFERENCES Style(id)
+        ON DELETE SET NULL
 );
 
 CREATE TABLE Categroy (
