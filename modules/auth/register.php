@@ -66,7 +66,7 @@ $msg_type = '';
     
     //confirm-password
     if (empty(trim($filter['confirm-password']))) {
-        $errors['confirm-password'] = 'Mật khẩu không được để trống';
+        $errors['confirm-password']['required'] = 'Mật khẩu không được để trống';
     } else if(trim($filter['password']) !== trim($filter['confirm-password'])) {
             $errors['confirm-password']['like'] = 'Mật khẩu không trùng khớp';
     }
@@ -78,12 +78,15 @@ $msg_type = '';
     }else {
         $msg = 'Dữ liệu không hợp lệ, hãy kiểm tra lại!';
         $msg_type = 'danger';
+    
+        createSessionFlash('errors', $errors);
     }
 
+    $errorsArr = getSessionFlash('errors');
     
- }
+}
 
-// 
+
 //===================================
 ?>
 
@@ -111,7 +114,6 @@ $msg_type = '';
                     <div class="card" style="box-shadow: rgba(255, 255, 255, 0.31) 0px 5px 15px !important;">
                         <div class=" card-body py-4 px-md-3"
                             style="background-color:hsla(0, 2%, 12%, 1.00); color:white;">
-                            <?php getMsg($msg, $msg_type)?>
                             <h1 class="text-center">Đăng ký</h1>
                             <form method="POST" action="" enctype="multipart/form-data">
                                 <!-- Tên đăng nhập, email, phone, active-tocken, status-->
@@ -120,8 +122,8 @@ $msg_type = '';
                                         <label class="form-label" for="username">Tên đăng nhập</label>
                                         <input name='username' type="text" class="form-control form-control-lg"
                                             placeholder="Nhập tên">
-                                        <div class="error">
-                                            <?php echo !empty($errors['username']) ? $errors['username'] : false;?>lỗi
+                                        <div style="padding: 5px; font-style: italic; color: red;">
+                                            <?php echo !empty($errorsArr['username']) ? reset($errorsArr['username']) : '';?>
                                         </div>
                                     </div>
                                 </div>
@@ -132,13 +134,18 @@ $msg_type = '';
                                     <label class="form-label" for="email">Email</label>
                                     <input type="text" name="email" class="form-control form-control-lg"
                                         placeholder="Email">
+                                    <div style="padding: 5px; font-style: italic; color: red;">
+                                        <?php echo !empty($errorsArr['email']) ? reset($errorsArr['email']) : '';?>
+                                    </div>
 
                                     <!-- phone input -->
                                     <div data-mdb-input-init class="form-outline mb-3">
                                         <label class="form-label" for="phone">Số điện thoại</label>
                                         <input name="phone" type="text" id="phone" class="form-control form-control-lg"
                                             placeholder="Phone">
-
+                                        <div style="padding: 5px; font-style: italic; color: red;">
+                                            <?php echo !empty($errorsArr['phone']) ? reset($errorsArr['phone']) : '';?>
+                                        </div>
                                     </div>
 
                                     <!-- Password input -->
@@ -146,7 +153,9 @@ $msg_type = '';
                                         <label class="form-label" for="password">Mật khẩu</label>
                                         <input name="password" type="password" id="password"
                                             class="form-control form-control-lg" placeholder="Mật khẩu">
-
+                                        <div style="padding: 5px; font-style: italic; color: red;">
+                                            <?php echo !empty($errorsArr['password']) ? reset($errorsArr['password']) : '';?>
+                                        </div>
                                     </div>
 
                                     <!-- Password input -->
@@ -154,6 +163,9 @@ $msg_type = '';
                                         <label class="form-label" for="confirm-password">Xác nhận mật khẩu</label>
                                         <input name="confirm-password" type="password" id="confirm-password"
                                             class="form-control form-control-lg" placeholder="Xác nhật mật khẩu">
+                                        <div style="padding: 5px; font-style: italic; color: red;">
+                                            <?php echo !empty($errorsArr['confirm-password']) ? reset($errorsArr['confirm-password']) : '';?>
+                                        </div>
                                     </div>
 
                                     <!-- Submit button -->

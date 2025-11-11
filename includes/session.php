@@ -48,7 +48,6 @@ function removeSession($key)
 function createSessionFlash($key, $value)
 {
     $key = $key . '|FLASH|';
-
     $rel = setSession($key, $value);
     return $rel;
 }
@@ -56,11 +55,10 @@ function createSessionFlash($key, $value)
 //lay session flash
 function getSessionFlash($key)
 {
-    $key = $key . '|FLASH|';
-
-    $rel = getSession($key);
-
-    removeSession($rel);
-
+    $flashKey = $key . '|FLASH|';
+    $rel = getSession($flashKey);
+    if ($rel !== false) { // Chỉ xóa session nếu nó tồn tại
+         removeSession($flashKey);
+    }
     return $rel;
 }
