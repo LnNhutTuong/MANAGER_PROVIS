@@ -79,9 +79,11 @@ $msg_type = '';
         $msg = 'Dữ liệu không hợp lệ, hãy kiểm tra lại!';
         $msg_type = 'danger';
     
+        createSessionFlash('oldData', $filter);
         createSessionFlash('errors', $errors);
     }
 
+    $oldData = getSessionFlash('oldData');
     $errorsArr = getSessionFlash('errors');
     
 }
@@ -116,17 +118,20 @@ $msg_type = '';
                             style="background-color:hsla(0, 2%, 12%, 1.00); color:white;">
                             <h1 class="text-center">Đăng ký</h1>
                             <form method="POST" action="" enctype="multipart/form-data">
+
+
                                 <!-- Tên đăng nhập, email, phone, active-tocken, status-->
+
+                                <!-- Username -->
                                 <div data-mdb-input-init class="form-outline mb-3">
-                                    <div data-mdb-input-init class="form-outline">
-                                        <label class="form-label" for="username">Tên đăng nhập</label>
-                                        <input name='username' type="text" class="form-control form-control-lg"
-                                            placeholder="Nhập tên">
-                                        <div style="padding: 5px; font-style: italic; color: red;">
-                                            <?php echo !empty($errorsArr['username']) ? reset($errorsArr['username']) : '';?>
-                                        </div>
+                                    <label class="form-label" for="username">Tên đăng nhập</label>
+                                    <input name='username' type="text" class="form-control form-control-lg"
+                                        placeholder="Nhập tên">
+                                    <div style="padding: 5px; font-style: italic; color: red;">
+                                        <?php echo !empty($errorsArr['username']) ? reset($errorsArr['username']) : '';?>
                                     </div>
                                 </div>
+
 
 
                                 <!-- Email input -->
