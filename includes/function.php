@@ -54,12 +54,11 @@ function sendMail($emailTo, $subject, $content)
         $mail->Subject = $subject;
         $mail->Body    = $content;
 
-        return $mail->send();
+        return $mail->send(); //gửi mail
     } catch (Exception $e) {
         echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
-    }
+    }   
 }
-
 
 //is POST?
 function isPost()
@@ -83,6 +82,7 @@ function isGet()
 function filterData($method = '')
 {
     $filterArray = [];
+    
     if (empty($method)) {
         if (isGet()) {
             if (!empty($_GET)) {
@@ -142,7 +142,7 @@ function filterData($method = '')
 //validate email
 function validateEmail($email)
 {
-    // $checkEmail = [];
+    // $checkEmail = [];__
     if (!empty($email)) {
         $checkEmail = filter_var($email, FILTER_VALIDATE_EMAIL);
     }
@@ -151,12 +151,12 @@ function validateEmail($email)
 
 //validate int
 function validateInt($number)
-{ {
-        if (!empty($number)) {
-            $checkNumber = filter_var($number, FILTER_VALIDATE_INT);
-        }
-        return $checkNumber;
+{ 
+    if (!empty($number)) {
+        $checkNumber = filter_var($number, FILTER_VALIDATE_INT);
     }
+    return $checkNumber;
+    
 }
 
 //validate phone

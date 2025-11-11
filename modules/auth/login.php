@@ -121,7 +121,7 @@ $msg_type = '';
 
                                 <!-- Forgot password -->
                                 <div class="forgot-container mt-3">
-                                    <p class="mb-0">Bạn quên mật khẩu? <a
+                                    <p class="mb-0">Quên mật khẩu? <a
                                             href="<?php echo _HOST_URL; ?>?module=auth&action=forgot"
                                             class="text-light-50 fw-bold">Lấy lại mật khẩu</a>
                                     </p>
@@ -134,7 +134,7 @@ $msg_type = '';
                                 </div>
 
                                 <div class="register-container mt-3 text-center">
-                                    <p class="mb-0">Bạn chưa có tài khoản? <a
+                                    <p class="mb-0">Chưa có tài khoản? <a
                                             href="<?php echo _HOST_URL; ?>?module=auth&action=register"
                                             class="text-light-50 fw-bold">Đăng ký </a>
                                     </p>

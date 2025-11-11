@@ -5,9 +5,9 @@ USE MANAGER_PROVIS;
 CREATE TABLE Users (
     id INT AUTO_INCREMENT PRIMARY KEY ,
     username VARCHAR(200) NOT NULL,
-    password VARCHAR(200) NOT NULL,
     email VARCHAR(100) NOT NULL UNIQUE,
     phone VARCHAR(20),
+    password VARCHAR(200) NOT NULL,
     address TEXT,
     forget_token VARCHAR(500),
     active_token VARCHAR(500),

@@ -33,13 +33,13 @@ layout('header-auth');
                 </div>
 
                 <div class="form-outline form-white mb-3">
-                    <label class="form-label" for="typePasswordX">Mật khẩu cũ</label>
+                    <label class="form-label" for="typePasswordX">Mật khẩu mới</label>
                     <input type="password" id="typePasswordX" class="form-control form-control-lg" />
                 </div>
 
                 <!-- Xac nhan mat khau -->
                 <div class="form-outline form-white mb-3">
-                    <label class="form-label" for="typePasswordX">Mật khẩu mới</label>
+                    <label class="form-label" for="typePasswordX">Nhập lại mật khẩu mới</label>
                     <input type="password" id="typePasswordX" class="form-control form-control-lg" />
                 </div>
 
