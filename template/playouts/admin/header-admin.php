@@ -51,18 +51,18 @@ if (!defined('_ximen')) {
                                 <li><a class="dropdown-item" href="<?php echo _HOST_URL; ?>?module=home&action=product">More</a></li>
                             </ul>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="<?php echo _HOST_URL; ?>?module=auth&action=login">Đăng nhập</a>
-                        </li>
+
                     </ul>
-                    <a class="navbar-brand me-5" href="<?php echo _HOST_URL; ?>">
+                    <a class="navbar-brand " href="<?php echo _HOST_URL; ?>">
                         <h1>PROVIS</h1>
                     </a>
 
-                    <form class=" d-flex ms-5" role="search">
-                        <input class="form-control ms-5 me-2" type="search" placeholder="Search" aria-label="Search" style="width: 470px;" />
-                        <button class="btn btn-outline-success" type="submit">Search</button>
+                    <form class=" d-flex " role="search">
+                        <input class="form-control ms-5 me-2" type="search" placeholder="Tìm kiếm" aria-label="Search" style="width: 448px;" />
                     </form>
+
+                    <a class="nav-link" href="<?php echo _HOST_URL; ?>?module=auth&action=login">Đăng nhập</a>
+
                 </div>
 
             </div>

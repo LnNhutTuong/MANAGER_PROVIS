@@ -4,318 +4,90 @@ if (!defined('_ximen')) {
     die('---TRUY CAP KHONG HOP LE---');
 }
 
-$data = selectAll("SELECT * FROM products");
-$products = $data;
 
-$chunk = array_chunk($products, 3);
-layout('header-home');
+layout('/home/header-home');
 ?>
 
 
-<link rel="stylesheet" href="<?php echo _HOST_URL_TEMPLATE; ?>/style/css/home/index.css">
+<link rel="stylesheet" href="<?php echo _HOST_URL_TEMPLATE; ?>/style/css/home/about.css">
 
-<div class="body-container">
-    <div id="thumbCarousel"
-        class="carousel slide hero-section"
-        data-bs-ride="carousel"
-        data-bs-interval="4000"
-        data-bs-pause="false">
+<div class="body-container container">
+    <div class="introduce-container  mt-4 mb-4 ">
+        <div class="text-center">
+            <h2>GIỚI THIỆU</h2>
+        </div>
+        <div class="row">
+            <div class="introduce-full text-justify col-lg-9 ms-3">
+                <span> Được thành lập năm 2025, là sự kết hợp của những thành viên đều có chung niềm đam mê thời trang
+                    và mong muốn mang lại những giá trị bền vững cho cộng đồng. Chúng tôi tin rằng thời trang không chỉ là
+                    về vẻ bề ngoài, mà còn là cách chúng ta tôn trọng chính bản thân mình và cả người khác thông qua những
+                    lựa chọn trang phục hàng ngày.
+                </span>
+                <p>
+                    Khi đến <span style="font-weight: bold;">PROVIS</span>, chúng tôi cam kết mang đến cho bạn những trải nghiệm mua sắm tuyệt vời nhất với sự đa dạng về
+                    sản phẩm, từ những thiết kế thời trang hiện đại đến những món đồ cổ điển vượt thời gian. Chúng tôi luôn cập nhật
+                    xu hướng mới nhất và chắc chắc sẽ giúp bạn xây dựng một tủ đồ đa dạng và thời trang hơn bao giờ hết. Đồng thời,
+                    chúng tôi cũng chú trọng đến chất lượng sản phẩm, đảm bảo rằng mỗi món đồ bạn chọn từ <span style="font-weight: bold;">PROVIS</span> đều được làm từ những
+                    chất liệu tốt nhất. Tuy là cửa hàng bán đồ thời trang đã qua sử dụng nhưng chúng tôi luôn kiểm tra kỹ lưỡng từng
+                    sản phẩm để đảm bảo rằng bạn nhận được giá trị tốt nhất cho số tiền bạn bỏ ra.
+                </p>
+            </div>
+            <div class="introduce-member col-lg-3">
+                <h4 style="margin-left: 26px;">Thành viên</h4>
+                <ul style="list-style-type: none;">
+                    <li>Nguyễn Văn A - 20120001</li>
+                    <li>Trần Thị B - 20120002</li>
+                    <li>Phạm Văn C - 20120003</li>
+                    <li>Lê Thị D - 20120004</li>
+                    <li>Lê Thị D - 20120004</li>
+                    <li>Lê Thị D - 20120004</li>
 
-        <div class="carousel-inner">
-            <div class="carousel-item active">
-                <img src="<?php echo _HOST_URL_TEMPLATE; ?>/assets/image/thumb/thumb1s.svg" class="img-thumbnail d-block w-100" alt="...">
-            </div>
-            <div class="carousel-item">
-                <img src="<?php echo _HOST_URL_TEMPLATE; ?>/assets/image/thumb/thumb2.svg" class="img-thumbnail d-block w-100" alt="...">
-            </div>
-            <div class="carousel-item">
-                <img src="<?php echo _HOST_URL_TEMPLATE; ?>/assets/image/thumb/thumb3.svg" class="img-thumbnail d-block w-100" alt="...">
-            </div>
-            <div class="carousel-item">
-                <img src="<?php echo _HOST_URL_TEMPLATE; ?>/assets/image/thumb/thumb4.svg" class="img-thumbnail d-block w-100" alt="...">
+                </ul>
             </div>
         </div>
+
+
     </div>
 
-    <hr>
-
-    <div class="newProduct-container text-center mb-4 section">
-        <div class="title mb-2">
-            <h2>Sản phẩm mới</h2>
-        </div>
-
-
-        <div id="productCarousel" class="carousel slide" data-bs-ride="carousel">
-            <div class="carousel-inner">
-                <?php
-                $count = 0;
-                foreach ($products as $product):
-                    // Mở slide mới khi bắt đầu nhóm 3 sản phẩm
-                    if ($count % 3 == 0):
-                ?>
-                        <div class="carousel-item <?php echo $count == 0 ? 'active' : ''; ?>">
-                            <div class="row justify-content-center">
-                            <?php endif; ?>
-
-                            <div class="col-3 col-product card mb-4 ms-3">
-
-                                <div class="product-card card-body d-flex flex-column">
-
-                                    <div class="img-product">
-                                        <a href="">
-                                            <img src="<?php echo htmlspecialchars($product['thumb']) ?>" class="card-img-top mb-2" alt="<?php echo htmlspecialchars($product['name']); ?>">
-                                        </a>
-                                    </div>
-
-                                    <div class="infor-product flex-grow-1">
-                                        <h3 class="product-name card-title"><?php echo htmlspecialchars($product['name']) ?></h3>
-                                    </div>
-                                    <div class="priceAsize-product mt-auto">
-                                        <div class="product-name card-text">Color: <?php echo htmlspecialchars($product['color']) ?></div>
-                                        <div class="product-description card-text mb-1">
-                                            Size: <?php echo htmlspecialchars($product['size']) ?>
-                                        </div>
-                                        <div class="product-price fw-bold text-danger">
-                                            <?php echo htmlspecialchars($product['price']) ?> VNĐ
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <?php
-                            $count++;
-                            if ($count % 3 == 0 || $count == count($products)):
-                            ?>
-                            </div>
+    <div class="slogan-container mb-4">
+        <div class="row slogan-content text-center d-flex align-items-center">
+            <div class="col-lg-4 name d-flex align-items-center" style="writing-mode: vertical-lr; transform: rotate(180deg);">
+                <h1>PROVIS</h1>
+            </div>
+            <div class="col-lg-4 boxIMG">
+                <div
+                    class="carousel slide"
+                    data-bs-ride="carousel"
+                    data-bs-interval="4000"
+                    data-bs-pause="false">
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <img src="<?php echo _HOST_URL_TEMPLATE; ?>/assets/image/about/canh.jpg" alt="">
                         </div>
-                    <?php endif; ?>
-                <?php endforeach; ?>
-            </div>
-
-            <button class="carousel-control-prev" type="button" data-bs-target="#productCarousel" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" style="filter:invert(1);" aria-hidden="true"></span>
-                <span class="visually-hidden">Trước</span>
-            </button>
-
-            <button class="carousel-control-next" type="button" data-bs-target="#productCarousel" data-bs-slide="next">
-                <span class="carousel-control-next-icon" style="filter:invert(1);" aria-hidden="true"></span>
-                <span class="visually-hidden">Sau</span>
-            </button>
-        </div>
-
-    </div>
-
-    <hr>
-
-    <div class="newProduct-container text-center mb-4 section">
-        <div class="title mb-2">
-            <h2>Sản phẩm mới</h2>
-        </div>
-
-
-        <div id="productCarousel" class="carousel slide" data-bs-ride="carousel">
-            <div class="carousel-inner">
-                <?php
-                $count = 0;
-                foreach ($products as $product):
-                    // Mở slide mới khi bắt đầu nhóm 3 sản phẩm
-                    if ($count % 3 == 0):
-                ?>
-                        <div class="carousel-item <?php echo $count == 0 ? 'active' : ''; ?>">
-                            <div class="row justify-content-center">
-                            <?php endif; ?>
-
-                            <div class="col-3 col-product card mb-4 ms-3">
-
-                                <div class="product-card card-body d-flex flex-column">
-
-                                    <div class="img-product">
-                                        <a href="">
-                                            <img src="<?php echo htmlspecialchars($product['thumb']) ?>" class="card-img-top mb-2" alt="<?php echo htmlspecialchars($product['name']); ?>">
-                                        </a>
-                                    </div>
-
-                                    <div class="infor-product flex-grow-1">
-                                        <h3 class="product-name card-title"><?php echo htmlspecialchars($product['name']) ?></h3>
-                                    </div>
-                                    <div class="priceAsize-product mt-auto">
-                                        <div class="product-name card-text">Color: <?php echo htmlspecialchars($product['color']) ?></div>
-                                        <div class="product-description card-text mb-1">
-                                            Size: <?php echo htmlspecialchars($product['size']) ?>
-                                        </div>
-                                        <div class="product-price fw-bold text-danger">
-                                            <?php echo htmlspecialchars($product['price']) ?> VNĐ
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <?php
-                            $count++;
-                            if ($count % 3 == 0 || $count == count($products)):
-                            ?>
-                            </div>
+                        <div class="carousel-item">
+                            <img src="<?php echo _HOST_URL_TEMPLATE; ?>/assets/image/about/canh2.jpg" alt="">
                         </div>
-                    <?php endif; ?>
-                <?php endforeach; ?>
-            </div>
-
-            <button class="carousel-control-prev" type="button" data-bs-target="#productCarousel" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" style="filter:invert(1);" aria-hidden="true"></span>
-                <span class="visually-hidden">Trước</span>
-            </button>
-
-            <button class="carousel-control-next" type="button" data-bs-target="#productCarousel" data-bs-slide="next">
-                <span class="carousel-control-next-icon" style="filter:invert(1);" aria-hidden="true"></span>
-                <span class="visually-hidden">Sau</span>
-            </button>
-        </div>
-
-    </div>
-
-    <hr>
-
-    <div class="newProduct-container text-center mb-4 section">
-        <div class="title mb-2">
-            <h2>Sản phẩm mới</h2>
-        </div>
-
-
-        <div id="productCarousel" class="carousel slide" data-bs-ride="carousel">
-            <div class="carousel-inner">
-                <?php
-                $count = 0;
-                foreach ($products as $product):
-                    // Mở slide mới khi bắt đầu nhóm 3 sản phẩm
-                    if ($count % 3 == 0):
-                ?>
-                        <div class="carousel-item <?php echo $count == 0 ? 'active' : ''; ?>">
-                            <div class="row justify-content-center">
-                            <?php endif; ?>
-
-                            <div class="col-3 col-product card mb-4 ms-3">
-
-                                <div class="product-card card-body d-flex flex-column">
-
-                                    <div class="img-product">
-                                        <a href="">
-                                            <img src="<?php echo htmlspecialchars($product['thumb']) ?>" class="card-img-top mb-2" alt="<?php echo htmlspecialchars($product['name']); ?>">
-                                        </a>
-                                    </div>
-
-                                    <div class="infor-product flex-grow-1">
-                                        <h3 class="product-name card-title"><?php echo htmlspecialchars($product['name']) ?></h3>
-                                    </div>
-                                    <div class="priceAsize-product mt-auto">
-                                        <div class="product-name card-text">Color: <?php echo htmlspecialchars($product['color']) ?></div>
-                                        <div class="product-description card-text mb-1">
-                                            Size: <?php echo htmlspecialchars($product['size']) ?>
-                                        </div>
-                                        <div class="product-price fw-bold text-danger">
-                                            <?php echo htmlspecialchars($product['price']) ?> VNĐ
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <?php
-                            $count++;
-                            if ($count % 3 == 0 || $count == count($products)):
-                            ?>
-                            </div>
+                        <div class="carousel-item">
+                            <img src="<?php echo _HOST_URL_TEMPLATE; ?>/assets/image/about/canh3.jpg" alt="">
                         </div>
-                    <?php endif; ?>
-                <?php endforeach; ?>
-            </div>
-
-            <button class="carousel-control-prev" type="button" data-bs-target="#productCarousel" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" style="filter:invert(1);" aria-hidden="true"></span>
-                <span class="visually-hidden">Trước</span>
-            </button>
-
-            <button class="carousel-control-next" type="button" data-bs-target="#productCarousel" data-bs-slide="next">
-                <span class="carousel-control-next-icon" style="filter:invert(1);" aria-hidden="true"></span>
-                <span class="visually-hidden">Sau</span>
-            </button>
-        </div>
-
-    </div>
-
-    <hr>
-
-    <div class="newProduct-container text-center mb-4 section">
-        <div class="title mb-2">
-            <h2>Sản phẩm mới</h2>
-        </div>
-
-        <hr class="w-50  my-4">
-
-        <div id="productCarousel" class="carousel slide" data-bs-ride="carousel">
-            <div class="carousel-inner">
-                <?php
-                $count = 0;
-                foreach ($products as $product):
-                    // Mở slide mới khi bắt đầu nhóm 3 sản phẩm
-                    if ($count % 3 == 0):
-                ?>
-                        <div class="carousel-item <?php echo $count == 0 ? 'active' : ''; ?>">
-                            <div class="row justify-content-center">
-                            <?php endif; ?>
-
-                            <div class="col-3 col-product card mb-4 ms-3">
-
-                                <div class="product-card card-body d-flex flex-column">
-
-                                    <div class="img-product">
-                                        <a href="">
-                                            <img src="<?php echo htmlspecialchars($product['thumb']) ?>" class="card-img-top mb-2" alt="<?php echo htmlspecialchars($product['name']); ?>">
-                                        </a>
-                                    </div>
-
-                                    <div class="infor-product flex-grow-1">
-                                        <h3 class="product-name card-title"><?php echo htmlspecialchars($product['name']) ?></h3>
-                                    </div>
-                                    <div class="priceAsize-product mt-auto">
-                                        <div class="product-name card-text">Color: <?php echo htmlspecialchars($product['color']) ?></div>
-                                        <div class="product-description card-text mb-1">
-                                            Size: <?php echo htmlspecialchars($product['size']) ?>
-                                        </div>
-                                        <div class="product-price fw-bold text-danger">
-                                            <?php echo htmlspecialchars($product['price']) ?> VNĐ
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <?php
-                            $count++;
-                            if ($count % 3 == 0 || $count == count($products)):
-                            ?>
-                            </div>
+                        <div class="carousel-item">
+                            <img src="<?php echo _HOST_URL_TEMPLATE; ?>/assets/image/about/canh4.jpg" alt="">
                         </div>
-                    <?php endif; ?>
-                <?php endforeach; ?>
+                    </div>
+                </div>
             </div>
-
-            <button class="carousel-control-prev" type="button" data-bs-target="#productCarousel" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" style="filter:invert(1);" aria-hidden="true"></span>
-                <span class="visually-hidden">Trước</span>
-            </button>
-
-            <button class="carousel-control-next" type="button" data-bs-target="#productCarousel" data-bs-slide="next">
-                <span class="carousel-control-next-icon" style="filter:invert(1);" aria-hidden="true"></span>
-                <span class="visually-hidden">Sau</span>
-            </button>
+            <div class="col-lg-4 name  d-flex align-items-center" style="writing-mode: vertical-lr;">
+                <h1>PROVIS</h1>
+            </div>
         </div>
-
     </div>
-
 </div>
 
 
 <script>
 
 </script>
+
 <?php
 layout('footer');
 ?>

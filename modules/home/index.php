@@ -10,7 +10,7 @@ $products = $data;
 
 
 $chunk = array_chunk($products, 3);
-layout('header-home');
+layout('/home/header-home');
 ?>
 
 
@@ -113,7 +113,8 @@ layout('header-home');
                                             <?php echo htmlspecialchars($product['size']) ?>
                                         </div>
                                         <div class="product-price fw-bold text-danger">
-                                            <?php echo number_format($product['price'], 0, ',', '.'); ?> VNĐ </div>
+                                            <?php echo number_format($product['price'], 0, ',', '.'); ?> VNĐ
+                                        </div>
                                     </div>
 
                                 </div>

@@ -19,70 +19,48 @@ layout('header-auth');
 $msg = '';
 $msg_type = '';
 
-//==============Kiem tra===============
-// if (isPost()) {
-//     $filter = filterData();
 
-//     $errors = [];
+// session_start(); 
 
-//     //username
-//     if (empty(trim($filter['username']))) {
-//         $errors['username']['required'] = 'Họ tên không được để trống';
-//     } else {
-//         if (strlen(trim(($filter['username']))) < 5) {
-//             $errors['username']['required'] = 'Họ tên phải dài hơn 6 ký tự';
-//         }
-//     }
+// $allUser = selectAll("SELECT * FROM users");
 
-//     //email
-//     if (empty(trim($filter['email']))) {
-//         $errors['email']['required'] = 'Email không được để trống';
-//     } else {
-//         if (!validateEmail(trim($filter['email']))) {
-//             $errors['email']['required'] = 'Email không đúng định dạng';
-//         } else {
-//             $email = $filter['email'];
+// echo '<pre>';
+// print_r($allUser);
+// echo '</pre>';
 
-//             $check = getRows("SELECT * FROM user WHERE email = '$email'");
-
-//             var_dump($check);
-//         }
-//     }
-
-//     //password
-//     if (empty(trim($filter['password']))) {
-//         $errors['password']['required'] = 'Mật khẩu không được để trống';
-//     } else {
-//         if (strlen(trim($filter['password'])) < 6) {
-//             $errors['password']['required'] = 'Mật khẩu phải dài hơn 6 ký tự';
-
-//             if (trim($filter['password']) !== trim(($filter['confirm-password']))) {
-//                 $errors['password']['required'] = 'Mật khẩu nhập lại không đúng ';
-//             }
-//         }
-//     }
+$hashedPassword1 = password_hash('123456', PASSWORD_DEFAULT);
+$hashedPassword2 = password_hash('123321', PASSWORD_DEFAULT);
 
 
-//     if (empty($errors)) {
-//         $msg = 'Đăng ký thành công';
-//         $msg_type = 'green';
-//     } else {
-//         $eUser = $errors['username']['required'];
-//         if ($eUser) {
-//             $msg = 'Không được bỏ trống, từ 5 ký tự.';
-//         }
+if (isPost()) { // Kiểm tra khi người dùng bấm nút submit
+    $filter = filterData();
+    $username = $filter['username'];
+    $password = $filter['password'];
 
-//         $eUser = $errors['email']['required'];
-//         if ($eUser) {
-//             $msg = 'Không được bỏ trống, chú ý cấu trúc Email.';
-//         }
+    $user = selectOne("SELECT * FROM users WHERE username = ?", [$username]);
 
-//         $msg_type = 'red';
-//     }
-// }
+    // echo '<pre>';
+    // print_r($user);
+    // echo '</pre>';
 
-// 
-//===================================
+    if (!empty($user)) {
+        if (password_verify($password, $hashedPassword2)) {
+
+            $_SESSION['user_name'] = $user['username'];
+            $_SESSION['group_id'] = $user['group_id'];
+
+            header('Location: ' . _HOST_URL);
+            exit();
+        } else {
+            $msg = 'Sai tên đăng nhập hoặc mật khẩu.';
+            $msg_type = 'red';
+        }
+    } else {
+        $msg = 'Sai tên đăng nhập hoặc mật khẩu.';
+        $msg_type = 'red';
+    }
+}
+
 ?>
 
 
@@ -138,7 +116,7 @@ $msg_type = '';
                                 <!-- Submit button -->
                                 <div class="text-center ">
                                     <button type="submit" class="btn btn-dark mt-3" style="width: 120px; height: 43px;">
-                                        Đăng ký
+                                        Đăng nhập
                                     </button>
                                 </div>
 

@@ -17,10 +17,12 @@ $products_per_page = 9;
 
 //Vì cái trang đầu tiên là 0, nên phải trừ 
 //1 để nó biến thành trang 0 xong rồi skip trang đó
+
 $nonePage = ($page - 1) * $products_per_page;
 
 // Lấy tất cả product
-$total_products = getRows("SELECT COUNT(ID) FROM products");
+$count = selectOne("SELECT COUNT(ID) as total FROM products");
+$total_products = $count['total'];
 
 // -> tính được số trang (ceil làm tròn ko phẩy)
 $total_pages = ceil($total_products / $products_per_page);
@@ -30,6 +32,7 @@ $products = selectAll("SELECT * FROM products LIMIT $products_per_page OFFSET $n
 $categories = selectAll("SELECT * FROM category");
 $brands = selectAll("SELECT * FROM brand");
 $styles = selectAll("SELECT * FROM style");
+
 
 // echo '<pre>';
 // print_r($styles);
@@ -43,7 +46,7 @@ foreach ($brands as $brand) {
 }
 
 
-layout('header-home');
+layout('/home/header-home');
 ?>
 
 
@@ -132,6 +135,13 @@ layout('header-home');
                     <div class="col-6 col-md-4 col-lg-4">
                         <div class="card h-100 shadow-sm text-center">
 
+                            <?php
+                            // echo "<pre>";
+                            // print_r($product);
+                            // echo "</pre>";
+                            $brandName = selectOne("SELECT name FROM brand WHERE ID ='" . $product["brand_id"] . "'");
+                            ?>
+
                             <div class="img-product">
                                 <a href="#">
                                     <img src="<?php echo htmlspecialchars($product['thumb']); ?>"
@@ -146,9 +156,23 @@ layout('header-home');
                                 </h3>
 
                                 <div class="flex-grow-1">
-                                    <div class="card-text mb-1">Color: <?php echo htmlspecialchars($product['color']); ?></div>
-                                    <div class="card-text mb-1">Size: <?php echo htmlspecialchars($product['size']); ?></div>
+                                    <?php
+                                    if (empty($brandName['name'])) {
+                                        $brandName['name'] = "Unknown";
+                                    } else {
+                                        $brandName['name'] = htmlspecialchars($brandName['name']);
+                                    }
+                                    ?>
                                 </div>
+                                <div class="product-name card-text mt-auto">
+                                    Brand: <?php
+                                            echo "<span class='brandName' style='font-weight: bold;'>"
+                                                . $brandName['name'] .
+                                                "</span class='brandName'>"
+                                            ?>
+                                </div>
+                                <div class="card-text mb-1 mt-auto">Size: <?php echo htmlspecialchars($product['size']); ?></div>
+
 
                                 <div class="mt-auto fw-bold text-danger">
                                     <?php echo number_format($product['price'], 0, ',', '.'); ?> VNĐ
@@ -166,28 +190,31 @@ layout('header-home');
             $nextPage = $page + 1;
             ?>
 
-            <div class="pageination d-flex justify-content-center mt-4">
+            <div class="pagination d-flex justify-content-center mt-4">
                 <nav>
                     <ul class="pagination">
 
                         <!--không phải vì hàm for dễ hơn mà phải là bắt buộc dùng hàm for -->
 
-                        <li class="page-item"
-                            <?php
-                            if ($page <= 1) {
+                        <?php
+                        $isDisabled = ($page <= 1); // Đặt biến cho dễ đọc
+                        ?>
+
+                        <li class="page-item 
+                            <?php if ($page <= 1) {
                                 echo 'disabled';
                             }
-                            ?>>
-                            <a class=" page-link" href="<?php echo _HOST_URL; ?>?module=home&action=product&page=<?php echo $prevPage; ?>">Previous</a>
+                            ?>">
+                            <a class="page-link" href="<?php echo _HOST_URL; ?>?module=home&action=product&page=<?php echo $prevPage; ?>">
+                                Previous
+                            </a>
                         </li>
 
                         <?php for ($i = 0; $i < $total_pages; $i++):
                             $pageNumber = $i + 1;
-                            if ($page == $pageNumber) {
-                                continue;
-                            }
+                            $isActive = ($page == $pageNumber); // Kiểm tra trang hiện tại
                         ?>
-                            <li class="page-item">
+                            <li class="page-item <?php echo $isActive ? 'active' : ''; ?>">
                                 <a class="page-link"
                                     href="<?php echo _HOST_URL; ?>?module=home&action=product&page=<?php echo $pageNumber; ?>">
                                     <?php echo $pageNumber; ?>
