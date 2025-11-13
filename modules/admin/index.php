@@ -23,11 +23,21 @@ require_once './template/playouts/sidebar.php';
 <body>
     <!--begin::App Main-->
     <main class="app-main">
-        <?php require_once './template/playouts/breadcrumb.php'; ?>
         <!--begin::App Content-->
         <div class="app-content">
             <!--begin::Container-->
             <div class="container-fluid">
+                <div class="row mt-2">
+                    <div class="col-sm-6">
+                        <h3 class="mb-0">Dashboard</h3>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-end">
+                            <li class="breadcrumb-item"><a href="<?php _HOST_URL; ?>?module=admin&action=index">Home</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
+                        </ol>
+                    </div>
+                </div>
                 <!--begin::Row-->
                 <div class="row">
                     <!--begin::Col-->

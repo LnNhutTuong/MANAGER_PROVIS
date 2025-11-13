@@ -1,238 +1,259 @@
 <?php
 
 if (!defined('_ximen')) {
-    die('---TRUY CAP KHONG HOP LE---');
+    die('--- TRUY CẬP KHÔNG HỢP LỆ---');
 }
 
-// Phân trang san pham (rất khó tốn rất nhiều ngày chứ ko phải giờ nữa :")
+require_once './template/playouts/header.php';
+require_once './template/playouts/sidebar.php';
 
-//xài GET vì nó hiện URL, dễ hơn cho ng dùng
-$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 
-if ($page < 1) {
-    $page = 1;
+if (isset($_POST['submit_add_product'])) {
+
+    // lay data tu form
+    $name = $_POST['name'] ?? '';
+    $category_id = $_POST['category'] ?? null;
+    $brand_id = $_POST['brand'] ?? null;
+    $styles = $_POST['style'] ?? null;
+    $size = $_POST['size'] ?? '';
+    $color = $_POST['color'] ?? '';
+    $description = $_POST['description'] ?? '';
+    $price = $_POST['price'] ?? 0;
+    $timeCreated = date('Y-m-d H:i:s');
+
+    $thumb = handle_upload('thumb');
+    $img_back = handle_upload('img_back');
+    $img_left = handle_upload('img_left');
+    $img_right = handle_upload('img_right');
+    $img_zoom = handle_upload('img_zoom');
+
+    //Kiem tra
+    $errors = [];
+    if (empty($name)) {
+        $errors[] = "Tên sản phẩm không được để trống.";
+    }
+    if (is_null($category_id)) {
+        $errors[] = "Bạn phải chọn một Danh mục.";
+    }
+    if (is_null($brand_id)) {
+        $errors[] = "Bạn phải chọn một Thương hiệu.";
+    }
+    if (is_null($styles)) {
+        $errors[] = "Bạn phải chọn một Phong cách.";
+    }
+
+
+    // insert data vao database
+
+    if (empty($errors)) {
+        $productData = [
+            'name' => $name,
+            'brand_id' => $brand_id,
+            'category_id' => $category_id,
+            'size' => $size,
+            'color' => $color,
+            'description' => $description,
+            'price' => $price,
+            ' thumb' => $thumb,
+            'created_at' => $timeCreated
+        ];
+        $newProduct = insert('products', $productData);
+
+
+        if ($newProduct) {
+            if (!empty($styles)) {
+                foreach ($styles as $style_id) {
+                    $productStyleData = [
+                        'product_id' => $newProduct,
+                        'style_id' => $style_id
+                    ];
+
+                    insert('product_style', $productStyleData);
+                }
+            }
+
+            $imgData = [
+                'product_id' => $newProduct,
+                'img-back' => $img_back,
+                'img-left' => $img_left,
+                'img-right' => $img_right,
+                'img-zoom' => $img_zoom,
+            ];
+
+            insert('product_image', $imgData);
+
+            echo "<script>alert('Đã thêm thành công sản phẩm');</script>";
+        } else {
+            echo "<script>alert('Lỗi: Không thể thêm sản phẩm vào database.');</script>";
+        }
+    } else {
+
+        $error_message = implode("\\n", $errors);
+        echo "<script>alert('Chú ý:\\n$error_message');</script>";
+    }
 }
 
-$products_per_page = 9;
 
-//Vì cái trang đầu tiên là 0, nên phải trừ 
-//1 để nó biến thành trang 0 xong rồi skip trang đó
-
-$nonePage = ($page - 1) * $products_per_page;
-
-// Lấy tất cả product
-$count = selectOne("SELECT COUNT(ID) as total FROM products");
-$total_products = $count['total'];
-
-// -> tính được số trang (ceil làm tròn ko phẩy)
-$total_pages = ceil($total_products / $products_per_page);
-
-//
-$products = selectAll("SELECT * FROM products LIMIT $products_per_page OFFSET $nonePage");
 $categories = selectAll("SELECT * FROM category");
 $brands = selectAll("SELECT * FROM brand");
 $styles = selectAll("SELECT * FROM style");
 
-
-// echo '<pre>';
-// print_r($styles);
-// echo '</pre>';
-
-
-
-//Này làm bằng mảng vì nhiều hãng vl
-foreach ($brands as $brand) {
-    $nameBrand = selectOne("SELECT name FROM brand WHERE  id= '" . $brand['ID'] . "'");
-}
-
-
-layout('/home/header-home');
+// echo "<pre>";
+// print_r($categories);
+// echo "</pre>";
 ?>
 
 
-<link rel="stylesheet" href="<?php echo _HOST_URL_TEMPLATE; ?>/style/css/home/product.css">
 
-<div class="body-container container mt-4 mb-4">
-    <div class="row selling-product">
+<!DOCTYPE html>
+<html lang="en">
 
-        <div class="category-container col-lg-3">
-            <div class="card">
-                <div class="card-body mb-4 ">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thêm sản phẩm</title>
 
-                    <div class="category">
-                        <h6 class="fw-bold mb-2">Phân loại</h6>
-                        <?php
-                        foreach ($categories as $category):
-                        ?>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="category" id="<?php echo htmlspecialchars($category['ID']); ?>">
-                                <label class="form-check-label" for="<?php echo htmlspecialchars($category['ID']); ?>">
-                                    <?php echo htmlspecialchars($category['name']); ?>
-                                </label>
-                            </div>
-                        <?php
-                        endforeach;
-                        ?>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!--begin::App Main-->
+    <main class="app-main">
+        <!--begin::App Content-->
+        <div class="app-content">
+            <!--begin::Container-->
+            <div class="container-fluid">
+
+                <div class="row mt-2">
+                    <div class="col-sm-6">
+                        <h3 class="mb-0">Thêm sản phẩm</h3>
                     </div>
-
-                    <div class="brand">
-                        <h6 class="fw-bold mb-2">Thương hiệu</h6>
-                        <?php
-                        foreach ($brands as $brand):
-                        ?>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="brand" id="<?php echo htmlspecialchars($brand['ID']); ?>">
-                                <label class="form-check-label" for="<?php echo htmlspecialchars($brand['ID']); ?>">
-                                    <?php echo htmlspecialchars($brand['name']); ?>
-                                </label>
-                            </div>
-                        <?php
-                        endforeach;
-                        ?>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-end">
+                            <li class="breadcrumb-item"><a href="<?php _HOST_URL; ?>?module=admin&action=index">Home</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Thêm sản phẩm</li>
+                        </ol>
                     </div>
-
-                    <div class="style">
-                        <h6 class="fw-bold mb-2">Phong cách</h6>
-                        <?php
-                        foreach ($styles as $style):
-                        ?>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="style" id="<?php echo htmlspecialchars($style['ID']); ?>">
-                                <label class="form-check-label" for="<?php echo htmlspecialchars($style['ID']); ?>">
-                                    <?php echo htmlspecialchars($style['name']); ?>
-                                </label>
-                            </div>
-                        <?php
-                        endforeach;
-                        ?>
-                    </div>
-
-
-
                 </div>
-            </div>
 
+                <div class="add-product">
+                    <form method="POST" enctype="multipart/form-data">
 
-        </div>
+                        <div class="name mb-3">
+                            <label for="name">Tên sản phẩm </label>
+                            <input type="text" class="form-control" id="name" name="name">
+                        </div>
 
-        <div class="product-container col-lg-9">
-            <!-- <div class="row justify-content-center g-4">
-                <?php foreach ($products as $product): ?>
-                    <div class="col-6 col-md-4 col-lg-4">
-                        <div class="card h-100 shadow-sm text-center">
+                        <label for="category" class="mb-3">Danh mục</label>
+                        <div class="category mb-3">
+                            <div class="row row-cols-2 row-cols-lg-6 g-2 g-lg-3 border rounded bg-white h-auto">
+                                <?php
+                                foreach ($categories as $category):
+                                ?>
 
-                            <?php
+                                    <div class="col text-center mb-3">
+                                        <input type="radio" class="btn-check" name="category" id="cat-<?php echo htmlspecialchars($category['ID']) ?>" autocomplete="off" value="<?php echo htmlspecialchars($category['ID']) ?>">
+                                        <label class="btn btn-outline-primary w-75 " for="cat-<?php echo htmlspecialchars($category['ID']) ?>"><?php echo htmlspecialchars($category['name']) ?></label>
+                                    </div>
 
-                            $brandName = selectOne("SELECT name FROM brand WHERE ID ='" . $product["brand_id"] . "'");
-                            ?>
+                                <?php
+                                endforeach;
+                                ?>
 
-                            <div class="img-product">
-                                <a href="<?php echo _HOST_URL; ?>?module=customers&action=infor-product&id=<?php echo $product['ID']; ?>">
-                                    <img src="<?php echo htmlspecialchars($product['thumb']); ?>"
-                                        class="card-img-top mb-2"
-                                        alt="<?php echo htmlspecialchars($product['name']); ?>">
-                                </a>
-                            </div>
-
-                            <div class="card-body d-flex flex-column">
-                                <h3 class="product-name card-title mb-2">
-                                    <?php echo htmlspecialchars($product['name']); ?>
-                                </h3>
-
-                                <div class="flex-grow-1">
-                                    <?php
-                                    if (empty($brandName['name'])) {
-                                        $brandName['name'] = "Unknown";
-                                    } else {
-                                        $brandName['name'] = htmlspecialchars($brandName['name']);
-                                    }
-                                    ?>
-                                </div>
-                                <div class="product-name card-text mt-auto">
-                                    Brand: <?php
-                                            echo "<span class='brandName' style='font-weight: bold;'>"
-                                                . $brandName['name'] .
-                                                "</span class='brandName'>"
-                                            ?>
-                                </div>
-                                <div class="card-text mb-1 mt-auto">Size: <?php echo htmlspecialchars($product['size']); ?></div>
-
-
-                                <div class="mt-auto fw-bold text-danger">
-                                    <?php echo number_format($product['price'], 0, ',', '.'); ?> VNĐ
-                                </div>
                             </div>
                         </div>
-                    </div>
 
-                <?php endforeach; ?>
-            </div> -->
+                        <label for="brand" class="mb-3">Thương hiệu</label>
+                        <div class="brand mb-3">
+                            <div class="row row-cols-2 row-cols-lg-6 g-2 g-lg-3 border rounded bg-white overflow-y-auto"
+                                style="max-height: 100px;">
+                                <?php foreach ($brands as $brand): ?>
+                                    <div class="col text-center">
+                                        <input type="radio" class="btn-check" name="brand" id="bra-<?php echo htmlspecialchars($brand['ID']) ?>" autocomplete="off" value="<?php echo htmlspecialchars($brand['ID']) ?>">
+                                        <label class="btn btn-outline-primary w-75 " for="bra-<?php echo htmlspecialchars($brand['ID']) ?>"><?php echo htmlspecialchars($brand['name']) ?></label>
+                                    </div>
+                                <?php endforeach; ?>
+                            </div>
+                        </div>
+
+                        <label for="style" class="mb-3">Phong cách</label>
+                        <div class="style mb-3">
+                            <div class="row row-cols-2 row-cols-lg-5 g-2 g-lg-3 border rounded bg-white overflow-y-auto"
+                                style="max-height: 100px;">
+                                <?php foreach ($styles as $style): ?>
+                                    <div class="col text-center">
+                                        <input type="checkbox" class="btn-check" name="style[]" id="<?php echo htmlspecialchars($style['ID']) ?>" autocomplete="off" value="<?php echo htmlspecialchars($style['ID']) ?>">
+                                        <label class="btn btn-outline-primary w-75 " for="<?php echo htmlspecialchars($style['ID']) ?>"><?php echo htmlspecialchars($style['name']) ?></label>
+                                    </div>
+                                <?php endforeach; ?>
+                            </div>
+                        </div>
+
+                        <div class="size mb-3">
+                            <label for="size">Kích thước</label>
+                            <input type="text" class="form-control" id="size" name="size" placeholder="Dài: Xcm, Rộng: Xcm...">
+                        </div>
+
+                        <div class="color mb-3">
+                            <label for="color">Màu sắc</label>
+                            <input type="text" class="form-control" id="color" name="color">
+                        </div>
+
+                        <div class="description mb-3">
+                            <label for="description">Mô tả sản phẩm</label>
+                            <textarea class="form-control" id="description" name="description" rows="5"></textarea>
+                        </div>
+
+                        <div class="price mb-3">
+                            <label for="price">Giá tiền</label>
+                            <input type="number" class="form-control" id="price" name="price">
+                        </div>
 
 
-            <!-- <?php
-                    $prevPage = $page - 1;
-                    $nextPage = $page + 1;
-                    ?>
+                        <label for="thumb">Hình ảnh</label>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">Ảnh đại diện (thumb)</span>
+                            <input type="file" class="form-control" name="thumb">
+                        </div>
 
-            <div class="pagination d-flex justify-content-center mt-4">
-                <nav>
-                    <ul class="pagination">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">Ảnh sau (back)</span>
+                            <input type="file" class="form-control" name="img_back">
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">Ảnh trái (left)</span>
+                            <input type="file" class="form-control" name="img_left">
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">Ảnh phải (right)</span>
+                            <input type="file" class="form-control" name="img_right">
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">Ảnh zoom</span>
+                            <input type="file" class="form-control" name="img_zoom">
+                        </div>
 
-                        <?php
-                        $isDisabled = ($page <= 1);
-                        ?>
-
-                        <li class="page-item 
-                            <?php if ($page <= 1) {
-                                echo 'disabled';
-                            }
-                            ?>">
-                            <a class="page-link" href="<?php echo _HOST_URL; ?>?module=home&action=product&page=<?php echo $prevPage; ?>">
-                                Previous
-                            </a>
-                        </li>
-
-                        <?php for ($i = 0; $i < $total_pages; $i++):
-                            $pageNumber = $i + 1;
-                            $isActive = ($page == $pageNumber);
-                        ?>
-                            <li class="page-item <?php echo $isActive ? 'active' : ''; ?>">
-                                <a class="page-link"
-                                    href="<?php echo _HOST_URL; ?>?module=home&action=product&page=<?php echo $pageNumber; ?>">
-                                    <?php echo $pageNumber; ?>
-                                </a>
-                            </li>
-                        <?php endfor; ?>
-
-                        <li class="page-item 
-                            <?php
-                            if ($page >= $total_pages) {
-                                echo 'disabled';
-                            }
-                            ?>">
-                            <a class="page-link" href="<?php echo _HOST_URL; ?>?module=home&action=product&page=<?php echo $nextPage; ?>">Next</a>
-                        </li>
-
-                    </ul>
-                </nav>
-            </div> -->
-
+                        <button type="submit" name="submit_add_product" class="btn btn-primary">Thêm sản phẩm</button>
+                    </form>
+                </div>
+            </div>
+            <!--end::Container-->
         </div>
+        <!--end::App Content-->
+    </main>
+    <!--end::App Main-->
 
 
-    </div>
 
+    <script>
 
+    </script>
 
-</div>
+</body>
 
-</div>
+</html>
 
-
-<script>
-
-</script>
 
 <?php
-layout('footer');
+require_once './template/playouts/footer.php';
 ?>

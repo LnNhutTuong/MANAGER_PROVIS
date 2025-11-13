@@ -199,6 +199,26 @@ function getMsg($msg, $type = 'success')
     echo '</div> ';
 }
 
-?>
+function handle_upload($file_key_name, $target_dir = "uploads/products/")
+{
+    if (!isset($_FILES[$file_key_name]) || $_FILES[$file_key_name]['error'] != 0) {
+        return ''; // Bỏ qua nếu không có file hoặc file bị lỗi
+    }
 
-<!-- <div style="">skibi</div> -->
+    // Tạo thư mục nếu chưa tồn tại
+    if (!file_exists($target_dir)) {
+        mkdir($target_dir, 0777, true);
+    }
+
+    // Tạo tên file duy nhất
+    $file_extension = pathinfo($_FILES[$file_key_name]['name'], PATHINFO_EXTENSION);
+    $new_file_name = time() . '_' . uniqid() . '.' . $file_extension;
+    $target_file = $target_dir . $new_file_name;
+
+    // Di chuyển file
+    if (move_uploaded_file($_FILES[$file_key_name]['tmp_name'], $target_file)) {
+        return $target_file; // Trả về đường dẫn để lưu vào DB
+    } else {
+        return ''; // Upload thất bại
+    }
+}
