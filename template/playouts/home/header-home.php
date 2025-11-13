@@ -49,7 +49,13 @@ if (!defined('_ximen')) {
                                     <li>
                                         <hr class="dropdown-divider">
                                     </li>
-                                    <li><a class="dropdown-item" href="<?php echo _HOST_URL; ?>?module=home&action=product">More</a></li>
+                                    <?php if (isset($_SESSION['group_id']) && $_SESSION['group_id'] == 0): ?>
+                                        <li><a class="dropdown-item" href="<?php echo _HOST_URL; ?>?module=home&action=product">More</a></li>
+                                        <li><a class="dropdown-item" href="<?php echo _HOST_URL; ?>?module=admin&action=add-product">Thêm sản phẩm</a></li>
+                                    <?php else: ?>
+                                        <li><a class="dropdown-item" href="<?php echo _HOST_URL; ?>?module=home&action=product">More</a></li>
+                                    <?php endif; ?>
+
                                 </ul>
                             </li>
 
@@ -123,6 +129,9 @@ if (!defined('_ximen')) {
                         <div class="loginBtn col-lg-1">
                             <a class="nav-link" href="<?= _HOST_URL ?>?module=auth&action=login">
                                 Đăng nhập
+                            </a>
+                            <a class="nav-link" href="<?= _HOST_URL ?>?module=auth&action=register">
+                                Đăng ký
                             </a>
                         </div>
                     <?php endif; ?>

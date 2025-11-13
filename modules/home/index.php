@@ -92,17 +92,24 @@ layout('/home/header-home');
                                     ?>
 
                                     <div class="img-product">
-                                        <a href="">
+                                        <a href="<?php echo _HOST_URL; ?>?module=customers&action=infor-product&id=<?php echo $product['ID']; ?>">
                                             <img src="<?php echo htmlspecialchars($product['thumb']) ?>" class="card-img-top mb-2" alt="<?php echo htmlspecialchars($product['name']); ?>">
                                         </a>
                                     </div>
 
                                     <div class="infor-product flex-grow-1">
-                                        <h3 class="product-name card-title"><?php echo htmlspecialchars($product['name']) ?></h3>
+                                        <h6 class="product-name card-title"><?php echo htmlspecialchars($product['name']) ?></h6>
                                     </div>
 
                                     <div class="priceAsize-product mt-auto">
                                         <div class="product-name card-text">
+                                            <?php
+                                            if (empty($brandName['name'])) {
+                                                $brandName['name'] = "Unknown";
+                                            } else {
+                                                $brandName['name'] = htmlspecialchars($brandName['name']);
+                                            }
+                                            ?>
                                             Brand: <?php
                                                     echo "<span class='brandName' style='font-weight: bold;'>"
                                                         . $brandName['name'] .
@@ -116,7 +123,6 @@ layout('/home/header-home');
                                             <?php echo number_format($product['price'], 0, ',', '.'); ?> VNĐ
                                         </div>
                                     </div>
-
                                 </div>
                             </div>
 

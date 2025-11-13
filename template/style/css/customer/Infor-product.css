@@ -1,0 +1,34 @@
+/* ==================================================== */
+/* .product-name {
+  font-size: 22px;
+} */
+
+.img-product {
+  width: fit-content;
+}
+
+.img-product img {
+  height: 519px;
+  width: fit-content;
+  border-radius: 5px;
+}
+
+/* MORE IMG */
+.moreimg img {
+  width: 100%;
+  height: 75px;
+  object-fit: cover;
+  cursor: pointer;
+  border: 3px solid transparent;
+  transition: border-color 0.2s;
+}
+
+.moreimg img:hover {
+  border-color: #ccc; /* Viền xám khi di chuột */
+}
+
+/* Đây là class "đang được click" */
+.moreimg img.active {
+  border-color: #007bff; /* Viền màu xanh (hoặc màu bạn muốn) */
+}
+/* ==================================================== */

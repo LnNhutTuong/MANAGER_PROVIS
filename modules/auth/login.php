@@ -44,7 +44,7 @@ if (isPost()) { // Kiểm tra khi người dùng bấm nút submit
     // echo '</pre>';
 
     if (!empty($user)) {
-        if (password_verify($password, $hashedPassword2)) {
+        if (password_verify($password, $hashedPassword1)) {
 
             $_SESSION['user_name'] = $user['username'];
             $_SESSION['group_id'] = $user['group_id'];

@@ -143,7 +143,7 @@ layout('/home/header-home');
                             ?>
 
                             <div class="img-product">
-                                <a href="#">
+                                <a href="<?php echo _HOST_URL; ?>?module=customers&action=infor-product&id=<?php echo $product['ID']; ?>">
                                     <img src="<?php echo htmlspecialchars($product['thumb']); ?>"
                                         class="card-img-top mb-2"
                                         alt="<?php echo htmlspecialchars($product['name']); ?>">

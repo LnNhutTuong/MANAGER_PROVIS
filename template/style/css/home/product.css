@@ -27,3 +27,49 @@ h6.fw-bold.mb-2 {
 .form-check {
   padding-left: 45px;
 }
+
+/* HOVER PRODUCT */
+
+.img-product {
+  position: relative;
+  overflow: hidden;
+  border-radius: 15px;
+}
+
+.img-product img {
+  width: 100%;
+  transition: transform 0.4s ease, filter 0.4s ease;
+}
+
+.img-product::after {
+  content: "Xem chi tiết";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-weight: 600;
+  font-size: 18px;
+  opacity: 0;
+  transition: opacity 0.4s;
+  text-shadow: 0 0 8px rgba(0, 0, 0, 0.7);
+}
+
+.img-product:hover img {
+  transform: scale(1.1);
+  filter: brightness(70%);
+}
+
+.img-product:hover::after {
+  opacity: 1;
+}
+
+/* ===== Card hiệu ứng ===== */
+.card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+}
