@@ -37,7 +37,6 @@ function selectOne($sql)
 function insert($table, $data)
 {
     global $conn;
-
     //lay key 
     $columns = implode(',', array_keys($data));
 
@@ -45,13 +44,27 @@ function insert($table, $data)
     $placeholders = implode(',', array_fill(0, count($data), "?"));
 
     $sql = "INSERT INTO $table ($columns) VALUES ($placeholders)";
-    $stm = $conn->prepare($sql);
+    $stm = $conn->prepare($sql); // SQL
     
     // Sử dụng PDO: truyền mảng giá trị vào execute()
     $is_success = $stm->execute(array_values($data));
 
     // Sử dụng PDO: lastInsertId() thay cho insert_id
     return $is_success ? $conn->lastInsertId() : false;
+
+    
+    // $keys = array_keys($data);
+    // $cot = implode(',',$keys);
+    // $place = ':'.implode(',:',$keys);
+
+    // $sql= "INSERT INTO $table ($cot) VALUES ($place)";
+
+    // $stm= $conn -> prepare($sql);
+
+    // $rel= $stm -> execute($data);
+
+    // return $rel;
+
 }
 
 //Update
@@ -75,6 +88,27 @@ function update($table, $data, $cond)
 
     // Thực thi
     return $stmt->execute($params);
+
+
+    // $update = '';
+
+    // foreach($data as $key => $value){
+    //     $update .= $key . '=:' .$key .',';
+    // }
+    
+    // $update = trim($update,',');
+
+    // if(!empty($condition)){
+    //     $sql = "UPDATE $table SET $update WHERE $condition";
+    // }else{
+    //     $sql = "UPDATE $table SET $update";
+    // }
+
+    // $tmp = $conn -> prepare($sql);
+    
+    // $rel = $tmp -> execute($data);
+    // return $rel;
+    
 }
 
 //Delete (chatGPT vi qua kho)

@@ -109,15 +109,13 @@ function filterData($method = '')
             }
         } else {
             if ($method == 'get') {
-                if (isGet()) {
-                    if (!empty($_GET)) {
-                        foreach ($_GET as $key => $value) {
-                            $key = strip_tags($key);
-                            if (is_array($value)) {
-                                $filterArray[$key] = filter_var(INPUT_GET, $key, FILTER_SANITIZE_SPECIAL_CHARS, FILTER_REQUIRE_ARRAY);
-                            } else {
-                                $filterArray[$key] = filter_var(INPUT_GET, $key, FILTER_SANITIZE_SPECIAL_CHARS);
-                            }
+                if (!empty($_GET)) {
+                    foreach ($_GET as $key => $value) {
+                        $key = strip_tags($key);
+                        if (is_array($value)) {
+                            $filterArray[$key] = filter_var(INPUT_GET, $key, FILTER_SANITIZE_SPECIAL_CHARS, FILTER_REQUIRE_ARRAY);
+                        } else {
+                            $filterArray[$key] = filter_var(INPUT_GET, $key, FILTER_SANITIZE_SPECIAL_CHARS);
                         }
                     }
                 }
@@ -169,21 +167,17 @@ function validatePhone($nPhone)
     if ($nPhone[0] == '0') {
         $fnumberPhone = true;
         $nPhone = substr($nPhone, 1);
-        echo 'check phone1';
     }
 
     if (validateInt($nPhone)) {
-        echo 'check phone2';
         $checkPhone = true;
     }
 
-    if (strlen($nPhone) == 10) {
-        echo 'check phone3';
+    if (strlen($nPhone) == 9) {
         $lenPhone = true;
     }
 
     if ($fnumberPhone && $checkPhone && $lenPhone) {
-        echo 'check phone4';
         return true;
     }
 
@@ -200,5 +194,4 @@ function getMsg($msg, $type = 'success')
 }
 
 ?>
-
 <!-- <div style="">skibi</div> -->

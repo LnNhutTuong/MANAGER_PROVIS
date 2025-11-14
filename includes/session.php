@@ -58,7 +58,7 @@ function getSessionFlash($key)
     $flashKey = $key . '|FLASH|';
     $rel = getSession($flashKey);
     if ($rel !== false) { // Chỉ xóa session nếu nó tồn tại
-         removeSession($flashKey);
+         removeSession($flashKey);  
     }
     return $rel;
 }
