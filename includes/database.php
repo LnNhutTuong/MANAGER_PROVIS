@@ -17,8 +17,8 @@ function selectAll($sql, $params = [])
         $stm->bind_param($types, ...$params);
     }
     $stm->execute();
-    $result = $stm->fetchAll(PDO::FETCH_ASSOC);
-    return $result; 
+    $result = $stm->get_result();
+    return $result->fetch_all(MYSQLI_ASSOC);
 }
 
 //dem dong trong cot
@@ -27,7 +27,8 @@ function getRows($sql)
     global $conn;
     $stm = $conn->prepare($sql);
     $stm->execute();
-    return $stm->rowCount(); 
+    $result = $stm->get_result();
+    return $result->num_rows;
 }
 
 //SELECT column FORM table WHERE id
@@ -40,14 +41,15 @@ function selectOne($sql, $params = [])
         $stm->bind_param($types, ...$params);
     }
     $stm->execute();
-    $result = $stm->fetch(PDO::FETCH_ASSOC);
-    return $result;
+    $result = $stm->get_result();
+    return $result->fetch_assoc();
 }
 
 //INSERT INTO table FORM table WHERE id (KHO')
 function insert($table, $data)
 {
     global $conn;
+
     //lay key 
     $columns = implode(',', array_keys($data));
 
@@ -55,27 +57,11 @@ function insert($table, $data)
     $placeholders = implode(',', array_fill(0, count($data), "?"));
 
     $sql = "INSERT INTO $table ($columns) VALUES ($placeholders)";
-    $stm = $conn->prepare($sql); // SQL
-    
-    // Sử dụng PDO: truyền mảng giá trị vào execute()
-    $is_success = $stm->execute(array_values($data));
+    $stm = $conn->prepare($sql);
 
-    // Sử dụng PDO: lastInsertId() thay cho insert_id
-    return $is_success ? $conn->lastInsertId() : false;
+    $stm->bind_param(str_repeat("s", count($data)), ...array_values($data));
 
-    
-    // $keys = array_keys($data);
-    // $cot = implode(',',$keys);
-    // $place = ':'.implode(',:',$keys);
-
-    // $sql= "INSERT INTO $table ($cot) VALUES ($place)";
-
-    // $stm= $conn -> prepare($sql);
-
-    // $rel= $stm -> execute($data);
-
-    // return $rel;
-
+    return $stm->execute() ? $conn->insert_id : false;
 }
 
 //Update
@@ -96,30 +82,10 @@ function update($table, $data, $cond)
 
     // Bind dữ liệu
     $params = array_merge(array_values($data), array_values($cond));
+    $stmt->bind_param(str_repeat("s", count($params)), ...$params);
 
     // Thực thi
-    return $stmt->execute($params);
-
-
-    // $update = '';
-
-    // foreach($data as $key => $value){
-    //     $update .= $key . '=:' .$key .',';
-    // }
-    
-    // $update = trim($update,',');
-
-    // if(!empty($condition)){
-    //     $sql = "UPDATE $table SET $update WHERE $condition";
-    // }else{
-    //     $sql = "UPDATE $table SET $update";
-    // }
-
-    // $tmp = $conn -> prepare($sql);
-    
-    // $rel = $tmp -> execute($data);
-    // return $rel;
-    
+    return $stmt->execute();
 }
 
 //Delete (chatGPT vi qua kho)
@@ -130,13 +96,13 @@ function delete($table, $cond)
 
     $where = implode(" AND ", array_map(fn($c) => "$c=?", array_keys($cond)));
     $stmt = $conn->prepare("DELETE FROM $table WHERE $where");
-    // Sử dụng PDO: truyền mảng giá trị điều kiện vào execute()
-    return $stmt->execute(array_values($cond));
+    $stmt->bind_param(str_repeat("s", count($cond)), ...array_values($cond));
+    return $stmt->execute();
 }
 
 //lay du lieu moi nhat
 function lastID()
 {
     global $conn;
-    return $conn->lastInsertId();
+    return $conn->insert_id;
 }

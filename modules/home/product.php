@@ -66,8 +66,7 @@ layout('/home/header-home');
                         foreach ($categories as $category):
                         ?>
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="category"
-                                    id="<?php echo htmlspecialchars($category['ID']); ?>">
+                                <input class="form-check-input" type="checkbox" name="category" id="<?php echo htmlspecialchars($category['ID']); ?>">
                                 <label class="form-check-label" for="<?php echo htmlspecialchars($category['ID']); ?>">
                                     <?php echo htmlspecialchars($category['name']); ?>
                                 </label>
@@ -83,8 +82,7 @@ layout('/home/header-home');
                         foreach ($brands as $brand):
                         ?>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="brand"
-                                    id="<?php echo htmlspecialchars($brand['ID']); ?>">
+                                <input class="form-check-input" type="radio" name="brand" id="<?php echo htmlspecialchars($brand['ID']); ?>">
                                 <label class="form-check-label" for="<?php echo htmlspecialchars($brand['ID']); ?>">
                                     <?php echo htmlspecialchars($brand['name']); ?>
                                 </label>
@@ -100,8 +98,7 @@ layout('/home/header-home');
                         foreach ($styles as $style):
                         ?>
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="style"
-                                    id="<?php echo htmlspecialchars($style['ID']); ?>">
+                                <input class="form-check-input" type="checkbox" name="style" id="<?php echo htmlspecialchars($style['ID']); ?>">
                                 <label class="form-check-label" for="<?php echo htmlspecialchars($style['ID']); ?>">
                                     <?php echo htmlspecialchars($style['name']); ?>
                                 </label>
@@ -139,8 +136,15 @@ layout('/home/header-home');
                     <div class="col-6 col-md-4 col-lg-4">
                         <div class="card h-100 shadow-sm text-center">
 
+                            <?php
+                            // echo "<pre>";
+                            // print_r($product);
+                            // echo "</pre>";
+                            $brandName = selectOne("SELECT name FROM brand WHERE ID ='" . $product["brand_id"] . "'");
+                            ?>
+
                             <div class="img-product">
-                                <a href="#">
+                                <a href="<?php echo _HOST_URL; ?>?module=customers&action=infor-product&id=<?php echo $product['ID']; ?>">
                                     <img src="<?php echo htmlspecialchars($product['thumb']); ?>"
                                         class="card-img-top mb-2"
                                         alt="<?php echo htmlspecialchars($product['name']); ?>">
@@ -153,9 +157,23 @@ layout('/home/header-home');
                                 </h3>
 
                                 <div class="flex-grow-1">
-                                    <div class="card-text mb-1">Color: <?php echo htmlspecialchars($product['color']); ?></div>
-                                    <div class="card-text mb-1">Size: <?php echo htmlspecialchars($product['size']); ?></div>
+                                    <?php
+                                    if (empty($brandName['name'])) {
+                                        $brandName['name'] = "Unknown";
+                                    } else {
+                                        $brandName['name'] = htmlspecialchars($brandName['name']);
+                                    }
+                                    ?>
                                 </div>
+                                <div class="product-name card-text mt-auto">
+                                    Brand: <?php
+                                            echo "<span class='brandName' style='font-weight: bold;'>"
+                                                . $brandName['name'] .
+                                                "</span class='brandName'>"
+                                            ?>
+                                </div>
+                                <div class="card-text mb-1 mt-auto">Size: <?php echo htmlspecialchars($product['size']); ?></div>
+
 
                                 <div class="mt-auto fw-bold text-danger">
                                     <?php echo number_format($product['price'], 0, ',', '.'); ?> VNĐ
@@ -179,20 +197,25 @@ layout('/home/header-home');
 
                         <!--không phải vì hàm for dễ hơn mà phải là bắt buộc dùng hàm for -->
 
-                        <li class="page-item"
-                            <?php
-                            if ($page <= 1) {
+                        <?php
+                        $isDisabled = ($page <= 1); // Đặt biến cho dễ đọc
+                        ?>
+
+                        <li class="page-item 
+                            <?php if ($page <= 1) {
                                 echo 'disabled';
                             }
-                            ?>>
-                            <a class=" page-link" href="<?php echo _HOST_URL; ?>?module=home&action=product&page=<?php echo $prevPage; ?>">Previous</a>
+                            ?>">
+                            <a class="page-link" href="<?php echo _HOST_URL; ?>?module=home&action=product&page=<?php echo $prevPage; ?>">
+                                Previous
+                            </a>
                         </li>
 
                         <?php for ($i = 0; $i < $total_pages; $i++):
                             $pageNumber = $i + 1;
                             $isActive = ($page == $pageNumber); // Kiểm tra trang hiện tại
                         ?>
-                            <li class="page-item">
+                            <li class="page-item <?php echo $isActive ? 'active' : ''; ?>">
                                 <a class="page-link"
                                     href="<?php echo _HOST_URL; ?>?module=home&action=product&page=<?php echo $pageNumber; ?>">
                                     <?php echo $pageNumber; ?>

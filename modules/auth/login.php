@@ -122,39 +122,52 @@ if (isPost()) {
 
                             <form method="POST" class="align-items-center">
 
-                                <div data-mdb-input-init class="form-outline mb-3">
-                                    <div data-mdb-input-init class="form-outline">
-                                        <label class="form-label" for="username">Tên đăng nhập</label>
-                                        <input name='username' type="text" id="username" class="form-control" />
-                                        <?php getMsg($msg, $msg_type) ?>
+                                <form method="POST" action="" enctype="multipart/form-data">
+                                    <div data-mdb-input-init class="form-outline mb-3">
+                                        <div data-mdb-input-init class="form-outline">
+                                            <label class="form-label" for="username">Tên đăng nhập</label>
+                                            <input name='username' type="text" id="username" class="form-control"
+                                                value="<?php echo (!empty($filter['username'])) ? $filter['username'] : ''; ?>"
+                                                class="form-control form-control-lg" />
+                                            <div style="padding: 5px; font-style: italic; color: red;">
+                                                <?php echo !empty($errors['username']) ? reset($errors['username']) : ''; ?>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
 
-                                <!-- Password input -->
-                                <div data-mdb-input-init class="form-outline mb-3">
-                                    <label class="form-label" for="password">Mật khẩu</label>
-                                    <input name="password" type="password" id="password" class="form-control" />
-                                    <?php getMsg($msg, $msg_type) ?>
-                                </div>
+                                    <!-- Password input -->
+                                    <div data-mdb-input-init class="form-outline mb-3">
+                                        <label class="form-label" for="password">Mật khẩu</label>
+                                        <input name="password" type="password" id="password" class="form-control"
+                                            value="<?php echo (!empty($filter['password'])) ? $filter['password'] : ''; ?>"
+                                            class="form-control form-control-lg" />
+                                        <div style="padding: 5px; font-style: italic; color: red;">
+                                            <?php echo !empty($errors['password']) ? reset($errors['password']) : ''; ?>
+                                        </div>
+                                    </div>
 
-                                <!-- Forgot password -->
-                                <div class="forgot-container mt-3">
-                                    <p class="mb-0">Bạn quên mật khẩu? <a href="<?php echo _HOST_URL; ?>?module=auth&action=forgot" class="text-light-50 fw-bold">Lấy lại mật khẩu</a>
-                                    </p>
-                                </div>
-                                <!-- Submit button -->
-                                <div class="text-center ">
-                                    <button type="submit" class="btn btn-dark mt-3" style="width: 120px; height: 43px;">
-                                        Đăng nhập
-                                    </button>
-                                </div>
+                                    <!-- Forgot password -->
+                                    <div class="forgot-container mt-3">
+                                        <p class="mb-0">Quên mật khẩu? <a
+                                                href="<?php echo _HOST_URL; ?>?module=auth&action=forgot"
+                                                class="text-light-50 fw-bold">Lấy lại mật khẩu</a>
+                                        </p>
+                                    </div>
+                                    <!-- Submit button -->
+                                    <div class="text-center ">
+                                        <button type="submit" class="btn btn-dark mt-3" style="width: 120px; height: 43px;">
+                                            Đăng nhập
+                                        </button>
+                                    </div>
 
-                                <div class="register-container mt-3 text-center">
-                                    <p class="mb-0">Bạn chưa có tài khoản? <a href="<?php echo _HOST_URL; ?>?module=auth&action=register" class="text-light-50 fw-bold">Đăng ký </a>
-                                    </p>
-                                </div>
+                                    <div class="register-container mt-3 text-center">
+                                        <p class="mb-0">Chưa có tài khoản? <a
+                                                href="<?php echo _HOST_URL; ?>?module=auth&action=register"
+                                                class="text-light-50 fw-bold">Đăng ký </a>
+                                        </p>
+                                    </div>
 
-                            </form>
+                                </form>
                         </div>
                     </div>
                 </div>
