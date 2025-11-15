@@ -51,6 +51,7 @@ layout('/home/header-home');
 
 
 <link rel="stylesheet" href="<?php echo _HOST_URL_TEMPLATE; ?>/style/css/home/product.css">
+<link rel="stylesheet" href="<?php echo _HOST_URL_TEMPLATE; ?>/style/css/global.css">
 
 <div class="body-container container mt-4 mb-4">
     <div class="row selling-product">

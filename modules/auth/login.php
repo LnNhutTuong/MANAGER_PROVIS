@@ -20,20 +20,14 @@ $msg = '';
 $msg_type = '';
 
 
-// session_start(); 
-
-// $allUser = selectAll("SELECT * FROM users");
-
-// echo '<pre>';
-// print_r($allUser);
-// echo '</pre>';
-
 $hashedPassword1 = password_hash('123456', PASSWORD_DEFAULT);
 $hashedPassword2 = password_hash('123321', PASSWORD_DEFAULT);
 
 
 if (isPost()) { // Kiểm tra khi người dùng bấm nút submit
+
     $filter = filterData();
+
     $username = $filter['username'];
     $password = $filter['password'];
 

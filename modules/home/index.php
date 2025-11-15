@@ -15,6 +15,8 @@ layout('/home/header-home');
 
 
 <link rel="stylesheet" href="<?php echo _HOST_URL_TEMPLATE; ?>/style/css/home/index.css">
+<link rel="stylesheet" href="<?php echo _HOST_URL_TEMPLATE; ?>/style/css/global.css">
+
 
 <div class="body-container">
 
@@ -98,7 +100,7 @@ layout('/home/header-home');
                                     </div>
 
                                     <div class="infor-product flex-grow-1">
-                                        <h6 class="product-name card-title"><?php echo htmlspecialchars($product['name']) ?></h6>
+                                        <h5 class="product-name card-title"><?php echo htmlspecialchars($product['name']) ?></h65>
                                     </div>
 
                                     <div class="priceAsize-product mt-auto">

@@ -16,6 +16,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'logout' && !isset($_GET['modul
     exit();
 }
 
+
 //------includes
 // database
 require_once './includes/connect.php';

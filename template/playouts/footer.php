@@ -5,22 +5,22 @@ if (!defined('_ximen')) {
 }
 
 ?>
+<div>
+    <footer>
+        <div class="footer-container w-100 d-flex justify-content-between" style="border-top: 1px solid black;">
+            <div class="local">
+                <span style="font-weight: bold;">Địa chỉ : </span>Số 1 Đại Cồ Việt, Quận Hai Bà Trưng, Hà Nội
+            </div>
+            <div class="copyright"> Copyright &copy; 2025&nbsp;
+                <a href=" https://adminlte.io" class="text-decoration-none">SKIBIDI</a>.
+                All rights reserved.
+            </div>
 
-<footer>
-    <div class="footer-container w-100 d-flex justify-content-between" style="border-top: 1px solid black;">
-        <div class="local">
-            <span style="font-weight: bold;">Địa chỉ : </span>Số 1 Đại Cồ Việt, Quận Hai Bà Trưng, Hà Nội
+
         </div>
-        <div class="copyright"> Copyright &copy; 2025&nbsp;
-            <a href=" https://adminlte.io" class="text-decoration-none">SKIBIDI</a>.
-            All rights reserved.
-        </div>
 
-
-    </div>
-
-</footer>
-
+    </footer>
+</div>
 
 
 

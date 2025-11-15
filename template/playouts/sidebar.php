@@ -12,7 +12,7 @@ if (!defined('_ximen')) {
     <!--begin::Sidebar Brand-->
     <div class="sidebar-brand">
         <!--begin::Brand Link-->
-        <a href="./index.html" class="brand-link">
+        <a href="<?php _HOST_URL; ?>?module=home" class="brand-link">
             <!--begin::Brand Image-->
             <!-- <img
                 src=""
@@ -38,7 +38,7 @@ if (!defined('_ximen')) {
                 data-accordion="false"
                 id="navigation">
                 <li class="nav-item menu-open">
-                    <a href="#" class="nav-link active">
+                    <a href="<?php _HOST_URL; ?>?module=admin&action=index" class="nav-link active">
                         <i class="nav-icon bi bi-speedometer"></i>
                         <p>
                             Dashboard
@@ -57,15 +57,27 @@ if (!defined('_ximen')) {
 
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="<?php _HOST_URL; ?>?module=admin&action=add-product" class="nav-link">
+                            <a href="<?php _HOST_URL; ?>?module=admin&action=list-product" class="nav-link">
                                 <i class="nav-icon bi bi-circle"></i>
                                 <p>Danh sách</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="./widgets/info-box.html" class="nav-link">
+                            <a href="<?php _HOST_URL; ?>?module=admin&action=add-product" class="nav-link">
                                 <i class="nav-icon bi bi-circle"></i>
                                 <p>Thêm sản phẩm</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="<?php _HOST_URL; ?>?module=admin&action=add-brand" class="nav-link">
+                                <i class="nav-icon bi bi-circle"></i>
+                                <p>Thêm thương hiệu</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="<?php _HOST_URL; ?>?module=admin&action=add-style" class="nav-link">
+                                <i class="nav-icon bi bi-circle"></i>
+                                <p>Thêm phong cách</p>
                             </a>
                         </li>
 

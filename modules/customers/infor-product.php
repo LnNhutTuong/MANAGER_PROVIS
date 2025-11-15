@@ -13,6 +13,7 @@ if (isset($_GET['id'])) {
 // Dùng selectOne chứ không phải selectAll
 $product = selectOne("SELECT * FROM products WHERE ID = " . $product_id);
 
+$productStyle = selectAll("SELECT * FROM product_style WHERE product_id = ?", [$product_id]);
 // 4. (Rất quan trọng) Kiểm tra xem sản phẩm có tồn tại không
 if (empty($product)) {
     die('SAN PHAM KHONG TON TAI');
@@ -27,7 +28,7 @@ $imgs = $image;
 // $dataIMG = selectAll("SELECT * FROM product_image");
 // $img = $dataIMG;
 
-$listIMG = [$product['thumb'], $imgs['img-back'], $imgs['img-left'], $imgs['img-zoom'], $imgs['img-right']];
+$listIMG = [$product['thumb'], $imgs['img_back'], $imgs['img_left'], $imgs['img_zoom'], $imgs['img_right']];
 
 // $firstIMG = $listIMG[0];
 
@@ -56,7 +57,7 @@ layout('/home/header-home');
 
     <div class="row">
 
-        <div class="img-product col-4 text-center">
+        <div class="img-product col text-center">
             <div class="firstIMG">
                 <img src="<?php echo $listIMG[0]; ?>" id="main-img">
             </div>
@@ -79,9 +80,17 @@ layout('/home/header-home');
             </div>
         </div>
 
-        <div class="infor-product col-8 text-justify  " style="font-size: 20px;">
+        <div class="infor-product col text-justify  " style="font-size: 20px;">
             <?php
             $brandName = selectOne("SELECT name FROM brand WHERE ID ='" . $product['brand_id'] . "'");
+            $styleNames = [];
+            foreach ($productStyle as $ps) {
+
+                $style = selectOne("SELECT name FROM style WHERE ID = ?", [$ps['style_id']]);
+                if ($style) {
+                    $styleNames[] = $style['name'];
+                }
+            }
             ?>
 
             <div class="infor-product text-center mb-2 mt-2">
@@ -91,24 +100,33 @@ layout('/home/header-home');
             <div class="priceAsize-product mt-3">
 
                 <div class="product-name card-text mb-2">
-                    <?php
-                    if (empty($brandName['name'])) {
-                        $brandName['name'] = "Unknown";
-                    } else {
-                        $brandName['name'] = htmlspecialchars($brandName['name']);
-                    }
-                    ?>
                     <span class='brandName' style='font-weight: bold;'>
                         Thương hiệu / Brand:
                     </span class='brandName'>
                     <?php echo $brandName['name']; ?>
                 </div>
 
+                <div class="product-style card-text mb-2">
+                    <span class='style' style='font-weight: bold;'>
+                        Phong cách / Style:
+                    </span class='style'>
+                    <?php
+                    echo htmlspecialchars(implode(', ', $styleNames));
+                    ?>
+                </div>
+
                 <div class="product-description card-text mb-2">
                     <span class='brandName' style='font-weight: bold;'>
                         Giới thiệu / Description:
                     </span class='brandName'>
-                    <?php echo htmlspecialchars($product['descreption']) ?>
+                    <?php echo htmlspecialchars($product['description']) ?>
+                </div>
+
+                <div class="product-color card-text mb-2">
+                    <span class='color' style='font-weight: bold;'>
+                        Màu sắc/ Color:
+                    </span class='color'>
+                    <?php echo htmlspecialchars($product['color']) ?>
                 </div>
 
                 <div class="product-description card-text mb-2">

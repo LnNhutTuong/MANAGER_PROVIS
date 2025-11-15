@@ -4,6 +4,9 @@ if (!defined('_ximen')) {
     die('---TRUY CAP KHONG HOP LE---');
 }
 
+
+
+
 ?>
 
 <!DOCTYPE html>
@@ -49,12 +52,8 @@ if (!defined('_ximen')) {
                                     <li>
                                         <hr class="dropdown-divider">
                                     </li>
-                                    <?php if (isset($_SESSION['group_id']) && $_SESSION['group_id'] == 0): ?>
-                                        <li><a class="dropdown-item" href="<?php echo _HOST_URL; ?>?module=home&action=product">More</a></li>
-                                        <li><a class="dropdown-item" href="<?php echo _HOST_URL; ?>?module=admin&action=add-product">Thêm sản phẩm</a></li>
-                                    <?php else: ?>
-                                        <li><a class="dropdown-item" href="<?php echo _HOST_URL; ?>?module=home&action=product">More</a></li>
-                                    <?php endif; ?>
+
+                                    <li><a class="dropdown-item" href="<?php echo _HOST_URL; ?>?module=home&action=product">More</a></li>
 
                                 </ul>
                             </li>
@@ -69,8 +68,23 @@ if (!defined('_ximen')) {
                     </div>
 
                     <div class="searchBar col-lg-3" style="width: 333px;">
-                        <form class="navber-form" role="search">
-                            <input class="form-control  " type="search" placeholder="Tìm kiếm" aria-label="Search" />
+                        <form class="d-flex" role="search" method="GET" action="index.php">
+
+                            <input type="hidden" name="module" value="home">
+                            <input type="hidden" name="action" value="search">
+
+                            <div class="input-group">
+                                <input
+                                    class="form-control"
+                                    type="search"
+                                    placeholder="Tìm kiếm sản phẩm..."
+                                    aria-label="Search"
+                                    name="keyword" />
+
+                                <button class="btn btn-primary" type="submit">
+                                    <i class="bi bi-search"></i>
+                                </button>
+                            </div>
                         </form>
                     </div>
 
@@ -122,6 +136,7 @@ if (!defined('_ximen')) {
                                 <a class="nav-link" href="?action=logout">
                                     Đăng xuất
                                 </a>
+
                             </ul>
                         </li>
 

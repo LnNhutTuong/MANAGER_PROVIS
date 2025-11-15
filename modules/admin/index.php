@@ -157,11 +157,8 @@ require_once './template/playouts/sidebar.php';
         <!--end::App Content-->
     </main>
     <!--end::App Main-->
-</body>
-
-</html>
 
 
-<?php
-require_once './template/playouts/footer.php';
-?>
+    <?php
+    require_once './template/playouts/footer.php';
+    ?>

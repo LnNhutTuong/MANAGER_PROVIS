@@ -7,6 +7,9 @@ if (!defined('_ximen')) {
 //SELECT * FORM table WHERE id
 function selectAll($sql, $params = [])
 {
+    if (!is_array($params)) {
+        $params = [$params];
+    }
     global $conn;
     $stm = $conn->prepare($sql);
     if (!empty($params)) {
