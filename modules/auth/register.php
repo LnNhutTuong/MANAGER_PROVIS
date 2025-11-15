@@ -1,88 +1,145 @@
 <?php
 
-//Ngan chan truye cap tu ben ngoai
+// Ngăn chặn truy cập trực tiếp
 if (!defined('_ximen')) {
     die('---TRUY CAP KHONG HOP LE---');
 }
 
-?>
-
-<link rel="stylesheet" href="<?php echo _HOST_URL_TEMPLATE; ?>/style/css/global.css" />
-
-<title>Đăng ký</title>
+require_once './includes/session.php';
 
 
-<?php
-layout('header-auth');
+layout('auth/header-auth');
 
 $msg = '';
 $msg_type = '';
+$errors = [];
+$oldData = [];
 
-//==============Kiem tra===============
-// if (isPost()) {
-//     $filter = filterData();
+//============== Xử lý submit form ===============
+if (isPost()) {
+    $filter = filterData();   // Lấy dữ liệu đã lọc
+    $oldData = $filter;       // Lưu lại để fill lại form
 
-//     $errors = [];
+    //------------- USERNAME -------------
+    $username_value = trim($filter['username'] ?? '');
 
-//     //username
-//     if (empty(trim($filter['username']))) {
-//         $errors['username']['required'] = 'Họ tên không được để trống';
-//     } else {
-//         if (strlen(trim(($filter['username']))) < 5) {
-//             $errors['username']['required'] = 'Họ tên phải dài hơn 6 ký tự';
-//         }
-//     }
+    if (empty($username_value)) {
+        $errors['username']['required'] = 'Username không được để trống';
+    } else {
+        if (strlen($username_value) < 6) {
+            $errors['username']['length'] = 'Username phải dài hơn 6 ký tự';
+        }
+        if (strpos($username_value, ' ') !== false) {
+            $errors['username']['no_space'] = 'Username không được chứa khoảng trắng.';
+        }
+        // Có dấu / ký tự unicode
+        if (preg_match('/[^\x00-\x7F]+/', $username_value)) {
+            $errors['username']['no_accent'] = 'Username không được chứa ký tự có dấu hoặc ký tự đặc biệt.';
+        }
 
-//     //email
-//     if (empty(trim($filter['email']))) {
-//         $errors['email']['required'] = 'Email không được để trống';
-//     } else {
-//         if (!validateEmail(trim($filter['email']))) {
-//             $errors['email']['required'] = 'Email không đúng định dạng';
-//         } else {
-//             $email = $filter['email'];
+        // Nếu không có lỗi cơ bản thì mới kiểm tra trùng
+        if (empty($errors['username'])) {
+            $checkUsername = getRows("SELECT * FROM users WHERE username = '$username_value' ");
+            if ($checkUsername > 0) {
+                $errors['username']['check'] = 'Username đã tồn tại trên hệ thống.';
+            }
+        }
+    }
 
-//             $check = getRows("SELECT * FROM user WHERE email = '$email'");
+    //------------- EMAIL -------------
+    $email_value = trim($filter['email'] ?? '');
 
-//             var_dump($check);
-//         }
-//     }
+    if (empty($email_value)) {
+        $errors['email']['required'] = 'Email không được để trống';
+    } else {
+        if (!validateEmail($email_value)) {
+            $errors['email']['isEmail'] = 'Email không đúng định dạng';
+        } else {
+            $checkEmail = getRows("SELECT * FROM users WHERE email = '$email_value' ");
+            if ($checkEmail > 0) {
+                $errors['email']['check'] = 'Email đã tồn tại trên hệ thống.';
+            }
+        }
+    }
 
-//     //password
-//     if (empty(trim($filter['password']))) {
-//         $errors['password']['required'] = 'Mật khẩu không được để trống';
-//     } else {
-//         if (strlen(trim($filter['password'])) < 6) {
-//             $errors['password']['required'] = 'Mật khẩu phải dài hơn 6 ký tự';
+    //------------- PHONE -------------
+    $phone_value = trim($filter['phone'] ?? '');
 
-//             if (trim($filter['password']) !== trim(($filter['confirm-password']))) {
-//                 $errors['password']['required'] = 'Mật khẩu nhập lại không đúng ';
-//             }
-//         }
-//     }
+    if (empty($phone_value)) {
+        $errors['phone']['required'] = 'Số điện thoại không được để trống.';
+    } else {
+        if (!validatePhone($phone_value)) {
+            $errors['phone']['isPhone'] = 'Số điện thoại không hợp lệ (ví dụ: 0xxxxxxxx).';
+        } else {
+            $checkPhone = getRows("SELECT * FROM users WHERE phone = '$phone_value' ");
+            if ($checkPhone > 0) {
+                $errors['phone']['check'] = 'Số điện thoại đã tồn tại trên hệ thống.';
+            }
+        }
+    }
 
+    //------------- PASSWORD -------------
+    $password_value = trim($filter['password'] ?? '');
 
-//     if (empty($errors)) {
-//         $msg = 'Đăng ký thành công';
-//         $msg_type = 'green';
-//     } else {
-//         $eUser = $errors['username']['required'];
-//         if ($eUser) {
-//             $msg = 'Không được bỏ trống, từ 5 ký tự.';
-//         }
+    if (empty($password_value)) {
+        $errors['password']['required'] = 'Mật khẩu không được để trống';
+    } else if (strlen($password_value) < 6) {
+        $errors['password']['length'] = 'Mật khẩu phải dài hơn 6 ký tự';
+    }
 
-//         $eUser = $errors['email']['required'];
-//         if ($eUser) {
-//             $msg = 'Không được bỏ trống, chú ý cấu trúc Email.';
-//         }
+    //------------- CONFIRM PASSWORD -------------
+    $confirm_password_value = trim($filter['confirm-password'] ?? '');
 
-//         $msg_type = 'red';
-//     }
-// }
+    if (empty($confirm_password_value)) {
+        $errors['confirm-password']['required'] = 'Mật khẩu không được để trống';
+    } else if ($password_value !== $confirm_password_value) {
+        $errors['confirm-password']['like'] = 'Mật khẩu không trùng khớp';
+    }
 
-// 
-//===================================
+    //------------- NẾU KHÔNG CÓ LỖI -------------
+    if (empty($errors)) {
+        $activeToken = sha1(uniqid() . time());
+
+        $data = [
+            'username'     => $username_value,
+            'email'        => $email_value,
+            'phone'        => $phone_value,
+            'password'     => password_hash($password_value, PASSWORD_DEFAULT),
+            'active_token' => $activeToken,
+            'status'       => 0, // chưa kích hoạt
+            'created_at'   => date('Y-m-d H:i:s')
+        ];
+
+        $insertStatus = insert('users', $data);
+
+        if ($insertStatus) {
+            // Gửi email kích hoạt
+            $emailTo = $email_value;
+            $subject = 'Kích hoạt tài khoản hệ thống';
+            $content  = 'Chúc mừng bạn đã đăng ký thành công tài khoản tại website của chúng tôi.<br>';
+            $content .= 'Để kích hoạt tài khoản, bạn hãy click vào đường link bên dưới:<br>';
+            $content .= _HOST_URL . '/?module=auth&action=active&token=' . $activeToken . '<br><br>';
+            $content .= 'Trân trọng.';
+
+            sendMail($emailTo, $subject, $content);
+
+            $msg = 'Đăng ký tài khoản thành công, vui lòng kiểm tra email để kích hoạt.';
+            $msg_type = 'success';
+
+            // Xoá dữ liệu form sau khi đăng ký thành công
+            $oldData = [];
+        } else {
+            $msg = 'Đăng ký tài khoản không thành công, vui lòng thử lại.';
+            $msg_type = 'danger';
+        }
+    } else {
+        $msg = 'Dữ liệu không hợp lệ, hãy kiểm tra lại!';
+        $msg_type = 'danger';
+    }
+}
+
 ?>
+<title>Đăng ký</title>
 
 <!-- Section: Design Block -->
 <section class="">

@@ -93,8 +93,7 @@ require_once './template/playouts/sidebar.php';
                                                 <div class="card h-100 shadow-sm text-center ">
                                                     <?php
 
-                                                    $brandName = selectOne("SELECT name FROM brand WHERE ID ='" . $product["brand_id"] . "'");
-                                                    ?>
+                                                    $brandName = selectOne("SELECT name FROM brand WHERE ID = ?", [$product["brand_id"]]);                                                    ?>
 
                                                     <div class="img-product">
                                                         <a href="<?php echo _HOST_URL; ?>?module=admin&action=infor-product&id=<?php echo $product['ID']; ?>">
@@ -134,10 +133,13 @@ require_once './template/playouts/sidebar.php';
                                                     </div>
                                                 </div>
                                             </div>
-
                             </div>
-
-                <?php
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+<?php
                                         }
                                         echo '</div>';
                                     } else {
@@ -147,16 +149,16 @@ require_once './template/playouts/sidebar.php';
                                 } else {
                                     echo "<h1>Vui lòng nhập từ khóa để tìm kiếm.</h1>";
                                 }
-                ?>
-                        </div>
-                    </div>
-                </div>
-            </div>
+?>
+</div>
+</div>
+</div>
+</div>
 
-        </div>
-        <!--end::Container-->
-        </div>
-        <!--end::App Content-->
+</div>
+<!--end::Container-->
+</div>
+<!--end::App Content-->
     </main>
     <!--end::App Main-->
 

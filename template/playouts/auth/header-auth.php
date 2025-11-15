@@ -24,7 +24,7 @@ if (!defined('_ximen')) {
 </head>
 
 <body>
-    <div class="header-container">
+    <div class="header-container ">
         <nav class="navbar navbar-expand-lg bg-white shadow-sm border-bottom position-relative">
             <div class="container-fluid">
 

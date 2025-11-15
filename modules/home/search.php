@@ -93,17 +93,13 @@ layout('/home/header-home');
                             </div>
 
                 <?php
-                        } // Kết thúc vòng lặp foreach
+                        }
 
-                        echo '</div>'; // Kết thúc hàng chứa sản phẩm
-
-                        // 5.2. NẾU KHÔNG CÓ KẾT QUẢ
+                        echo '</div>';
                     } else {
                         echo "<h3>Không tìm thấy sản phẩm nào phù hợp với từ khóa của bạn.</h3>";
                         echo "<p>Vui lòng thử tìm kiếm với từ khóa khác.</p>";
                     }
-
-                    // 6. NẾU NGƯỜI DÙNG KHÔNG NHẬP GÌ MÀ BẤM TÌM
                 } else {
                     echo "<h1>Vui lòng nhập từ khóa để tìm kiếm.</h1>";
                 }

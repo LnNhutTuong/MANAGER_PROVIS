@@ -7,69 +7,104 @@ if (!defined('_ximen')) {
 
 ?>
 
-<link rel="stylesheet" href="<?php echo _HOST_URL_TEMPLATE; ?>/style/css/global.css" />
-
-
-<title>Đăng nhập</title>
 
 
 <?php
-layout('header-auth');
+layout('auth/header-auth');
 
 $msg = '';
 $msg_type = '';
 
+if (isPost()) {
+    $filter = filterData();   // Lấy dữ liệu đã lọc
+    $oldData = $filter;
+    $errors = [];
 
-$hashedPassword1 = password_hash('123456', PASSWORD_DEFAULT);
-$hashedPassword2 = password_hash('123321', PASSWORD_DEFAULT);
+    $username_value = trim($filter['username'] ?? '');
+
+    if (empty($username_value)) {
+        $errors['username']['required'] = 'Username không được để trống';
+    } else {
+        if (strlen($username_value) < 6) {
+            $errors['username']['length'] = 'Username phải dài hơn 6 ký tự';
+        }
+        if (strpos($username_value, ' ') !== false) {
+            $errors['username']['no_space'] = 'Username không được chứa khoảng trắng.';
+        }
+        // Có dấu / ký tự unicode
+        if (preg_match('/[^\x00-\x7F]+/', $username_value)) {
+            $errors['username']['no_accent'] = 'Username không được chứa ký tự có dấu hoặc ký tự đặc biệt.';
+        }
+    }
+    if (empty($errors['username'])) {
+        $checkUsername = getRows("SELECT id FROM users WHERE username = '$username_value' ");
+        // Lỗi này xảy ra khi hàm getRows() chưa được khai báo
+        if ($checkUsername   == 0) {
+            $errors['username']['check'] = 'Username không tồn tại trên hệ thống.';
+        }
+    }
 
 
-if (isPost()) { // Kiểm tra khi người dùng bấm nút submit
+    $password_value = trim($filter['password'] ?? '');
+    if (empty($password_value)) {
+        $errors['password']['required'] = 'Mật khẩu không được để trống';
+    } else if (strlen($password_value) < 6) {
+        $errors['password']['length'] = 'Mật khẩu phải dài hơn 6 ký tự';
+    }
 
-    $filter = filterData();
+    if (empty($errors)) {
+        $username = $filter['username'];
+        $password = $filter['password'];
 
-    $username = $filter['username'];
-    $password = $filter['password'];
-
-    $user = selectOne("SELECT * FROM users WHERE username = ?", [$username]);
-
-    // echo '<pre>';
-    // print_r($user);
-    // echo '</pre>';
-
-    if (!empty($user)) {
-        if (password_verify($password, $hashedPassword1)) {
-
-            $_SESSION['user_name'] = $user['username'];
-            $_SESSION['group_id'] = $user['group_id'];
-
-            header('Location: ' . _HOST_URL);
-            exit();
-        } else {
-            $msg = 'Sai tên đăng nhập hoặc mật khẩu.';
-            $msg_type = 'red';
+        $checkUsername = selectOne("SELECT * FROM users WHERE username = '$username'");
+        if (!empty($checkUsername)) {
+            if (!empty($password)) {
+                $checkStatus = password_verify($password, $checkUsername['password']);
+                if ($checkStatus) {
+                    $token = sha1(uniqid() . time());
+                    $data = [
+                        'token' => $token,
+                        'created_at' => date('Y:m:d H:i:s'),
+                        'user_id' => $checkUsername['id']
+                    ];
+                    $insertToken = insert('token_login', $data);
+                    if ($insertToken) {
+                        redirect('/');
+                    } else {
+                        $msg = 'Đăng nhập không thành công';
+                        $msg_type = 'danger';
+                    }
+                } else {
+                    // Xử lý khi không tìm thấy username
+                    $errors['password']['mismatch'] = 'Mật khẩu không đúng.';
+                    $msg = 'Vui lòng kiểm tra dữ liệu nhập vào.';
+                    $msg_type = 'danger';
+                }
+            }
         }
     } else {
-        $msg = 'Sai tên đăng nhập hoặc mật khẩu.';
-        $msg_type = 'red';
+        $msg = 'Dữ liệu không hợp lệ, hãy kiểm tra lại!';
+        $msg_type = 'danger';
     }
 }
-
 ?>
 
+
+
+<title>Đăng nhập</title>
 
 <!-- Section: Design Block -->
 <section class="">
     <!-- Jumbotron -->
-    <div class="px-3 py-4 px-md-5 text-center text-lg-start" style="background-color: hsla(0, 0%, 0%, 1.00); margin-left: 160px">
-        <div class="container">
+    <div class="px-3 py-4 px-md-5 text-center text-lg-start">
+        <div class="container ">
             <div class="row gx-lg-5 align-items-center">
                 <div class="col-lg-6 mb-5 mb-lg-0">
                     <h1 class="my-5 display-3 fw-bold ls-tight">
                         The best offer <br />
                         <span class="text-primary"> for your STYLE</span>
                     </h1>
-                    <p style="color: hsla(220, 2%, 76%, 1.00)">
+                    <p>
                         Lorem ipsum dolor sit amet consectetur adipisicing elit.
                         Eveniet, itaque accusantium odio, soluta, corrupti aliquam
                         quibusdam tempora at cupiditate quis eum maiores libero
@@ -77,15 +112,15 @@ if (isPost()) { // Kiểm tra khi người dùng bấm nút submit
                     </p>
                 </div>
 
-                <div class="col-lg-6 mb-5 mb-lg-0" style="width: 480px;">
-                    <div class="card" style="box-shadow: rgba(255, 255, 255, 0.31) 0px 5px 15px !important;">
-                        <div class=" card-body py-4 px-md-3 pt-5"
-                            style="background-color:hsla(0, 2%, 12%, 1.00); 
-                                        color:white;  height: 563px !important;
-                                        padding-top: 5rem !important ;
-                                        ">
-                            <h1 class="text-center">Đăng nhập</h1>
-                            <form method="POST">
+                <div class="col-lg-6 mb-5 mb-lg-0 " style="width: 555px;">
+                    <div class="card " style="height: 700px;">
+
+                        <div class="card-body d-flex flex-column justify-content-evenly ">
+                            <div>
+                                <h1 class="text-center display-4 fw-bolder">Đăng nhập</h1>
+                            </div>
+
+                            <form method="POST" class="align-items-center">
 
                                 <div data-mdb-input-init class="form-outline mb-3">
                                     <div data-mdb-input-init class="form-outline">
@@ -126,9 +161,7 @@ if (isPost()) { // Kiểm tra khi người dùng bấm nút submit
             </div>
         </div>
     </div>
-    <!-- Jumbotron -->
 </section>
-<!-- Section: Design Block -->
 <?php
 layout('footer');
 ?>
