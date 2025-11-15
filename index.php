@@ -3,8 +3,19 @@ date_default_timezone_set('Asia/Ho_Chi_Minh');
 session_start(); //Tao moi session hoac tiep tuc da ton tai
 ob_start(); //tranh loi vat cua header, cookies,...
 
+
+
 //----------NHUNG-----------
 require_once 'config.php';
+
+//-----------LOG OUT
+// Chỉ chạy logout này khi action=logout VÀ module KHÔNG được set
+if (isset($_GET['action']) && $_GET['action'] == 'logout' && !isset($_GET['module'])) {
+    session_destroy();
+    header('Location: ' . _HOST_URL);
+    exit();
+}
+
 
 //------includes
 // database

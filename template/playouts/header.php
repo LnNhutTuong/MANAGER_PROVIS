@@ -69,6 +69,8 @@ if (!defined('_ximen')) {
         href="https://cdn.jsdelivr.net/npm/jsvectormap@1.5.3/dist/css/jsvectormap.min.css"
         integrity="sha256-+uGLJmmTKOqBr+2E6KDYs/NRsHxSkONXFHUL0fy2O/4="
         crossorigin="anonymous" />
+
+
 </head>
 <!--end::Head-->
 
@@ -93,65 +95,18 @@ if (!defined('_ximen')) {
 
                 <!--begin::End Navbar Links-->
                 <ul class="navbar-nav ms-auto">
-
-
-                    <!--begin::Notifications Dropdown Menu-->
-                    <li class="nav-item dropdown">
-                        <a class="nav-link" data-bs-toggle="dropdown" href="#">
-                            <i class="bi bi-bell-fill"></i>
-                            <span class="navbar-badge badge text-bg-warning">15</span>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
-                            <span class="dropdown-item dropdown-header">15 Notifications</span>
-                            <div class="dropdown-divider"></div>
-                            <a href="#" class="dropdown-item">
-                                <i class="bi bi-envelope me-2"></i> 4 new messages
-                                <span class="float-end text-secondary fs-7">3 mins</span>
-                            </a>
-                            <div class="dropdown-divider"></div>
-                            <a href="#" class="dropdown-item">
-                                <i class="bi bi-people-fill me-2"></i> 8 friend requests
-                                <span class="float-end text-secondary fs-7">12 hours</span>
-                            </a>
-                            <div class="dropdown-divider"></div>
-                            <a href="#" class="dropdown-item">
-                                <i class="bi bi-file-earmark-fill me-2"></i> 3 new reports
-                                <span class="float-end text-secondary fs-7">2 days</span>
-                            </a>
-                            <div class="dropdown-divider"></div>
-                            <a href="#" class="dropdown-item dropdown-footer"> See All Notifications </a>
-                        </div>
-                    </li>
-                    <!--end::Notifications Dropdown Menu-->
-
                     <!--begin::User Menu Dropdown-->
-                    <li class="nav-item dropdown user-menu">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                            <img
-                                src="/assets/img/user2-160x160.jpg"
-                                class="user-image rounded-circle shadow"
-                                alt="User Image" />
-                            <span class="d-none d-md-inline">Alexander Pierce</span>
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
-                            <!--begin::User Image-->
-                            <li class="user-header text-bg-primary">
-                                <img
-                                    src="/assets/img/user2-160x160.jpg"
-                                    class="rounded-circle shadow"
-                                    alt="User Image" />
-                                <p>
-                                    Alexander Pierce - Web Developer
-                                    <small>Member since Nov. 2023</small>
-                                </p>
+                    <li class="nav-item dropdown user-menu col-lg-1" style="list-style-type: none;">
+                        <div class="dropdown-toggle" data-bs-toggle="dropdown">
+                            <span class="d-none d-md-inline">
+                                Hello, <?= $_SESSION['user_name'] ?>
+                            </span>
+                        </div>
+
+                        <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-start">
+                            <li>
+                                <a class="dropdown-item" href="?action=logout">Đăng xuất</a>
                             </li>
-                            <!--end::User Image-->
-                            <!--begin::Menu Footer-->
-                            <li class="user-footer">
-                                <a href="#" class="btn btn-default btn-flat">Profile</a>
-                                <a href="#" class="btn btn-default btn-flat float-end">Sign out</a>
-                            </li>
-                            <!--end::Menu Footer-->
                         </ul>
                     </li>
                     <!--end::User Menu Dropdown-->

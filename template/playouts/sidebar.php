@@ -12,12 +12,12 @@ if (!defined('_ximen')) {
     <!--begin::Sidebar Brand-->
     <div class="sidebar-brand">
         <!--begin::Brand Link-->
-        <a href="./index.html" class="brand-link">
+        <a href="<?php _HOST_URL; ?>?module=home" class="brand-link">
             <!--begin::Brand Image-->
-            <img
+            <!-- <img
                 src=""
                 alt=""
-                class="brand-image opacity-75 shadow" />
+                class="brand-image opacity-75 shadow" /> -->
             <!--end::Brand Image-->
             <!--begin::Brand Text-->
             <span class="brand-text fw-light">PROVIS</span>
@@ -38,7 +38,7 @@ if (!defined('_ximen')) {
                 data-accordion="false"
                 id="navigation">
                 <li class="nav-item menu-open">
-                    <a href="#" class="nav-link active">
+                    <a href="<?php _HOST_URL; ?>?module=admin&action=index" class="nav-link active">
                         <i class="nav-icon bi bi-speedometer"></i>
                         <p>
                             Dashboard
@@ -50,29 +50,37 @@ if (!defined('_ximen')) {
                     <a href="#" class="nav-link">
                         <i class="nav-icon bi bi-box-seam-fill"></i>
                         <p>
-                            Thương hiệu
+                            Sản phẩm
                             <i class="nav-arrow bi bi-chevron-right"></i>
                         </p>
                     </a>
+
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="./widgets/small-box.html" class="nav-link">
+                            <a href="<?php _HOST_URL; ?>?module=admin&action=list-product" class="nav-link">
                                 <i class="nav-icon bi bi-circle"></i>
                                 <p>Danh sách</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="./widgets/info-box.html" class="nav-link">
+                            <a href="<?php _HOST_URL; ?>?module=admin&action=add-product" class="nav-link">
+                                <i class="nav-icon bi bi-circle"></i>
+                                <p>Thêm sản phẩm</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="<?php _HOST_URL; ?>?module=admin&action=add-brand" class="nav-link">
                                 <i class="nav-icon bi bi-circle"></i>
                                 <p>Thêm thương hiệu</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="./widgets/cards.html" class="nav-link">
+                            <a href="<?php _HOST_URL; ?>?module=admin&action=add-style" class="nav-link">
                                 <i class="nav-icon bi bi-circle"></i>
-                                <p>Nhà thiết kế</p>
+                                <p>Thêm phong cách</p>
                             </a>
                         </li>
+
                     </ul>
                 </li>
                 <li class="nav-item">
@@ -98,7 +106,8 @@ if (!defined('_ximen')) {
                         </li>
                     </ul>
                 </li>
-                <li class="nav-item">
+
+                <!-- <li class="nav-item">
                     <a href="#" class="nav-link">
                         <i class="nav-icon bi bi-pencil-square"></i>
                         <p>
@@ -114,7 +123,7 @@ if (!defined('_ximen')) {
                             </a>
                         </li>
                     </ul>
-                </li>
+                </li> -->
 
             </ul>
             <!--end::Sidebar Menu-->

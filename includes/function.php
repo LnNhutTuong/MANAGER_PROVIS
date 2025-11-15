@@ -57,8 +57,34 @@ function sendMail($emailTo, $subject, $content)
         return $mail->send(); //gửi mail
     } catch (Exception $e) {
         echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
-    }   
+    }
 }
+
+
+
+function formError($errors, $fieldName)
+{
+    return (!empty($errors[$fieldName])) ? '<div class="error">' . reset($errors[$fieldName]) . ' </div>' : false;
+}
+
+
+function oldData($oldData, $fieldName)
+{
+    return !empty($oldData[$fieldName]) ? $oldData[$fieldName] : null;
+}
+
+function redirect($path, $pathFull = False)
+{
+    if ($pathFull) {
+        header("Location: $path");
+        exit();
+    } else {
+        $url = _HOST_URL . $path;
+        header("Location: $url");
+        exit();
+    }
+}
+
 
 //is POST?
 function isPost()
@@ -82,7 +108,7 @@ function isGet()
 function filterData($method = '')
 {
     $filterArray = [];
-    
+
     if (empty($method)) {
         if (isGet()) {
             if (!empty($_GET)) {
@@ -149,12 +175,11 @@ function validateEmail($email)
 
 //validate int
 function validateInt($number)
-{ 
+{
     if (!empty($number)) {
         $checkNumber = filter_var($number, FILTER_VALIDATE_INT);
     }
     return $checkNumber;
-    
 }
 
 //validate phone
@@ -193,27 +218,309 @@ function getMsg($msg, $type = 'success')
     echo '</div> ';
 }
 
+function handle_upload($file_key_name, $target_dir = "upload/category/")
+{
+    if (!isset($_FILES[$file_key_name]) || $_FILES[$file_key_name]['error'] != 0) {
+        return ''; // Bỏ qua nếu không có file hoặc file bị lỗi
+    }
 
-function formError($errors, $fieldName){
-    return (!empty($errors[$fieldName]))? '<div class="error">' .reset($errors[$fieldName]). ' </div>': false;
-}
+    // Tạo thư mục nếu chưa tồn tại
+    if (!file_exists($target_dir)) {
+        mkdir($target_dir, 0777, true);
+    }
 
+    // Tạo tên file duy nhất
+    $file_extension = pathinfo($_FILES[$file_key_name]['name'], PATHINFO_EXTENSION);
+    $new_file_name = time() . '_' . uniqid() . '.' . $file_extension;
+    $target_file = $target_dir . $new_file_name;
 
-function oldData($oldData, $fieldName){
-    return !empty($oldData[$fieldName])? $oldData[$fieldName]: null;
-}
-
-function redirect($path, $pathFull=False){
-    if($pathFull){
-        header("Location: $path");
-        exit();
-    }else{
-        $url = _HOST_URL . $path;
-        header("Location: $url");
-        exit();
+    // Di chuyển file
+    if (move_uploaded_file($_FILES[$file_key_name]['tmp_name'], $target_file)) {
+        return $target_file; // Trả về đường dẫn để lưu vào DB
+    } else {
+        return ''; // Upload thất bại
     }
 }
 
-?>
+function create_slug($string)
+{
+    $search = [
+        'á',
+        'à',
+        'ả',
+        'ã',
+        'ạ',
+        'Á',
+        'À',
+        'Ả',
+        'Ã',
+        'Ạ',
+        'ă',
+        'ằ',
+        'ắ',
+        'ẳ',
+        'ẵ',
+        'ặ',
+        'Ă',
+        'Ằ',
+        'Ắ',
+        'Ẳ',
+        'Ẵ',
+        'Ặ',
+        'â',
+        'ầ',
+        'ấ',
+        'ẩ',
+        'ẫ',
+        'ậ',
+        'Â',
+        'Ầ',
+        'Ấ',
+        'Ẩ',
+        'Ẫ',
+        'Ậ',
+        'đ',
+        'Đ',
+        'é',
+        'è',
+        'ẻ',
+        'ẽ',
+        'ẹ',
+        'É',
+        'È',
+        'Ẻ',
+        'Ẽ',
+        'Ẹ',
+        'ê',
+        'ề',
+        'ế',
+        'ể',
+        'ễ',
+        'ệ',
+        'Ê',
+        'Ề',
+        'Ế',
+        'Ể',
+        'Ễ',
+        'Ệ',
+        'í',
+        'ì',
+        'ỉ',
+        'ĩ',
+        'ị',
+        'Í',
+        'Ì',
+        'Ỉ',
+        'Ĩ',
+        'Ị',
+        'ó',
+        'ò',
+        'ỏ',
+        'õ',
+        'ọ',
+        'Ó',
+        'Ò',
+        'Ỏ',
+        'Õ',
+        'Ọ',
+        'ô',
+        'ồ',
+        'ố',
+        'ổ',
+        'ỗ',
+        'ộ',
+        'Ô',
+        'Ồ',
+        'Ố',
+        'Ổ',
+        'Ỗ',
+        'Ộ',
+        'ơ',
+        'ờ',
+        'ớ',
+        'ở',
+        'ỡ',
+        'ợ',
+        'Ơ',
+        'Ờ',
+        'Ớ',
+        'Ở',
+        'Ỡ',
+        'Ợ',
+        'ú',
+        'ù',
+        'ủ',
+        'ũ',
+        'ụ',
+        'Ú',
+        'Ù',
+        'Ủ',
+        'Ũ',
+        'Ụ',
+        'ư',
+        'ừ',
+        'ứ',
+        'ử',
+        'ữ',
+        'ự',
+        'Ư',
+        'Ừ',
+        'Ứ',
+        'Ử',
+        'Ữ',
+        'Ự',
+        'ý',
+        'ỳ',
+        'ỷ',
+        'ỹ',
+        'ỵ',
+        'Ý',
+        'Ỳ',
+        'Ỷ',
+        'Ỹ',
+        'Ỵ',
+    ];
+    $replace = [
+        'a',
+        'a',
+        'a',
+        'a',
+        'a',
+        'A',
+        'A',
+        'A',
+        'A',
+        'A',
+        'a',
+        'a',
+        'a',
+        'a',
+        'a',
+        'a',
+        'A',
+        'A',
+        'A',
+        'A',
+        'A',
+        'A',
+        'a',
+        'a',
+        'a',
+        'a',
+        'a',
+        'a',
+        'A',
+        'A',
+        'A',
+        'A',
+        'A',
+        'A',
+        'd',
+        'D',
+        'e',
+        'e',
+        'e',
+        'e',
+        'e',
+        'E',
+        'E',
+        'E',
+        'E',
+        'E',
+        'e',
+        'e',
+        'e',
+        'e',
+        'e',
+        'e',
+        'E',
+        'E',
+        'E',
+        'E',
+        'E',
+        'E',
+        'i',
+        'i',
+        'i',
+        'i',
+        'i',
+        'I',
+        'I',
+        'I',
+        'I',
+        'I',
+        'o',
+        'o',
+        'o',
+        'o',
+        'o',
+        'O',
+        'O',
+        'O',
+        'O',
+        'O',
+        'o',
+        'o',
+        'o',
+        'o',
+        'o',
+        'o',
+        'O',
+        'O',
+        'O',
+        'O',
+        'O',
+        'O',
+        'o',
+        'o',
+        'o',
+        'o',
+        'o',
+        'o',
+        'O',
+        'O',
+        'O',
+        'O',
+        'O',
+        'O',
+        'u',
+        'u',
+        'u',
+        'u',
+        'u',
+        'U',
+        'U',
+        'U',
+        'U',
+        'U',
+        'u',
+        'u',
+        'u',
+        'u',
+        'u',
+        'u',
+        'U',
+        'U',
+        'U',
+        'U',
+        'U',
+        'U',
+        'y',
+        'y',
+        'y',
+        'y',
+        'y',
+        'Y',
+        'Y',
+        'Y',
+        'Y',
+        'Y',
+    ];
 
-<!-- <div style="">skibi</div> -->
+    $string = str_replace($search, $replace, $string);
+    $string = preg_replace('/[^a-zA-Z0-9\s-]/', '', $string); // Bỏ ký tự đặc biệt
+    $string = str_replace(' ', '-', $string); // Thay khoảng trắng bằng gạch nối
+    $string = preg_replace('/-+/', '-', $string); // Thay nhiều gạch nối bằng một
+    $string = trim($string, '-'); // Xóa gạch nối ở đầu và cuối
+    return $string ? $string : 'no-name'; // Trả về 'no-name' nếu rỗng
+}

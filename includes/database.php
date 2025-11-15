@@ -5,10 +5,17 @@ if (!defined('_ximen')) {
 }
 
 //SELECT * FORM table WHERE id
-function selectAll($sql)
+function selectAll($sql, $params = [])
 {
+    if (!is_array($params)) {
+        $params = [$params];
+    }
     global $conn;
     $stm = $conn->prepare($sql);
+    if (!empty($params)) {
+        $types = str_repeat("s", count($params));
+        $stm->bind_param($types, ...$params);
+    }
     $stm->execute();
     $result = $stm->fetchAll(PDO::FETCH_ASSOC);
     return $result; 
@@ -24,10 +31,14 @@ function getRows($sql)
 }
 
 //SELECT column FORM table WHERE id
-function selectOne($sql)
+function selectOne($sql, $params = [])
 {
     global $conn;
     $stm = $conn->prepare($sql);
+    if (!empty($params)) {
+        $types = str_repeat("s", count($params));
+        $stm->bind_param($types, ...$params);
+    }
     $stm->execute();
     $result = $stm->fetch(PDO::FETCH_ASSOC);
     return $result;

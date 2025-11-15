@@ -6,14 +6,9 @@ if (!defined('_ximen')) {
 }
 
 require_once './includes/session.php';
-?>
 
-<link rel="stylesheet" href="<?php echo _HOST_URL_TEMPLATE; ?>/style/css/global.css" />
-<title>Đăng ký</title>
 
-<?php
-
-layout('header-auth');
+layout('auth/header-auth');
 
 $msg = '';
 $msg_type = '';
@@ -143,8 +138,8 @@ if (isPost()) {
     }
 }
 
-//===================================
 ?>
+<title>Đăng ký</title>
 
 <section class="">
     <div class="px-3 py-4 px-md-5 text-center text-lg-start"
@@ -175,9 +170,9 @@ if (isPost()) {
                             <h1 class="text-center">Đăng ký</h1>
 
                             <?php if (!empty($msg)): ?>
-                            <div class="alert alert-<?php echo $msg_type; ?> mt-3">
-                                <?php echo $msg; ?>
-                            </div>
+                                <div class="alert alert-<?php echo $msg_type; ?> mt-3">
+                                    <?php echo $msg; ?>
+                                </div>
                             <?php endif; ?>
 
                             <form method="POST" action="" enctype="multipart/form-data">
