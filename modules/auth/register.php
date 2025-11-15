@@ -5,6 +5,7 @@ if (!defined('_ximen')) {
     die('---TRUY CAP KHONG HOP LE---');
 }
 
+require_once './includes/session.php';
 ?>
 
 <link rel="stylesheet" href="<?php echo _HOST_URL_TEMPLATE; ?>/style/css/global.css" />
@@ -84,7 +85,6 @@ if (isPost()) {
 
     //------------- PASSWORD -------------
     $password_value = trim($filter['password'] ?? '');
-    $confirm_password_value = trim($filter['confirm-password'] ?? '');
 
     if (empty($password_value)) {
         $errors['password']['required'] = 'Mật khẩu không được để trống';
@@ -93,6 +93,8 @@ if (isPost()) {
     }
 
     //------------- CONFIRM PASSWORD -------------
+    $confirm_password_value = trim($filter['confirm-password'] ?? '');
+
     if (empty($confirm_password_value)) {
         $errors['confirm-password']['required'] = 'Mật khẩu không được để trống';
     } else if ($password_value !== $confirm_password_value) {

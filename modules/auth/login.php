@@ -19,46 +19,81 @@ layout('header-auth');
 $msg = '';
 $msg_type = '';
 
-//==============Kiem tra===============
-    if (isPost()) {
-       $filter = filterData();
+if (isPost()) {
+    $filter = filterData();   // Lấy dữ liệu đã lọc
+    $oldData = $filter; 
+    $errors = [];
 
-       $errors=[];
-       
-//     //username
-       if (empty(trim($filter['username']))) {
-           $errors['username']   = 'Họ tên không được để trống';
-       } else {
-           if (strlen(trim($filter['username'])) < 5) {
-               $errors['username'] = 'Họ tên phải dài hơn 6 ký tự';
-           }
-       }
-      
-     //password
-     if (empty(trim($filter['password']))) {
-         $errors['password'] = 'Mật khẩu không đúng';
-     }
+    $username_value = trim($filter['username'] ?? '');
+
+    if (empty($username_value)) {
+        $errors['username']['required'] = 'Username không được để trống';
+    } else {
+        if (strlen($username_value) < 6) {
+            $errors['username']['length'] = 'Username phải dài hơn 6 ký tự';
+        }
+        if (strpos($username_value, ' ') !== false) {
+            $errors['username']['no_space'] = 'Username không được chứa khoảng trắng.';
+        }
+        // Có dấu / ký tự unicode
+        if (preg_match('/[^\x00-\x7F]+/', $username_value)) {
+            $errors['username']['no_accent'] = 'Username không được chứa ký tự có dấu hoặc ký tự đặc biệt.';
+        }
+    }
+    if (empty($errors['username'])) { 
+        $checkUsername = getRows("SELECT id FROM users WHERE username = '$username_value' "); 
+        // Lỗi này xảy ra khi hàm getRows() chưa được khai báo
+        if ($checkUsername   == 0) { 
+            $errors['username']['check'] = 'Username không tồn tại trên hệ thống.';
+        }
+    }
+
+    
+    $password_value = trim($filter['password'] ?? '');
+    if (empty($password_value)) {
+        $errors['password']['required'] = 'Mật khẩu không được để trống';
+    } else if (strlen($password_value) < 6) {
+        $errors['password']['length'] = 'Mật khẩu phải dài hơn 6 ký tự';
+    }
+    
+    if(empty($errors)){
+        $username = $filter['username'];
+        $password = $filter['password'];
+
+        $checkUsername = selectOne("SELECT * FROM users WHERE username = '$username'");
+        if(!empty($checkUsername)){
+            if(!empty($password)){
+                $checkStatus= password_verify($password, $checkUsername['password']);
+                if($checkStatus){
+                    $token = sha1(uniqid() . time());
+                    $data = [
+                        'token'=>$token,
+                        'created_at'=> date('Y:m:d H:i:s'),
+                        'user_id' => $checkUsername['id']
+                    ];
+                    $insertToken = insert('token_login', $data);
+                    if($insertToken){
+                        redirect('/');
+                    }else {
+                        $msg = 'Đăng nhập không thành công';
+                        $msg_type = 'danger';
+                    }
+                } else {
+                    // Xử lý khi không tìm thấy username
+                    $errors['password']['mismatch'] = 'Mật khẩu không đúng.';
+                    $msg = 'Vui lòng kiểm tra dữ liệu nhập vào.';
+                    $msg_type = 'danger';
+                }
+            }
+        }
+        
+    } else {
+        $msg = 'Dữ liệu không hợp lệ, hãy kiểm tra lại!';
+        $msg_type = 'danger';
+    }
+}
 
 
-//     if (empty($errors)) {
-//         $msg = 'Đăng ký thành công';
-//         $msg_type = 'green';
-//     } else {
-//         $eUser = $errors['username']['required'];
-//         if ($eUser) {
-//             $msg = 'Không được bỏ trống, từ 5 ký tự.';
-//         }
-
-//         $eUser = $errors['email']['required'];
-//         if ($eUser) {
-//             $msg = 'Không được bỏ trống, chú ý cấu trúc Email.';
-//         }
-
-//         $msg_type = 'red';
-//     }
- }
-
-// 
 //===================================
 ?>
 
@@ -90,19 +125,22 @@ $msg_type = '';
                                         padding-top: 5rem !important ;
                                         ">
                             <h1 class="text-center">Đăng nhập</h1>
-                            <form method="POST">
+                            <?php if (!empty($msg)): ?>
+                            <div class="alert alert-<?php echo $msg_type; ?> mt-3">
+                                <?php echo $msg; ?>
+                            </div>
+                            <?php endif; ?>
 
+                            <form method="POST" action="" enctype="multipart/form-data">
                                 <div data-mdb-input-init class="form-outline mb-3">
                                     <div data-mdb-input-init class="form-outline">
                                         <label class="form-label" for="username">Tên đăng nhập</label>
                                         <input name='username' type="text" id="username" class="form-control"
-                                            value="<?php echo (!empty($filter['username'])) ? $filter['username'] : ''; ?>" />
-                                        <?php 
-                                                // Hiển thị lỗi tên đăng nhập (nếu có)
-                                            if (!empty($errors['username'])) {
-                                                getMsg($errors['username'], 'red'); 
-                                            }
-                                        ?>
+                                            value="<?php echo (!empty($filter['username'])) ? $filter['username'] : ''; ?>"
+                                            class="form-control form-control-lg" />
+                                        <div style="padding: 5px; font-style: italic; color: red;">
+                                            <?php echo !empty($errors['username']) ? reset($errors['username']) : ''; ?>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -110,13 +148,11 @@ $msg_type = '';
                                 <div data-mdb-input-init class="form-outline mb-3">
                                     <label class="form-label" for="password">Mật khẩu</label>
                                     <input name="password" type="password" id="password" class="form-control"
-                                        value="<?php echo (!empty($filter['password'])) ? $filter['password'] : ''; ?>" />
-                                    <?php 
-                                                // Hiển thị lỗi mật khẩu (nếu có)
-                                            if (!empty($errors['password'])) {
-                                                getMsg($errors['password'], 'red'); 
-                                            }
-                                        ?>
+                                        value="<?php echo (!empty($filter['password'])) ? $filter['password'] : ''; ?>"
+                                        class="form-control form-control-lg" />
+                                    <div style="padding: 5px; font-style: italic; color: red;">
+                                        <?php echo !empty($errors['password']) ? reset($errors['password']) : ''; ?>
+                                    </div>
                                 </div>
 
                                 <!-- Forgot password -->
