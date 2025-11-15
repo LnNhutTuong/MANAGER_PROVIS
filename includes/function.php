@@ -54,7 +54,7 @@ function sendMail($emailTo, $subject, $content)
         $mail->Subject = $subject;
         $mail->Body    = $content;
 
-        return $mail->send();
+        return $mail->send(); //gửi mail
     } catch (Exception $e) {
         echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
     }
@@ -108,6 +108,7 @@ function isGet()
 function filterData($method = '')
 {
     $filterArray = [];
+
     if (empty($method)) {
         if (isGet()) {
             if (!empty($_GET)) {
@@ -134,15 +135,13 @@ function filterData($method = '')
             }
         } else {
             if ($method == 'get') {
-                if (isGet()) {
-                    if (!empty($_GET)) {
-                        foreach ($_GET as $key => $value) {
-                            $key = strip_tags($key);
-                            if (is_array($value)) {
-                                $filterArray[$key] = filter_var(INPUT_GET, $key, FILTER_SANITIZE_SPECIAL_CHARS, FILTER_REQUIRE_ARRAY);
-                            } else {
-                                $filterArray[$key] = filter_var(INPUT_GET, $key, FILTER_SANITIZE_SPECIAL_CHARS);
-                            }
+                if (!empty($_GET)) {
+                    foreach ($_GET as $key => $value) {
+                        $key = strip_tags($key);
+                        if (is_array($value)) {
+                            $filterArray[$key] = filter_var(INPUT_GET, $key, FILTER_SANITIZE_SPECIAL_CHARS, FILTER_REQUIRE_ARRAY);
+                        } else {
+                            $filterArray[$key] = filter_var(INPUT_GET, $key, FILTER_SANITIZE_SPECIAL_CHARS);
                         }
                     }
                 }
@@ -167,7 +166,7 @@ function filterData($method = '')
 //validate email
 function validateEmail($email)
 {
-    // $checkEmail = [];
+    // $checkEmail = [];__
     if (!empty($email)) {
         $checkEmail = filter_var($email, FILTER_VALIDATE_EMAIL);
     }
@@ -176,12 +175,11 @@ function validateEmail($email)
 
 //validate int
 function validateInt($number)
-{ {
-        if (!empty($number)) {
-            $checkNumber = filter_var($number, FILTER_VALIDATE_INT);
-        }
-        return $checkNumber;
+{
+    if (!empty($number)) {
+        $checkNumber = filter_var($number, FILTER_VALIDATE_INT);
     }
+    return $checkNumber;
 }
 
 //validate phone
@@ -194,21 +192,17 @@ function validatePhone($nPhone)
     if ($nPhone[0] == '0') {
         $fnumberPhone = true;
         $nPhone = substr($nPhone, 1);
-        echo 'check phone1';
     }
 
     if (validateInt($nPhone)) {
-        echo 'check phone2';
         $checkPhone = true;
     }
 
-    if (strlen($nPhone) == 10) {
-        echo 'check phone3';
+    if (strlen($nPhone) == 9) {
         $lenPhone = true;
     }
 
     if ($fnumberPhone && $checkPhone && $lenPhone) {
-        echo 'check phone4';
         return true;
     }
 

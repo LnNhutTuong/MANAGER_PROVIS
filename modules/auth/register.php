@@ -141,12 +141,13 @@ if (isPost()) {
 ?>
 <title>Đăng ký</title>
 
-<!-- Section: Design Block -->
 <section class="">
-    <!-- Jumbotron -->
-    <div class="px-3 py-4 px-md-5 text-center text-lg-start " style="background-color: hsla(0, 0%, 0%, 1.00); margin-left: 160px">
+    <div class="px-3 py-4 px-md-5 text-center text-lg-start"
+        style="background-color: hsla(0, 0%, 0%, 1.00); margin-left: 160px">
         <div class="container">
             <div class="row gx-lg-5 align-items-center">
+
+                <!-- Cột giới thiệu bên trái -->
                 <div class="col-lg-6 mb-5 mb-lg-0">
                     <h1 class="my-5 display-3 fw-bold ls-tight">
                         The best offer <br />
@@ -160,64 +161,101 @@ if (isPost()) {
                     </p>
                 </div>
 
-                <div class="col-lg-6 mb-5 mb-lg-0 " style="width: 480px;">
+                <!-- Cột form đăng ký bên phải -->
+                <div class="col-lg-6 mb-5 mb-lg-0" style="width: 480px;">
                     <div class="card" style="box-shadow: rgba(255, 255, 255, 0.31) 0px 5px 15px !important;">
-                        <div class=" card-body py-4 px-md-3" style="background-color:hsla(0, 2%, 12%, 1.00); color:white;">
-                            <h1 class="text-center">Đăng ký</h1>
-                            <form method="POST">
+                        <div class="card-body py-4 px-md-3"
+                            style="background-color:hsla(0, 2%, 12%, 1.00); color:white;">
 
-                                <div data-mdb-input-init class="form-outline mb-3">
-                                    <div data-mdb-input-init class="form-outline">
-                                        <label class="form-label" for="username">Tên đăng nhập</label>
-                                        <input name='username' type="text" id="username" class="form-control" />
-                                        <?php getMsg($msg, $msg_type) ?>
+                            <h1 class="text-center">Đăng ký</h1>
+
+                            <?php if (!empty($msg)): ?>
+                                <div class="alert alert-<?php echo $msg_type; ?> mt-3">
+                                    <?php echo $msg; ?>
+                                </div>
+                            <?php endif; ?>
+
+                            <form method="POST" action="" enctype="multipart/form-data">
+
+                                <!-- Username -->
+                                <div class="form-outline mb-3">
+                                    <label class="form-label" for="username">Tên đăng nhập</label>
+                                    <input name="username" type="text" id="username"
+                                        value="<?php echo !empty($oldData['username']) ? htmlspecialchars($oldData['username']) : ''; ?>"
+                                        class="form-control form-control-lg" placeholder="Nhập tên">
+                                    <div style="padding: 5px; font-style: italic; color: red;">
+                                        <?php echo !empty($errors['username']) ? reset($errors['username']) : ''; ?>
                                     </div>
                                 </div>
 
-
-                                <!-- Email input -->
-                                <div data-mdb-input-init class="form-outline mb-3">
+                                <!-- Email -->
+                                <div class="form-outline mb-3">
                                     <label class="form-label" for="email">Email</label>
-                                    <input type="text" id="email" name="email" class="form-control" />
-                                    <?php getMsg($msg, $msg_type) ?>
+                                    <input type="text" name="email" id="email"
+                                        value="<?php echo !empty($oldData['email']) ? htmlspecialchars($oldData['email']) : ''; ?>"
+                                        class="form-control form-control-lg" placeholder="Email">
+                                    <div style="padding: 5px; font-style: italic; color: red;">
+                                        <?php echo !empty($errors['email']) ? reset($errors['email']) : ''; ?>
+                                    </div>
                                 </div>
 
-                                <!-- Password input -->
-                                <div data-mdb-input-init class="form-outline mb-3">
+                                <!-- Phone -->
+                                <div class="form-outline mb-3">
+                                    <label class="form-label" for="phone">Số điện thoại</label>
+                                    <input name="phone" type="text" id="phone"
+                                        value="<?php echo !empty($oldData['phone']) ? htmlspecialchars($oldData['phone']) : ''; ?>"
+                                        class="form-control form-control-lg" placeholder="Phone">
+                                    <div style="padding: 5px; font-style: italic; color: red;">
+                                        <?php echo !empty($errors['phone']) ? reset($errors['phone']) : ''; ?>
+                                    </div>
+                                </div>
+
+                                <!-- Password -->
+                                <div class="form-outline mb-3">
                                     <label class="form-label" for="password">Mật khẩu</label>
-                                    <input name="password" type="password" id="password" class="form-control" />
-                                    <?php getMsg($msg, $msg_type) ?>
+                                    <input name="password" type="password" id="password"
+                                        class="form-control form-control-lg" placeholder="Mật khẩu">
+                                    <div style="padding: 5px; font-style: italic; color: red;">
+                                        <?php echo !empty($errors['password']) ? reset($errors['password']) : ''; ?>
+                                    </div>
                                 </div>
 
-                                <!-- Password input -->
-                                <div data-mdb-input-init class="form-outline mb-3">
+                                <!-- Confirm Password -->
+                                <div class="form-outline mb-3">
                                     <label class="form-label" for="confirm-password">Xác nhận mật khẩu</label>
-                                    <input name="confirm-password" type="password" id="confirm-password" class="form-control" />
-                                    <?php getMsg($msg, $msg_type) ?>
-
+                                    <input name="confirm-password" type="password" id="confirm-password"
+                                        class="form-control form-control-lg" placeholder="Xác nhận mật khẩu">
+                                    <div style="padding: 5px; font-style: italic; color: red;">
+                                        <?php echo !empty($errors['confirm-password']) ? reset($errors['confirm-password']) : ''; ?>
+                                    </div>
                                 </div>
 
-                                <!-- Submit button -->
-                                <div class="text-center ">
+                                <!-- Submit -->
+                                <div class="text-center">
                                     <button type="submit" class="btn btn-dark mt-3" style="width: 120px; height: 43px;">
                                         Đăng ký
                                     </button>
                                 </div>
 
                                 <div class="login-container mt-3 text-center">
-                                    <p class="mb-0">Bạn đã có tài khoản? <a href="<?php echo _HOST_URL; ?>?module=auth&action=login" class="text-light-50 fw-bold">Đăng nhập </a>
+                                    <p class="mb-0">
+                                        Bạn đã có tài khoản?
+                                        <a href="<?php echo _HOST_URL; ?>?module=auth&action=login"
+                                            class="text-light-50 fw-bold">Đăng nhập</a>
                                     </p>
                                 </div>
+
                             </form>
+
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
     </div>
-    <!-- Jumbotron -->
 </section>
-<!-- Section: Design Block -->
+
 <?php
 layout('footer');
 ?>

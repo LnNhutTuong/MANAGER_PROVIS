@@ -22,10 +22,8 @@ if (isset($_GET['action']) && $_GET['action'] == 'logout' && !isset($_GET['modul
 require_once './includes/connect.php';
 require_once './includes/database.php';
 
-
 //session
 require_once './includes/session.php';
-
 require_once './template/playouts/index.php';
 
 //mail
@@ -35,7 +33,6 @@ require_once './includes/mailer/SMTP.php';
 
 //function php
 require_once './includes/function.php';
-
 
 // url
 $module = _MODULES;

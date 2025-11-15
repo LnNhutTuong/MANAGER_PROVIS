@@ -89,7 +89,8 @@ $msg_type = '';
 <!-- Section: Design Block -->
 <section class="">
     <!-- Jumbotron -->
-    <div class="px-3 py-4 px-md-5 text-center text-lg-start" style="background-color: hsla(0, 0%, 0%, 1.00); margin-left: 160px">
+    <div class="px-3 py-4 px-md-5 text-center text-lg-start"
+        style="background-color: hsla(0, 0%, 0%, 1.00); margin-left: 160px">
         <div class="container">
             <div class="row gx-lg-5 align-items-center">
                 <div class="col-lg-6 mb-5 mb-lg-0">
@@ -107,8 +108,7 @@ $msg_type = '';
 
                 <div class="col-lg-6 mb-5 mb-lg-0" style="width: 480px;">
                     <div class="card" style="box-shadow: rgba(255, 255, 255, 0.31) 0px 5px 15px !important;">
-                        <div class="card-body py-4 px-md-3 pt-5"
-                            style="background-color:hsla(0, 2%, 12%, 1.00); 
+                        <div class="card-body py-4 px-md-3 pt-5" style="background-color:hsla(0, 2%, 12%, 1.00); 
                                         color:white;  height: 563px !important;
                                         padding-top: 7rem !important ;">
                             <h1 class="text-center">Quên mật khẩu</h1>
@@ -119,9 +119,6 @@ $msg_type = '';
                                     <input type="email" id="typeEmailX" class="form-control form-control-lg" />
                                 </div>
 
-
-
-
                                 <!-- Submit button -->
                                 <div class="text-center ">
                                     <button type="submit" class="btn btn-dark mt-3" style="width: 120px; height: 43px;">
@@ -130,12 +127,16 @@ $msg_type = '';
                                 </div>
 
                                 <div class="register-container mt-3 text-center">
-                                    <p class="mb-0">Bạn chưa có tài khoản? <a href="<?php echo _HOST_URL; ?>?module=auth&action=register" class="text-light-50 fw-bold">Đăng ký </a>
+                                    <p class="mb-0">Bạn chưa có tài khoản? <a
+                                            href="<?php echo _HOST_URL; ?>?module=auth&action=register"
+                                            class="text-light-50 fw-bold">Đăng ký </a>
                                     </p>
                                 </div>
 
                                 <div class="login-container mt-3 text-center">
-                                    <p class="mb-0">Bạn đã có tài khoản? <a href="<?php echo _HOST_URL; ?>?module=auth&action=login" class="text-light-50 fw-bold">Đăng nhập </a>
+                                    <p class="mb-0">Bạn đã có tài khoản? <a
+                                            href="<?php echo _HOST_URL; ?>?module=auth&action=login"
+                                            class="text-light-50 fw-bold">Đăng nhập </a>
                                     </p>
                                 </div>
 
